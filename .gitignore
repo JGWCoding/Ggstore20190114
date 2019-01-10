@@ -9,3 +9,8 @@
 /build
 /captures
 .externalNativeBuild
+.idea
+RRFapp.jks
+gradlew
+gradlew.bat
+gradle
