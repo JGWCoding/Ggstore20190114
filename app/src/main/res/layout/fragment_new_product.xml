@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/main_tab"
+        app:tabIndicatorColor="@color/bg"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" >
+        <android.support.design.widget.TabItem
+            android:icon="@drawable/search"
+            android:layout_height="@dimen/lay_50"
+            android:layout_width="match_parent" />
+        <android.support.design.widget.TabItem
+            android:icon="@mipmap/ic_launcher"
+            android:layout_height="@dimen/lay_50"
+            android:layout_width="match_parent" />
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/main_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/main_tab" />
+</LinearLayout>

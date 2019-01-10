@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:padding="@dimen/lay_5"
+    android:layout_height="@dimen/lay_110">
+    <LinearLayout
+        android:layout_weight="4"
+        android:layout_width="0dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_height="match_parent">
+        <ImageView
+            android:src="@drawable/product"
+            android:layout_width="@dimen/lay_60"
+            android:layout_height="@dimen/lay_60" />
+    <TextView
+        android:id="@+id/img_detail"
+        android:padding="@dimen/lay_5"
+        android:text="@string/cancel"
+        android:textColor="@color/white"
+        android:background="@color/bg"
+        android:textSize="@dimen/font_12"
+        android:gravity="center"
+        android:layout_width="@dimen/lay_80"
+        android:layout_height="wrap_content" />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_weight="6"
+        android:layout_width="0dp"
+        android:padding="@dimen/lay_5"
+        android:layout_marginRight="@dimen/lay_10"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/title"
+            android:textSize="@dimen/font_15"
+            android:text="婴儿动物玩具车 - 象"
+            android:textColor="@color/bg"
+            android:maxLines="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_below="@id/title"
+            android:id="@+id/detail1"
+            android:textSize="@dimen/font_12"
+            android:text=" · 安全原身设计及无污染"
+            android:maxLines="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_below="@id/detail1"
+            android:id="@+id/detail2"
+            android:textSize="@dimen/font_12"
+            android:text=" · 通过欧盟标准校验"
+            android:maxLines="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:padding="@dimen/lay_2"
+            android:layout_marginBottom="@dimen/lay_10"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/del"
+            android:background="@color/bg"
+            android:textSize="@dimen/font_13"
+            android:textColor="@color/white"
+            android:layout_marginLeft="@dimen/lay_10"
+            android:text="－"
+            android:maxLines="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:padding="@dimen/lay_2"
+            android:layout_toRightOf="@id/del"
+            android:layout_marginBottom="@dimen/lay_10"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/sum"
+            android:textColor="@color/bg"
+            android:textSize="@dimen/font_13"
+            android:layout_marginLeft="@dimen/lay_10"
+            android:text="1"
+            android:maxLines="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:padding="@dimen/lay_2"
+            android:layout_toRightOf="@id/sum"
+            android:layout_marginBottom="@dimen/lay_10"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/add"
+            android:background="@color/bg"
+            android:textSize="@dimen/font_13"
+            android:textColor="@color/white"
+            android:layout_marginLeft="@dimen/lay_10"
+            android:text="＋"
+            android:maxLines="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginBottom="@dimen/lay_10"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/price"
+            android:textColor="@color/bg"
+            android:textSize="@dimen/font_13"
+            android:text="HK$ 108"
+            android:maxLines="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</LinearLayout>

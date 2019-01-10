@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_width="match_parent"
+    android:padding="@dimen/lay_10"
+    android:layout_marginRight="@dimen/lay_20"
+    android:layout_marginLeft="@dimen/lay_20"
+    android:background="@color/white"
+    android:clickable="true"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/titleTv"
+        android:text="hahaha"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <ImageButton
+        android:background="@drawable/tick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right"
+        android:id="@+id/imageButton" />
+</RelativeLayout>

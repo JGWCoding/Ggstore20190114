@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
+            android:padding="@dimen/lay_10"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <TextView
+                android:textColor="@color/bg"
+                android:textSize="@dimen/font_18"
+                android:text="嬰兒動物玩具車 - 象"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="產品編號 : TEIT11-00342"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <!--图片指示器-->
+            <android.support.v4.view.ViewPager
+                android:id="@+id/act_pro_detail_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/lay_200">
+
+            </android.support.v4.view.ViewPager>
+            <View
+                android:background="@color/gray"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/lay_1"/>
+            <!--产品描述-->
+            <TextView
+                android:textColor="@color/bg"
+                android:textSize="@dimen/font_18"
+                android:text="產品描述"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="特點 ：
+‧由粟米澱粉提取的聚乳酸製作而成
+‧可環保分解
+‧為嬰幼兒設計的可愛動物造型
+‧可自由旋轉的車輪鼓勵運動技能發展
+‧安全圓身設計及無塗裝"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            </LinearLayout>
+        </ScrollView>
+        <TextView
+            android:id="@+id/price"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/add_shop_cart"
+            android:text="HK$120 HK$108"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/add_shop_cart"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/add_shop_cart"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/lay_10"
+            android:layout_width="@dimen/lay_150"
+            android:layout_height="@dimen/lay_30" />
+    </RelativeLayout>
+</LinearLayout>

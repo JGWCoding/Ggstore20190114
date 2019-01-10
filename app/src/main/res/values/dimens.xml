@@ -1,0 +1,46 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">100dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+
+
+    <dimen name="font_10">10sp</dimen>
+    <dimen name="font_12">12sp</dimen>
+    <dimen name="font_13">13sp</dimen>
+    <dimen name="font_14">14sp</dimen>
+    <dimen name="font_15">15sp</dimen>
+    <dimen name="font_16">16sp</dimen>
+    <dimen name="font_18">18sp</dimen>
+    <dimen name="font_20">20sp</dimen>
+    <dimen name="font_25">25sp</dimen>
+    <dimen name="font_30">30sp</dimen>
+
+
+    <dimen name="size_24">24dp</dimen>
+
+
+    <dimen name="lay_4">4dp</dimen>
+    <dimen name="lay_2">2dp</dimen>
+    <dimen name="lay_10">10dp</dimen>
+    <dimen name="lay_20">20dp</dimen>
+    <dimen name="lay_30">30dp</dimen>
+    <dimen name="lay_100">100dp</dimen>
+    <dimen name="lay_16">16dp</dimen>
+    <dimen name="lay_40">40dp</dimen>
+    <dimen name="lay_15">15dp</dimen>
+    <dimen name="lay_150">150dp</dimen>
+    <dimen name="lay_50">50dp</dimen>
+    <dimen name="lay_80">80dp</dimen>
+    <dimen name="lay_60">60dp</dimen>
+    <dimen name="lay_25">25dp</dimen>
+    <dimen name="lay_5">5dp</dimen>
+    <dimen name="lay_1">1dp</dimen>
+    <dimen name="lay_200">200dp</dimen>
+    <dimen name="lay_90">90dp</dimen>
+    <dimen name="lay_120">120dp</dimen>
+    <dimen name="lay_110">110dp</dimen>
+</resources>

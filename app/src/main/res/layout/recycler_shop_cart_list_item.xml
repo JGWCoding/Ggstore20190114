@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/lay_110"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:padding="@dimen/lay_5">
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:src="@drawable/product" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="@dimen/lay_10"
+        android:layout_weight="6"
+        android:padding="@dimen/lay_5">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="婴儿动物玩具车 - 象"
+            android:textColor="@color/bg"
+            android:textSize="@dimen/font_15" />
+
+        <TextView
+            android:id="@+id/detail1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:maxLines="1"
+            android:text="產品編號 : TEIT11-00342"
+            android:textSize="@dimen/font_12" />
+
+        <TextView
+            android:id="@+id/detail2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail1"
+            android:maxLines="1"
+            android:text="數量 : 1"
+            android:textSize="@dimen/font_12" />
+
+        <TextView
+            android:layout_below="@id/detail2"
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="價錢 : HK$108"
+            android:textSize="@dimen/font_13" />
+
+        <TextView
+            android:layout_below="@id/detail2"
+            android:id="@+id/total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/lay_10"
+            android:maxLines="1"
+            android:text="HK$ 108"
+            android:textColor="@color/bg"
+            android:textSize="@dimen/font_13" />
+    </RelativeLayout>
+
+</LinearLayout>
