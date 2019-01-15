@@ -2,20 +2,25 @@ package ggstore.com.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
@@ -28,11 +33,14 @@ import java.util.Map;
 
 import ggstore.com.R;
 import ggstore.com.base.BaseActivity;
+import ggstore.com.fragment.MyOrderFragment;
 import ggstore.com.fragment.NewProductFragment;
+import ggstore.com.fragment.OrderNumberFragment;
 import ggstore.com.fragment.ShopCartFragment;
+import ggstore.com.fragment.ShopCartListFragment;
 import ggstore.com.fragment.ToyEduFragment;
-import ggstore.com.utils.KeyboardUtil;
 import ggstore.com.utils.LogUtil;
+import ggstore.com.utils.ReflectUtils;
 import ggstore.com.utils.SPUtils;
 import ggstore.com.utils.ToastUtils;
 import q.rorbin.badgeview.Badge;
@@ -41,9 +49,12 @@ import q.rorbin.badgeview.QBadgeView;
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Toolbar toolbar;
+    public Toolbar toolbar;
     private SearchView searchView;
     public Badge badge;
+    private SearchView.SearchAutoComplete searchViewOfKnowledge;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
 
     @Override
     protected int getContentView() {
@@ -53,18 +64,35 @@ public class MainActivity extends BaseActivity
     @Override
     protected void initWidget() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        setSupportActionBar(toolbar);       // {@# onCreateOptionsMenu
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.new_product);
-        addFragment(R.id.content_frame,new NewProductFragment());
+
+        String paypal = getIntent().getStringExtra("paypal");
+        if (paypal != null && paypal.equals("success")) {
+            orderNumberfragment();
+        } else {
+            newProductFragment();
+            navigationView.setCheckedItem(R.id.new_product);
+        }
+
+        findViewById(R.id.activity_main_my_order).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myOrderfragment();
+                drawer.closeDrawer(Gravity.START);
+                setNavigationViewCheckedFalse();
+            }
+        });
     }
+
 
     @Override
     protected void initData() {
@@ -88,8 +116,13 @@ public class MainActivity extends BaseActivity
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gotoShopCart();
-                ToastUtils.showToast("点击购物车了");
+                Fragment shopCartFragment = getSupportFragmentManager().findFragmentByTag(ShopCartFragment.class.getName());
+                if (shopCartFragment!=null&&shopCartFragment.isVisible()){
+                    //购物车页面点击购物车没有用
+                }else {
+                    shopCartFragment();
+//                    ToastUtils.showToast("点击购物车了");
+                }
             }
         });
         badge = new QBadgeView(this).bindTarget(img).setBadgeNumber(1).setBadgeGravity(Gravity.END | Gravity.TOP)
@@ -98,23 +131,27 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
-    public void gotoShopCart() {
-        toolbar.setTitle(getString(R.string.shop_cart));
-        addFragment(R.id.content_frame,new ShopCartFragment());
-    }
 
     public void setShopingCartNumber(int number) {
-        if (badge==null) return;
+        if (badge == null) return;
         badge.setBadgeNumber(number);
     }
 
+    String title;
+    Drawable icon;
+
     @SuppressLint("RestrictedApi")
-    private void initSearchView(final MenuItem item) {
+    private void initSearchView(final MenuItem item) {  //开始换
+
+
         searchView = (SearchView) item.getActionView();
+
+        Drawable icon = ReflectUtils.reflect(searchView).field("mSearchHintIcon").get();
+        icon = getResources().getDrawable(R.drawable.search);   //设置icon没用
+        searchView.setIconifiedByDefault(true);
         searchView.setQueryHint(getString(R.string.search_hint));
         //改变默认的搜索图标
         ((ImageView) searchView.findViewById(R.id.search_button)).setImageResource(R.drawable.search);
-
         //搜索监听
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -132,15 +169,41 @@ public class MainActivity extends BaseActivity
                 //当输入字符为空时，重新设置 item
                 if (newText == null || newText.length() == 0) {
                     //由于实现了历史数据的功能，在此重新设置此 item才能实时生效
-                    //initSearchView(item);
+//                    initSearchView(item);
+//                    showHistory();
                 }
                 return false;
             }
         });
         //根据id-search_src_text获取TextView
-        final SearchView.SearchAutoComplete searchViewOfKnowledge = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
+        searchViewOfKnowledge = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
         //改变输入文字的颜色
         searchViewOfKnowledge.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
+        searchViewOfKnowledge.setCompoundDrawables(this.getResources().getDrawable(R.drawable.search), null, null, null);
+        showHistory();
+        //searchview 的关闭监听
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                showToolbar();
+                return false;
+            }
+        });
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    hiddenToolbar();
+                } else {
+                    searchView.onActionViewCollapsed();
+                    showToolbar();
+                }
+                LogUtil.e(hasFocus + "");
+            }
+        });
+    }
+
+    private void showHistory() {
         try {
             //取出历史数据，你可以利用其他方式
             final List<String> arr = new ArrayList<>();
@@ -164,26 +227,26 @@ public class MainActivity extends BaseActivity
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        //searchview 的关闭监听
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                return false;
-            }
-        });
-        KeyboardUtil.registerSoftInputChangedListener(this, new KeyboardUtil.OnSoftInputChangedListener() {
-            @Override
-            public void onSoftInputChanged(int height) {
-                boolean visible = KeyboardUtil.isSoftInputVisible(MainActivity.this);
-                LogUtil.e("keyboard is change, visible : "+visible);
-                if (!visible){
-                    searchView.onActionViewCollapsed();
-                }
-            }
-        });
-
     }
 
+    private void hiddenToolbar() {
+        LogUtil.e("隐藏toolbar里面的title和icon");
+        title = toolbar.getTitle() == null ? "" : toolbar.getTitle().toString();  //android5.0不会隐藏此title
+        icon = toolbar.getNavigationIcon();
+        toolbar.setTitle(null);// this.removeView(this.mTitleTextView);  this.mHiddenViews.remove(this.mTitleTextView);
+        toolbar.setNavigationIcon(null);
+        searchViewOfKnowledge.setCompoundDrawables(this.getResources().getDrawable(R.drawable.search), null, null, null);
+        searchViewOfKnowledge.invalidate();
+    }
+
+
+    private void showToolbar() {
+        if (TextUtils.isEmpty(toolbar.getTitle())) {
+            LogUtil.e("title和icon显示");
+            toolbar.setTitle(title);
+            toolbar.setNavigationIcon(icon);
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -191,7 +254,7 @@ public class MainActivity extends BaseActivity
         if (id == R.id.action_search) {
             getActionBar().setDisplayShowHomeEnabled(false);
             return true;
-        }else if (id==R.id.action_shop){
+        } else if (id == R.id.action_shop) {
 
         }
         getActionBar().setDisplayShowHomeEnabled(true);
@@ -202,8 +265,7 @@ public class MainActivity extends BaseActivity
     public boolean onNavigationItemSelected(MenuItem item) {    //这里最好使用replaceFragment,因为add 里会出现问题(某部分Fragment不显示)
         int id = item.getItemId();
         if (id == R.id.new_product) {
-            toolbar.setTitle(R.string.new_product);
-            addFragment(R.id.content_frame,new NewProductFragment());
+            newProductFragment();
         } else if (id == R.id.today_discount) {
 
         } else if (id == R.id.mather_gravida) {
@@ -211,19 +273,78 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.bady_chdren) {
 
         } else if (id == R.id.toy_education) {
-            toolbar.setTitle(R.string.toy_education);
-            addFragment(R.id.content_frame,new ToyEduFragment());
+            toyEduFragment();
         } else if (id == R.id.all_product) {
 
         } else if (id == R.id.brand) {
-
-        } else if (id == R.id.order) {
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void toyEduFragment() {
+        toolbar.setTitle(R.string.toy_education);
+        addFragment(R.id.activity_main_content_frame, new ToyEduFragment());
+    }
+
+    public void shopCartFragment() {
+        toolbar.setTitle(R.string.shop_cart);
+        ShopCartFragment shopCartFragment = new ShopCartFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isEmptyShopCart",false);
+        shopCartFragment.setArguments(bundle);
+        addFragment(R.id.activity_main_content_frame,shopCartFragment);
+        setNavigationViewCheckedFalse();
+
+    }
+    public void setNavigationViewCheckedFalse(){
+        MenuItem checkedItem = navigationView.getCheckedItem();
+        if (checkedItem!=null){
+            checkedItem.setChecked(false);
+        }
+    }
+    public void emptyShopCartFragment() {
+        toolbar.setTitle(R.string.shop_cart);
+        ShopCartFragment shopCartFragment = new ShopCartFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isEmptyShopCart",true);
+        shopCartFragment.setArguments(bundle);
+        addFragment(R.id.activity_main_content_frame,shopCartFragment);
+        setNavigationViewCheckedFalse();
+    }
+    public void shopCartListFragment() {
+        toolbar.setTitle(R.string.shoping_list);
+        addFragment(R.id.activity_main_content_frame, new ShopCartListFragment());
+        setNavigationViewCheckedFalse();
+    }
+
+
+    public void newProductFragment() {
+        LogUtil.e("显示最新产品");
+        toolbar.setTitle(R.string.new_product);
+        addFragment(R.id.activity_main_content_frame, new NewProductFragment());
+    }
+
+    public void myOrderfragment() {
+        addFragment(R.id.activity_main_content_frame, new MyOrderFragment());
+        toolbar.setTitle(getString(R.string.my_order));
+        toolbar.getMenu().findItem(R.id.action_search).getActionView().setVisibility(View.INVISIBLE);
+        toolbar.getMenu().findItem(R.id.action_shop).getActionView().setVisibility(View.INVISIBLE);
+    }
+
+    public void orderNumberfragment() {
+        addFragment(R.id.activity_main_content_frame, new OrderNumberFragment());
+        toolbar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                toolbar.setTitle(getString(R.string.shop_cart));    // 不显示购物车,显示最新产品
+                toolbar.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+
     }
 
     private class HistoryAdapter extends ArrayAdapter {
@@ -244,7 +365,9 @@ public class MainActivity extends BaseActivity
         public int getCount() {
             if (titles == null) {
                 return 0;
-            }else if(titles.size()>6) {return 6;}
+            } else if (titles.size() > 6) {
+                return 6;
+            }
             return titles.size();
         }
 
@@ -265,7 +388,7 @@ public class MainActivity extends BaseActivity
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    searchView.setQuery(titles.get(position),true);
+                    searchView.setQuery(titles.get(position), true);
                 }
             });
             return convertView;

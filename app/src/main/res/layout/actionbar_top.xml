@@ -8,7 +8,7 @@
     <ggstore.com.view.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?android:actionBarSize"
         android:layout_gravity="top"
         app:aTitle="主页"
         ></ggstore.com.view.TitleBar>

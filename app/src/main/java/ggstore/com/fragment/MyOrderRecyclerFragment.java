@@ -2,7 +2,6 @@ package ggstore.com.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -19,7 +18,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import ggstore.com.R;
-import ggstore.com.activity.ProductDetailActivity;
+import ggstore.com.activity.OrderDetailsActivity;
 import ggstore.com.base.BaseRecyclerAdapter;
 import ggstore.com.base.BaseRecyclerViewFragment;
 import ggstore.com.base.Constent;
@@ -30,12 +29,7 @@ import ggstore.com.utils.OkHttpManager;
 import ggstore.com.utils.ToastUtils;
 import okhttp3.Request;
 
-
-/**
- * Created by Administrator on 2017/11/2.
- */
-
-public class NewProductRecyclerFragment extends BaseRecyclerViewFragment {
+public class MyOrderRecyclerFragment extends BaseRecyclerViewFragment {
 
     @Override
     protected void requestData(final boolean isRefreshing) { //true 为刷新 false 为加载更多
@@ -63,42 +57,11 @@ public class NewProductRecyclerFragment extends BaseRecyclerViewFragment {
                             }
                             mAdapter.resetItem(list);
                             onRequestSuccess();
+                            mRefreshLayout.setEnabled(false);    //设置不可以刷新
                         }
                     });
                 }
             });
-        } else {
-            page++;
-            if (page > maxPage) {
-                onNoRequest();
-                return;
-            }
-            AppOperator.runOnThread(new Runnable() {
-                @Override
-                public void run() {
-                    String url = Constent.base_url + "api_get_coursebook.php?recordperpage=4&page=" + page +
-                            "&sortby=&token=" + Constent.token + "&username=&lang=" + getString(R.string.api_lang);
-                    OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
-                        @Override
-                        public void requestFailure(Request request, Exception e) {
-                            ToastUtils.showToast("网络出错");
-                            onRequestError();
-                        }
-
-                        @Override
-                        public void requestSuccess(String result) throws Exception {
-//                            ArrayList<CourseBookBean> list = parseData(result);
-                            ArrayList<String> list = new ArrayList<>();
-                            for (int i = 0; i < 10; i++) {
-                                list.add("1");
-                            }
-                            mAdapter.addAll(list);
-                            onRequestSuccess();
-                        }
-                    });
-                }
-            });
-
         }
     }
 
@@ -164,7 +127,7 @@ public class NewProductRecyclerFragment extends BaseRecyclerViewFragment {
     @Override
     public void onItemClick(int position, long itemId) {
         String item = (String) getRecyclerAdapter().getItem(position);
-        Intent intent = new Intent(getActivity(),ProductDetailActivity.class);
+        Intent intent = new Intent(getActivity(),OrderDetailsActivity.class);
         startActivity(intent);
     }
 
@@ -181,7 +144,7 @@ public class NewProductRecyclerFragment extends BaseRecyclerViewFragment {
         @Override
         protected RecyclerView.ViewHolder onCreateDefaultViewHolder(ViewGroup parent, int type) {
             CourseAdapter.MyViewHolder myViewHolder = new CourseAdapter.MyViewHolder(LayoutInflater.from(parent.getContext()).
-                    inflate(R.layout.recycler_new_product_item, parent, false));
+                    inflate(R.layout.recycler_my_order_item, parent, false));
             return myViewHolder;
         }
 
@@ -189,7 +152,7 @@ public class NewProductRecyclerFragment extends BaseRecyclerViewFragment {
         @Override
         protected void onBindDefaultViewHolder(RecyclerView.ViewHolder holder, final String item, int position) {
             //TODO 绑定视图--->加上数据
-            ((MyViewHolder)holder).oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);   //加横线效果
+//            ((MyViewHolder)holder).oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);   //加横线效果
 
 //            setImageFromNet(((CourseAdapter.MyViewHolder) holder).book,Constent.base_url + item.getPhoto_list().get(0));
 //            ((CourseAdapter.MyViewHolder) holder).bookIcon.setImageResource(R.drawable.newitem);

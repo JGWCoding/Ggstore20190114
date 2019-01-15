@@ -6,7 +6,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -108,7 +107,6 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.e("=====", "viewType:" + viewType);
         switch (viewType) {
             case VIEW_TYPE_HEADER:
                 if (onLoadingHeaderCallBack != null)
@@ -188,7 +186,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
                 onBindDefaultViewHolder(holder, getItems().get(getIndex(position)), position);
                 break;
         }
-        LogUtil.e("holder.getItemViewType(): " + holder.getItemViewType() + "  mState: " + mState);
+        LogUtil.i("holder.getItemViewType): " + holder.getItemViewType() + "  mState: " + mState);
     }
 
 
@@ -257,7 +255,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
         } else return mItems.size();
     }
 
-    public int getCount() {
+    public int getCount() {     //only return item's size(it's not have footer and header)
         return mItems.size();
     }
 

@@ -3,6 +3,7 @@ package ggstore.com.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.braintreepayments.api.dropin.DropInActivity;
 import com.braintreepayments.api.dropin.DropInRequest;
@@ -30,6 +31,19 @@ public class ShopTermsActivity extends BaseTitleActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
+        String text = "1. 本網上訂購服務，只供Googoogaga會員專享，如未成為會員可立即登記，費用全免。\n" +
+                "2. 所有於產品頁內顯示的價目，並不包括送貨費用。有關詳情請參考「付款及送貨方式」。\n" +
+                "3. 當確認訂單，我們會於核對貨品後，盡快處理閣下的訂單及發出<訂購確認通知書>的電郵，物流公司將會致電客人安排有關貨品之送貨日期及時段。\n" +
+                "4. 為保障各會員之利益，各會員於結帳前，請再三確認閣下所購買貨品的名稱、數量以及閣下的地址、電話、收件人等資料，避免日後因訂購產品而產生任何糾紛，並影響到閣下收取產品的時間。\n" +
+                "5. 此等使用條款將會不時作出修改。我們可自行決定在任何時間修改這些服務條款和政策，閣下同意遵守這些修改或修訂。任何在這些服務條款應被視為賦予任何第三方權利或利益。\n" +
+                "6. 貨品圖片有少量顏色偏差，會員須承擔此風險。\n" +
+                "7. 所有送出之產品均不接受退貨及退款，供應商對產品質量及是否給予換貨/退款持有最終的決定權。\n" +
+                "8. 購買各類服務或Playgroup等課堂者，請先詳閱該優惠內的使用細則條款，並預先聯絡優惠商戶預約留位。所有預約經確定後恕不接受改期，如未能出席即當作放棄，本公司不會因缺席而作出改期、延期、賠償或退款。\n" +
+                "9. 本網站並非產品或服務的供應商戶，故不承擔任何有關產品或服務質素及售後服務之責任，並不設更換或退款。產品如有任何問題或損壞，客戶必須於售後7日內自行聯絡該產品之供應商跟進。\n" +
+                "10. 本網站庫存數量非即時數據，因此訂單在出貨時有可能會出現缺貨情況，敬請留意。\n" +
+                "11. 如因個人問題或本網站系統故障、伺服器問題導致Googoogaga會員未能購買貨品，受影響之Googoogaga會員將不獲補償，不便之處，敬請原諒。\n" +
+                "12. Googoogaga保留最終決定權。";
+        ((TextView) findViewById(R.id.shop_terms_details)).setText(text);
         findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,8 +67,14 @@ public class ShopTermsActivity extends BaseTitleActivity {
                         onBraintreeSubmit(null);
                     }
                 });
+                startActivity(new Intent(ShopTermsActivity.this,PaypalActivity.class));
 
-
+            }
+        });
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

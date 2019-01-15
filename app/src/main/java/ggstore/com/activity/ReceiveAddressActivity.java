@@ -26,6 +26,12 @@ public class ReceiveAddressActivity extends BaseTitleActivity {
                 startActivity(new Intent(ReceiveAddressActivity.this,ShopTermsActivity.class));
             }
         });
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

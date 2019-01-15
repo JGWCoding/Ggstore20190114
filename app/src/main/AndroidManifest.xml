@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ggstore.com">
-    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -28,8 +28,11 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/new_product"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait" />
@@ -70,7 +73,9 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".activity.ShopTermsActivity"></activity>
+        <activity android:name=".activity.ShopTermsActivity" />
+        <activity android:name=".activity.PaypalActivity" />
+        <activity android:name=".activity.OrderDetailsActivity"/>
     </application>
 
 </manifest>

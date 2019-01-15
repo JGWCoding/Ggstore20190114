@@ -8,14 +8,12 @@ import android.support.annotation.RequiresApi;
 import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import ggstore.com.R;
 import ggstore.com.utils.TDevice;
-import ggstore.com.utils.UiUtil;
 
 
 /**
@@ -26,7 +24,13 @@ public class TitleBar extends FrameLayout {
     private static int EXT_PADDING_TOP;
     private TextView mTitle;
     private ImageView mIcon;
-    private TextView mLogin;
+    private ImageView search;
+
+    public ImageView getShopCart() {
+        return shopCart;
+    }
+
+    private ImageView shopCart;
 
 
     public TitleBar(Context context) {
@@ -52,24 +56,20 @@ public class TitleBar extends FrameLayout {
 
     private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         Context context = getContext();
-
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.lay_title_bar, this, true);
-
         mTitle = (TextView) findViewById(R.id.tv_title);
-        mLogin = (TextView) findViewById(R.id.tv_login);
         mIcon = (ImageView) findViewById(R.id.iv_icon);
-
+        search = (ImageView) findViewById(R.id.bar_search);
+        shopCart = (ImageView) findViewById(R.id.bar_shop_cart);
 
         if (attrs != null) {
-            // Load attributes
             final TypedArray a = context.obtainStyledAttributes(
                     attrs, R.styleable.TitleBar, defStyleAttr, defStyleRes);
 
             String title = a.getString(R.styleable.TitleBar_aTitle);
 //            Drawable drawable = a.getDrawable(R.styleable.TitleBar_aIcon);
             a.recycle();
-
             mTitle.setText(title);
 //            mIcon.setImageDrawable(drawable);
         } else {
@@ -90,9 +90,7 @@ public class TitleBar extends FrameLayout {
     public void setTitle(CharSequence titleRes) {
         mTitle.setText(titleRes);
     }
-    public void setLogin(CharSequence titleRes) {
-        mLogin.setText(titleRes);
-    }
+
     public void setIcon(int iconRes) {
         if (iconRes <= 0) {
             mIcon.setVisibility(GONE);
@@ -101,22 +99,27 @@ public class TitleBar extends FrameLayout {
         mIcon.setImageResource(iconRes);
         mIcon.setVisibility(VISIBLE);
     }
-    public void setLoginGone(boolean isGone) {
-         mLogin.setVisibility(isGone?View.GONE:View.VISIBLE);
-    }
+
     public void setIconOnClickListener(OnClickListener listener) {
         mIcon.setOnClickListener(listener);
     }
-    public void setLoginOnClickListener(OnClickListener listener) {
-        mLogin.setOnClickListener(listener);
+    public void setShopCartOnClickListener(OnClickListener listener) {
+        shopCart.setOnClickListener(listener);
+    }
+    public void setShopCartVisibility(boolean isVisibility) {
+        shopCart.setVisibility(isVisibility?VISIBLE:INVISIBLE);
+    }
+    public void setSearchOnClickListener(OnClickListener listener) {
+        search.setOnClickListener(listener);
+    }
+    public void setSearchVisibility(boolean isVisibility) {
+        search.setVisibility(isVisibility?VISIBLE:INVISIBLE);
     }
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        float d = getResources().getDisplayMetrics().density;
-        int minH = (int) (d * 36 + UiUtil.getStatusBarHeight(getContext()));
-
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec(minH, MeasureSpec.EXACTLY);
-
+//        float d = getResources().getDisplayMetrics().density;
+//        int minH = (int) (d * 36 + UiUtil.getStatusBarHeight(getContext()));
+//        heightMeasureSpec = MeasureSpec.makeMeasureSpec(minH, MeasureSpec.EXACTLY);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 

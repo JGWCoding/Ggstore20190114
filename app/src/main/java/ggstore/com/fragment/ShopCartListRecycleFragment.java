@@ -106,7 +106,7 @@ public class ShopCartListRecycleFragment extends BaseRecyclerViewFragment {
 
             public MyViewHolder(View view) {
                 super(view);
-//                title = view.findViewById(R.id.title);
+//                titleBar = view.findViewById(R.id.titleBar);
 //                addShop = view.findViewById(R.id.add_shop);
 //                oldPrice = view.findViewById(R.id.old_price);
 //                newPrice = view.findViewById(R.id.new_price);

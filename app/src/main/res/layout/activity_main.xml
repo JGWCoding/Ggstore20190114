@@ -13,13 +13,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
-
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/nav_header_main"
+            app:menu="@menu/activity_main_drawer" >
+            <TextView
+                android:id="@+id/activity_main_my_order"
+                android:gravity="center"
+                android:drawablePadding="@dimen/lay_10"
+                android:layout_marginBottom="@dimen/lay_20"
+                android:layout_marginLeft="@dimen/lay_30"
+                android:layout_gravity="bottom"
+                android:drawableLeft="@android:drawable/ic_menu_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/my_order" />
+        </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

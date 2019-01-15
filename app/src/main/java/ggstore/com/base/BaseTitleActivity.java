@@ -1,17 +1,22 @@
 package ggstore.com.base;
 
 import android.support.annotation.LayoutRes;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewStub;
+
 import ggstore.com.R;
 import ggstore.com.view.TitleBar;
+import q.rorbin.badgeview.Badge;
+import q.rorbin.badgeview.QBadgeView;
 
 /**
  * Created by Administrator on 2017/11/17.
  */
 
 public abstract class BaseTitleActivity extends BaseActivity {
-    protected TitleBar title;
+    protected TitleBar titleBar;
+    private Badge badge;
 
     @Override
     protected int getContentView() {
@@ -20,14 +25,18 @@ public abstract class BaseTitleActivity extends BaseActivity {
 
     @Override
     protected void initWidget() {
-        title = (TitleBar) findViewById(R.id.title_bar);
-        title.setIconOnClickListener(getBackIconOnClickListener()); //设置左边箭头的点击事件
-        title.setTitle(getContentTitle()); // 设置标题
-        title.setLoginGone(true); //设置右边的title不显示
+        titleBar = (TitleBar) findViewById(R.id.title_bar);
+        titleBar.setIconOnClickListener(getBackIconOnClickListener()); //设置左边箭头的点击事件
+        titleBar.setTitle(getContentTitle()); // 设置标题
         ViewStub stub = (ViewStub) findViewById(R.id.lay_content);
         stub.setLayoutResource(getContentLayoutId());
         stub.inflate();
+        setBarSearchAndShopCart();
+        badge = new QBadgeView(this).bindTarget(titleBar.getShopCart()).setBadgeNumber(0).setBadgeGravity(Gravity.END | Gravity.TOP)
+                .setBadgeTextSize(7, true).setBadgePadding(0, true);
     }
+
+
 
     protected View.OnClickListener getBackIconOnClickListener() {
         return new View.OnClickListener() {
@@ -38,6 +47,16 @@ public abstract class BaseTitleActivity extends BaseActivity {
         };
     }
 
+    public void setBadgeNumber(int number) {
+        badge.setBadgeNumber(number);
+    }
+    public int getBadgeNumber() {
+        return badge.getBadgeNumber();
+    }
+    public void setBarSearchAndShopCart() {
+        titleBar.setSearchVisibility(false);
+        titleBar.setShopCartVisibility(false);
+    }
     protected abstract CharSequence getContentTitle(); //设置标题
 
     @LayoutRes

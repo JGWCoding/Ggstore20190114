@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
+        android:id="@+id/go_shopping"
         android:layout_margin="@dimen/lay_10"
         android:layout_alignParentBottom="true"
         android:textSize="@dimen/font_25"
         android:gravity="center"
         android:textColor="@color/white"
         android:background="@color/bg"
-        android:text="@string/cancel"
+        android:text="@string/go_shopping"
         android:layout_width="@dimen/lay_150"
         android:layout_height="@dimen/lay_40" />
     <TextView
@@ -21,7 +22,7 @@
         android:gravity="center"
         android:textColor="@color/white"
         android:background="@color/bg"
-        android:text="@string/go"
+        android:text="@string/pay"
         android:layout_width="@dimen/lay_150"
         android:layout_height="@dimen/lay_40" />
     <TextView
@@ -32,7 +33,7 @@
         android:textSize="@dimen/font_20"
         android:gravity="center"
         android:textColor="@color/bg"
-        android:text="总计:$287"
+        android:text="總計:$287"
         android:layout_width="@dimen/lay_200"
         android:layout_height="@dimen/lay_40" />
     <FrameLayout

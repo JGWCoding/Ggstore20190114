@@ -40,7 +40,7 @@ public class ToastUtils {
                 }else {
                     ts.setText(msg);
                 }
-                ts.setDuration(Toast.LENGTH_SHORT);
+                ts.setDuration(Toast.LENGTH_SHORT);     //这里会有一个问题,Toast.LENGTH_SHORT时间内点击多次会没有用
             }
 
 

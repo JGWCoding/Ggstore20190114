@@ -20,6 +20,7 @@ import ggstore.com.base.BaseRecyclerViewFragment;
 import ggstore.com.base.Constent;
 import ggstore.com.bean.CourseBookBean;
 import ggstore.com.utils.AppOperator;
+import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.OkHttpManager;
 import ggstore.com.utils.ToastUtils;
 import okhttp3.Request;
@@ -45,13 +46,13 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
                         public void requestSuccess(String result) throws Exception {
 //                            ArrayList<CourseBookBean> list = parseData(result);
                             ArrayList<String> list = new ArrayList<>();
-                            for (int i = 0; i < 10; i++) {
-                                list.add("1");
+                            for (int i = 0; i < 3; i++) {
+                                list.add(i+"");
                             }
                             mAdapter.resetItem(list);
                             onRequestSuccess();
                             mRefreshLayout.setEnabled(false);//设置不可刷新,以为购物车一般只加载一次
-                            mRefreshLayout.setCanLoadMore(false);   //设置
+                            mRefreshLayout.setCanLoadMore(false);   //设置不可加载更多
                             mAdapter.setStateCustom(getString(R.string.shop_cart_discount),Gravity.CENTER);
                         }
                     });
@@ -73,7 +74,6 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
     }
 
     protected RecyclerView.LayoutManager getLayoutManager() {
-
         return new GridLayoutManager(getActivity(), 1);
     }
 
@@ -92,22 +92,34 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
 
 
         @Override
-        protected void onBindDefaultViewHolder(RecyclerView.ViewHolder holder, final String item, int position) {
+        protected void onBindDefaultViewHolder(RecyclerView.ViewHolder holder, final String item, final int position) {
             //TODO 绑定视图--->加上数据
+            ((MyViewHolder)holder).cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (getCount()==1) {
+                        ((ShopCartFragment)getParentFragment()).emptyShopCart();
+                    }else{
+                        LogUtil.e(position+" = "+item);
+//                        removeItem(position); //position不确定性的,有时候不是对应的item position
+                        removeItem(item);
+                    }
+                }
+            });
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
             public ImageView addShop;
             public ImageView imgDetail;
             public TextView title;
-            public TextView oldPrice;
+            public TextView cancel;
             public TextView newPrice;
             public TextView detail1;
             public TextView detail2;
 
             public MyViewHolder(View view) {
                 super(view);
-//                title = view.findViewById(R.id.title);
+                cancel = view.findViewById(R.id.fragment_shopcart_item_cancel);
 //                addShop = view.findViewById(R.id.add_shop);
 //                oldPrice = view.findViewById(R.id.old_price);
 //                newPrice = view.findViewById(R.id.new_price);

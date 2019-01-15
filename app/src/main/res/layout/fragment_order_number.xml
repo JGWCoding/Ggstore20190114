@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/back_home"
+        android:textSize="@dimen/font_25"
+        android:text="@string/back_home"
+        android:padding="@dimen/lay_5"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/lay_20"
+        android:layout_marginLeft="@dimen/lay_50"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/button_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/my_order"
+        android:textSize="@dimen/font_25"
+        android:text="@string/my_order"
+        android:padding="@dimen/lay_5"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/lay_20"
+        android:layout_marginRight="@dimen/lay_50"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/button_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/thinks"
+        android:textSize="@dimen/font_25"
+        android:layout_marginTop="@dimen/lay_50"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/bg"
+        android:text="@string/thinks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/thinks_details"
+        android:layout_margin="@dimen/lay_30"
+        android:textSize="@dimen/font_20"
+        android:layout_below="@id/thinks"
+        android:layout_marginTop="@dimen/lay_10"
+        android:layout_centerHorizontal="true"
+        android:text="@string/thinks_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/order_number"
+        android:layout_below="@id/thinks_details"
+        android:textSize="@dimen/font_25"
+        android:layout_marginTop="-10dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/bg"
+        android:text="PO12345678"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
