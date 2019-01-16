@@ -12,13 +12,13 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
-        debug {
-            storeFile file("../RRFapp.jks")
-            storePassword "qqqqqq"
-            keyAlias "rrf"
-            keyPassword "qqqqqq"
-            v2SigningEnabled false
-        }
+//        debug {
+//            storeFile file("../RRFapp.jks")
+//            storePassword "qqqqqq"
+//            keyAlias "rrf"
+//            keyPassword "qqqqqq"
+//            v2SigningEnabled false
+//        }
         release {
             storeFile file("../RRFapp.jks")
             storePassword "qqqqqq"

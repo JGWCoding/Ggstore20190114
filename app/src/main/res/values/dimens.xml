@@ -44,4 +44,5 @@
     <dimen name="lay_120">120dp</dimen>
     <dimen name="lay_110">110dp</dimen>
     <dimen name="lay_500">500dp</dimen>
+    <dimen name="lay_300">300dp</dimen>
 </resources>

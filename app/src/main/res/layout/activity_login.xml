@@ -13,21 +13,6 @@
         android:scaleType="center"
         android:src="@drawable/group" />
 
-    <ImageView
-        android:id="@+id/act_login_english"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_margin="15dp"
-        android:src="@drawable/english" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_toLeftOf="@id/act_login_english"
-        android:src="@drawable/chinese" />
-
     <LinearLayout
         android:id="@+id/ll_login"
         android:layout_width="match_parent"
@@ -37,11 +22,14 @@
         android:orientation="vertical">
 
         <EditText
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/login_name" />
 
         <EditText
+            android:inputType="textPassword"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/login_password" />
@@ -73,12 +61,13 @@
             android:layout_margin="10dp"
             android:background="@drawable/bg"
             android:src="@drawable/login" />
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/login_button"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
-            android:layout_gravity="center_horizontal" />
+
+        <!--<com.facebook.login.widget.LoginButton-->
+            <!--android:id="@+id/login_button"-->
+            <!--android:layout_width="300dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:layout_gravity="center_horizontal" />-->
         <ImageView
             android:id="@+id/facebook_login"
             android:layout_width="300dp"
@@ -96,4 +85,18 @@
             android:src="@drawable/register" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/act_login_english"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"
+        android:src="@drawable/english" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_toLeftOf="@id/act_login_english"
+        android:src="@drawable/chinese" />
 </RelativeLayout>

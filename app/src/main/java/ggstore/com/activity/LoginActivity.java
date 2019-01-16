@@ -14,7 +14,6 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 
 import java.util.Arrays;
 
@@ -31,7 +30,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_login;
+        return R.layout.activity_login_1;
     }
 
     @Override
@@ -91,28 +90,28 @@ public class LoginActivity extends BaseActivity {
     private void loginFacebook() {
         callbackManager = CallbackManager.Factory.create();
 
-        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions(Arrays.asList("email", "public_profile"));    //获取email权限
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                // App code
-                ToastUtils.showToast("fackbook登录成功");
-                LogUtil.e("token:" + loginResult.getAccessToken() + " Granted:"
-                        + loginResult.getRecentlyGrantedPermissions() + " Denied:" +
-                        loginResult.getRecentlyDeniedPermissions());
-            }
-
-            @Override
-            public void onCancel() {
-                // App code
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                // App code
-            }
-        });
+//        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+//        loginButton.setReadPermissions(Arrays.asList("email", "public_profile"));    //获取email权限
+//        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+//            @Override
+//            public void onSuccess(LoginResult loginResult) {
+//                // App code
+//                ToastUtils.showToast("fackbook登录成功");
+//                LogUtil.e("token:" + loginResult.getAccessToken() + " Granted:"
+//                        + loginResult.getRecentlyGrantedPermissions() + " Denied:" +
+//                        loginResult.getRecentlyDeniedPermissions());
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//                // App code
+//            }
+//
+//            @Override
+//            public void onError(FacebookException exception) {
+//                // App code
+//            }
+//        });
         // LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));//获取公共形象
 
     }
