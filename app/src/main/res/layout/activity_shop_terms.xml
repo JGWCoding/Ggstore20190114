@@ -27,18 +27,16 @@
             android:id="@+id/submit"
             android:textSize="@dimen/font_25"
             android:gravity="center"
-            android:layout_marginLeft="@dimen/lay_100"
             android:text="@string/go_paypal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
     </LinearLayout>
     <ScrollView
-        android:padding="@dimen/lay_10"
+        android:layout_margin="@dimen/lay_20"
         android:layout_above="@id/bottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
-            android:layout_marginTop="@dimen/lay_20"
             android:id="@+id/shop_terms_details"
             android:textSize="@dimen/font_15"
             android:layout_width="match_parent"

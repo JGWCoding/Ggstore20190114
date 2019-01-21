@@ -11,7 +11,7 @@ import ggstore.com.R;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.OkHttpManager;
 import ggstore.com.utils.TDevice;
-import ggstore.com.utils.ToastUtils;
+import ggstore.com.utils.ToastUtil;
 import ggstore.com.view.RecyclerRefreshLayout;
 import ggstore.com.view.SpacesItemDecoration;
 
@@ -128,7 +128,7 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
         if (mAdapter.getItems().size() == 0) {  //一开始是为0的 --->默认为0,不为0就显示以前的数据
             mAdapter.setState(BaseRecyclerAdapter.STATE_LOAD_ERROR, true);  //
         }
-        ToastUtils.showToast("请求出错");
+        ToastUtil.showToast("请求出错");
     }
 
     protected RecyclerView.LayoutManager getLayoutManager() {

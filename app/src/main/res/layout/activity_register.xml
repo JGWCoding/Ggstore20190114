@@ -4,10 +4,10 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_margin="@dimen/lay_20"
         android:id="@+id/register_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/lay_20"
         android:text="@string/register_title"
         android:textColor="@color/bg"
         android:textSize="@dimen/font_18" />
@@ -17,49 +17,58 @@
         android:layout_height="match_parent"
         android:layout_above="@id/register_agree_detail"
         android:layout_below="@id/register_title"
-        android:layout_margin="@dimen/lay_20">
+        android:layout_marginRight="@dimen/lay_20"
+        android:layout_marginBottom="@dimen/lay_5"
+        android:layout_marginLeft="@dimen/lay_20">
 
         <TextView
             android:id="@+id/register_details"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/register_details" />
+            android:layout_height="match_parent"/>
     </ScrollView>
 
+    <TextView
+        android:paddingTop="@dimen/lay_5"
+        android:paddingBottom="@dimen/lay_5"
+        android:textColor="@color/bg"
+        android:id="@+id/register_agree_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom"
+        android:paddingLeft="@dimen/lay_20"
+        android:paddingRight="@dimen/lay_20"
+        android:text="@string/register_bottom" />
+
+    <LinearLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bg"
+        android:orientation="horizontal">
+
         <TextView
-            android:paddingLeft="@dimen/lay_20"
-            android:paddingRight="@dimen/lay_20"
-            android:id="@+id/register_agree_detail"
-            android:layout_above="@id/bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/register_bottom" />
-        <LinearLayout
-            android:id="@+id/bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/bg"
-            android:orientation="horizontal">
+            android:layout_marginLeft="@dimen/lay_20"
+            android:id="@+id/disagree"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/lay_50"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/left_nav"
+            android:gravity="center"
+            android:text="@string/disagree"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_25" />
 
-            <TextView
-                android:id="@+id/disagree"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/lay_50"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/left_nav"
-                android:gravity="center"
-                android:text="@string/disagree"
-                android:textSize="@dimen/font_25" />
-
-            <TextView
-                android:id="@+id/agree"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/lay_50"
-                android:layout_weight="1"
-                android:drawableRight="@drawable/right_nav"
-                android:gravity="center"
-                android:text="@string/agree"
-                android:textSize="@dimen/font_25" />
-        </LinearLayout>
+        <TextView
+            android:layout_marginRight="@dimen/lay_20"
+            android:id="@+id/agree"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/lay_50"
+            android:layout_weight="1"
+            android:drawableRight="@drawable/right_nav"
+            android:gravity="center"
+            android:text="@string/agree"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_25" />
+    </LinearLayout>
 </RelativeLayout>

@@ -21,7 +21,7 @@ import ggstore.com.base.Constent;
 import ggstore.com.bean.CourseBookBean;
 import ggstore.com.utils.AppOperator;
 import ggstore.com.utils.OkHttpManager;
-import ggstore.com.utils.ToastUtils;
+import ggstore.com.utils.ToastUtil;
 import okhttp3.Request;
 
 public class ShopCartListRecycleFragment extends BaseRecyclerViewFragment {
@@ -38,7 +38,7 @@ public class ShopCartListRecycleFragment extends BaseRecyclerViewFragment {
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
-                            ToastUtils.showToast("网络出错");
+                            ToastUtil.showToast("网络出错");
                             onRequestError();
                         }
                         @Override

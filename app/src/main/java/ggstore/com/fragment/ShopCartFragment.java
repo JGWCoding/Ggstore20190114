@@ -6,6 +6,7 @@ import android.view.View;
 import ggstore.com.R;
 import ggstore.com.activity.MainActivity;
 import ggstore.com.base.BaseFragment;
+import ggstore.com.utils.ShopCartItemManagerUtil;
 
 public class ShopCartFragment extends BaseFragment {
     //购物车
@@ -24,15 +25,18 @@ public class ShopCartFragment extends BaseFragment {
                 isEmptyShopCart = true;
             }
         }
+        if (ShopCartItemManagerUtil.getSize()>0){
+            ((MainActivity)getActivity()).badge.setBadgeNumber(ShopCartItemManagerUtil.getSize());
+            isEmptyShopCart = false;
+        }else {
+            ((MainActivity)getActivity()).badge.setBadgeNumber(0);
+            isEmptyShopCart=true;
+        }
 
     }
 
     public void emptyShopCart(){
-        ShopCartFragment shopCartFragment = new ShopCartFragment();
-        Bundle bundle = new Bundle();
-        bundle.putBoolean("isEmptyShopCart",true);
-        shopCartFragment.setArguments(bundle);
-        ((MainActivity) getActivity()).emptyShopCartFragment();
+        ((MainActivity) getActivity()).emptyShopCartFragment();     //空购物车, 这里主要是传一些参数进行改变购物车画面
     }
     @Override
     protected int getLayoutId() {

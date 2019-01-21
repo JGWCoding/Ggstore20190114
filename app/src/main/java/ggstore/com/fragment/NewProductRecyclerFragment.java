@@ -19,15 +19,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import ggstore.com.R;
+import ggstore.com.activity.MainActivity;
 import ggstore.com.activity.ProductDetailActivity;
 import ggstore.com.base.BaseRecyclerAdapter;
 import ggstore.com.base.BaseRecyclerViewFragment;
 import ggstore.com.base.Constent;
 import ggstore.com.bean.CourseBookBean;
+import ggstore.com.bean.ShopCartBean;
 import ggstore.com.utils.AppOperator;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.OkHttpManager;
-import ggstore.com.utils.ToastUtils;
+import ggstore.com.utils.ShopCartItemManagerUtil;
+import ggstore.com.utils.ToastUtil;
 import okhttp3.Request;
 
 
@@ -50,7 +53,7 @@ public class NewProductRecyclerFragment extends BaseRecyclerViewFragment {
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
-                            ToastUtils.showToast("网络出错");
+                            ToastUtil.showToast("网络出错");
                             onRequestError();
                         }
 
@@ -81,7 +84,7 @@ public class NewProductRecyclerFragment extends BaseRecyclerViewFragment {
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
-                            ToastUtils.showToast("网络出错");
+                            ToastUtil.showToast("网络出错");
                             onRequestError();
                         }
 
@@ -165,6 +168,10 @@ public class NewProductRecyclerFragment extends BaseRecyclerViewFragment {
     public void onItemClick(int position, long itemId) {
         String item = (String) getRecyclerAdapter().getItem(position);
         Intent intent = new Intent(getActivity(),ProductDetailActivity.class);
+        if (getActivity() instanceof MainActivity){
+            String title = ((MainActivity) getActivity()).navigationView.getCheckedItem().getTitle().toString();
+            intent.putExtra("title",title);
+        }
         startActivity(intent);
     }
 
@@ -190,7 +197,14 @@ public class NewProductRecyclerFragment extends BaseRecyclerViewFragment {
         protected void onBindDefaultViewHolder(RecyclerView.ViewHolder holder, final String item, int position) {
             //TODO 绑定视图--->加上数据
             ((MyViewHolder)holder).oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);   //加横线效果
-
+            ((MyViewHolder)holder).addShop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO 应该上传给服务器
+                    ShopCartItemManagerUtil.insertShopCart(new ShopCartBean());
+                    ((MainActivity)getActivity()).badge.setBadgeNumber(ShopCartItemManagerUtil.getSize());
+                }
+            });
 //            setImageFromNet(((CourseAdapter.MyViewHolder) holder).book,Constent.base_url + item.getPhoto_list().get(0));
 //            ((CourseAdapter.MyViewHolder) holder).bookIcon.setImageResource(R.drawable.newitem);
 //            ((CourseAdapter.MyViewHolder) holder).titleBar.setText(item.getName());

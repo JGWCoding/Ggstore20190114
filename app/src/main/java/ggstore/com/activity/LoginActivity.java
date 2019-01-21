@@ -21,7 +21,7 @@ import ggstore.com.R;
 import ggstore.com.base.BaseActivity;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.PermissionsUtils;
-import ggstore.com.utils.ToastUtils;
+import ggstore.com.utils.ToastUtil;
 
 public class LoginActivity extends BaseActivity {
 
@@ -30,7 +30,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_login_1;
+        return R.layout.activity_login;
     }
 
     @Override
@@ -70,17 +70,17 @@ public class LoginActivity extends BaseActivity {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        ToastUtils.showToast("facebook登录成功");
+                        ToastUtil.showToast("facebook登录成功");
                     }
 
                     @Override
                     public void onCancel() {
-                        ToastUtils.showToast("facebook登录取消");
+                        ToastUtil.showToast("facebook登录取消");
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-                        ToastUtils.showToast("facebook登录错误");
+                        ToastUtil.showToast("facebook登录错误");
                     }
                 });
 
@@ -96,7 +96,7 @@ public class LoginActivity extends BaseActivity {
 //            @Override
 //            public void onSuccess(LoginResult loginResult) {
 //                // App code
-//                ToastUtils.showToast("fackbook登录成功");
+//                ToastUtil.showToast("fackbook登录成功");
 //                LogUtil.e("token:" + loginResult.getAccessToken() + " Granted:"
 //                        + loginResult.getRecentlyGrantedPermissions() + " Denied:" +
 //                        loginResult.getRecentlyDeniedPermissions());
@@ -155,12 +155,12 @@ public class LoginActivity extends BaseActivity {
     PermissionsUtils.IPermissionsResult permissionsResult = new PermissionsUtils.IPermissionsResult() {
         @Override
         public void passPermissons() {
-            ToastUtils.showToast(R.string.permission_pass);
+            ToastUtil.showToast(R.string.permission_pass);
         }
 
         @Override
         public void forbitPermissons() {
-            ToastUtils.showToast(R.string.permission_no_pass);
+            ToastUtil.showToast(R.string.permission_no_pass);
         }
     };
 

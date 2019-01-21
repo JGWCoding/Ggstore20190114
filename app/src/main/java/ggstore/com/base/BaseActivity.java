@@ -10,17 +10,13 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
-import java.util.HashMap;
-
 import ggstore.com.utils.ImageLoader;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected RequestManager mImageLoader;
     private boolean mIsDestroy;  //暂时没什么用
-    private final String mPackageName = this.getClass().getName();
     private Fragment mFragment;
 
-    HashMap<String, Fragment> fragmentList = new HashMap<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -42,7 +42,7 @@ public class ShopTermsActivity extends BaseTitleActivity {
                 "9. 本網站並非產品或服務的供應商戶，故不承擔任何有關產品或服務質素及售後服務之責任，並不設更換或退款。產品如有任何問題或損壞，客戶必須於售後7日內自行聯絡該產品之供應商跟進。\n" +
                 "10. 本網站庫存數量非即時數據，因此訂單在出貨時有可能會出現缺貨情況，敬請留意。\n" +
                 "11. 如因個人問題或本網站系統故障、伺服器問題導致Googoogaga會員未能購買貨品，受影響之Googoogaga會員將不獲補償，不便之處，敬請原諒。\n" +
-                "12. Googoogaga保留最終決定權。";
+                "12. Googoogaga保留最終決定權。\n\n\n";
         ((TextView) findViewById(R.id.shop_terms_details)).setText(text);
         findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
             @Override

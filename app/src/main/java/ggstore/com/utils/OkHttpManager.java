@@ -192,7 +192,7 @@ public class OkHttpManager {
             response = mClient.newCall(request).execute();
         } catch (IOException e) {
             e.printStackTrace();
-            ToastUtils.showToast("网络出问题了");
+            ToastUtil.showToast("网络出问题了");
         }
         return response;
     }
@@ -220,7 +220,7 @@ public class OkHttpManager {
             result = inner_getSync(url).body().string();
         } catch (IOException e) {
             e.printStackTrace();
-            ToastUtils.showToast("网络出问题了");
+            ToastUtil.showToast("网络出问题了");
         }
         return result;
     }
@@ -415,7 +415,7 @@ public class OkHttpManager {
             public void run() {
                 if (callBack != null) {
                     LogUtil.e("网络请求失败了");
-                    ToastUtils.showToast("网络请求失败了");
+                    ToastUtil.showToast("网络请求失败了");
                     callBack.requestFailure(request, e);
                 }
             }

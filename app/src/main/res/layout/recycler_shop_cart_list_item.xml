@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/lay_110"
+    android:layout_height="@dimen/lay_100"
     android:orientation="horizontal"
     android:gravity="center"
     android:padding="@dimen/lay_5">
@@ -17,6 +17,7 @@
         android:layout_height="match_parent"
         android:layout_marginRight="@dimen/lay_10"
         android:layout_weight="6"
+        android:gravity="center"
         android:padding="@dimen/lay_5">
 
         <TextView
@@ -63,7 +64,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/lay_10"
             android:maxLines="1"
-            android:text="HK$ 108"
+            android:text="小計: HK$108"
             android:textColor="@color/bg"
             android:textSize="@dimen/font_13" />
     </RelativeLayout>

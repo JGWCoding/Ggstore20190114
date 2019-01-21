@@ -10,7 +10,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -167,17 +166,18 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
                         } else {
                             fvh.tv_footer.setText(custom_text);
                         }
-                        if (custom_gravity!=Gravity.CENTER){
+                        if (custom_gravity != Gravity.CENTER) {
                             fvh.tv_footer.setTextColor(Color.parseColor("#148BA6"));
                             int width = fvh.tv_footer.getWidth();
-                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(((LinearLayout)(fvh.itemView.findViewById(R.id.ll))).getLayoutParams());
-                            layoutParams.gravity = custom_gravity|Gravity.CENTER_VERTICAL;
-                            if (custom_gravity==Gravity.RIGHT) {
-                                layoutParams.leftMargin = (int) (layoutParams.width - width - TDevice.dp2px(20));
-                            }else if (custom_gravity==Gravity.LEFT){
-                                layoutParams.rightMargin = (int) (layoutParams.width - width -TDevice.dp2px(20));
+                            if (custom_gravity == Gravity.RIGHT) {
+                                fvh.tv_footer.setWidth((int) (fvh.itemView.getWidth()));
+                                fvh.tv_footer.setGravity(Gravity.RIGHT);
+                                fvh.tv_footer.setPadding(0,0, (int) TDevice.dp2px(20),0);
+                            } else if (custom_gravity == Gravity.LEFT) {
+                                fvh.tv_footer.setWidth((int) (fvh.itemView.getWidth()));
+                                fvh.tv_footer.setGravity(Gravity.LEFT);
+                                fvh.tv_footer.setPadding((int) TDevice.dp2px(20),0, 0,0);
                             }
-                            ((LinearLayout)(fvh.itemView.findViewById(R.id.ll))).setLayoutParams(layoutParams);
                         }
                         break;
                 }

@@ -2,15 +2,18 @@ package ggstore.com;
 
 import android.app.Application;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.tencent.bugly.Bugly;
-import com.tencent.bugly.crashreport.CrashReport;
 
+import ggstore.com.bean.DaoMaster;
+import ggstore.com.bean.DaoSession;
 import ggstore.com.utils.LogUtil;
-import ggstore.com.utils.ToastUtils;
+import ggstore.com.utils.ToastUtil;
+import ggstore.com.utils.Utils;
 
 
 /**
@@ -21,10 +24,12 @@ public class BaseApplication extends Application {
 
     public static Handler mHandler;
     static Context _context;
+    private static DaoSession daoSession;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        ToastUtils.init(this,true); //初始化
+        ToastUtil.init(this,true); //初始化
         LogUtil.init(true);
         mHandler = new Handler();
         _context = this;
@@ -33,8 +38,23 @@ public class BaseApplication extends Application {
 
         FacebookSdk.sdkInitialize(getApplicationContext());//facebook
         AppEventsLogger.activateApp(this);
+        Utils.init(this);
+        setupDatabase();
+    }
+    private void setupDatabase() {
+        //创建数据库shop.db"
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "shopCart.db", null);
+        //获取可写数据库
+        SQLiteDatabase db = helper.getWritableDatabase();
+        //获取数据库对象
+        DaoMaster daoMaster = new DaoMaster(db);
+        //获取Dao对象管理者
+        daoSession = daoMaster.newSession();
     }
 
+    public static DaoSession getDaoInstant() {
+        return daoSession;
+    }
     public static Context context() {
         return _context;
     }

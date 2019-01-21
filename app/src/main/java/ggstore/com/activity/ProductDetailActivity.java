@@ -1,5 +1,6 @@
 package ggstore.com.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -27,12 +28,14 @@ import java.util.List;
 
 import ggstore.com.R;
 import ggstore.com.base.BaseActivity;
+import ggstore.com.bean.ShopCartBean;
 import ggstore.com.utils.LogUtil;
-import ggstore.com.utils.ToastUtils;
+import ggstore.com.utils.ShopCartItemManagerUtil;
+import ggstore.com.utils.ToastUtil;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
 
-public class ProductDetailActivity extends BaseActivity {
+public class ProductDetailActivity extends BaseActivity {   //title应该是传过来的
 
     private Badge badge;
 
@@ -47,7 +50,10 @@ public class ProductDetailActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setTitle(R.string.baby_toy);
+        if (getIntent()!=null) {
+            getSupportActionBar().setTitle(getIntent().getStringExtra("title"));
+        }
+//        addFragment(R.id.activity_product_detail_content_frame,new ProductDetailFragment());
         ViewPager viewPager = findViewById(R.id.act_pro_detail_viewpager);
         ArrayList<ImageView> imageViews = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
@@ -57,13 +63,16 @@ public class ProductDetailActivity extends BaseActivity {
         }
         viewPager.setAdapter(new MyImagePagerAdapter(imageViews, viewPager));
         TextView price = findViewById(R.id.price);
-        String content_price = "&nbsp<myfont size=\"15\" color=\"gray\">HK$120</myfont>&nbsp&nbsp&nbsp&nbsp<myfont color=\"#148BA6\" size=\"25\">HK$100</myfont>";
+        String content_price = "&nbsp<myfont size=\"15\" color=\"gray\"><del>HK$120</del></myfont>&nbsp&nbsp&nbsp&nbsp<myfont color=\"#148BA6\" size=\"25\">HK$100</myfont>";
         price.setText(Html.fromHtml(content_price,null,new HtmlTagHandler("myfont")));
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
+        findViewById(R.id.activity_product_detail_add_shop_cart).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 应该上传给服务器
+                badge.setBadgeNumber(ShopCartItemManagerUtil.getSize()+1);
+                ShopCartItemManagerUtil.insertShopCart(new ShopCartBean());
+            }
+        });
     }
 
     @Override
@@ -80,10 +89,13 @@ public class ProductDetailActivity extends BaseActivity {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.showToast("点击购物车了");
+                Intent intent = new Intent(ProductDetailActivity.this,MainActivity.class);
+                intent.putExtra("startActivity","shopCart");
+                startActivity(intent);
+                ToastUtil.showToast("点击购物车了");
             }
         });
-        badge = new QBadgeView(this).bindTarget(img).setBadgeNumber(1).setBadgeGravity(Gravity.END | Gravity.TOP)
+        badge = new QBadgeView(this).bindTarget(img).setBadgeNumber(ShopCartItemManagerUtil.getSize()).setBadgeGravity(Gravity.END | Gravity.TOP)
                 .setBadgeTextSize(7, true).setBadgePadding(0, true);
         menu.findItem(R.id.action_search).setVisible(false);
         return true;

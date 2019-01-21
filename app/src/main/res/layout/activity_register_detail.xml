@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="@dimen/lay_10"
+    android:padding="@dimen/lay_15"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -44,6 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/activity_register_detail_sir"
             android:background="@color/bg"
             android:text="@string/sir"
             android:gravity="center"
@@ -51,8 +52,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:id="@+id/activity_register_detail_lady"
             android:layout_marginLeft="@dimen/lay_20"
             android:text="@string/lady"
+            android:background="@color/white"
             android:gravity="center"
             android:layout_weight="1"
             android:layout_width="wrap_content"
@@ -100,7 +103,9 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
+            android:id="@+id/activity_register_detail_bady_haved"
             android:background="@color/bg"
             android:text="@string/have"
             android:gravity="center"
@@ -108,17 +113,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:id="@+id/activity_register_detail_bady_having"
             android:layout_marginLeft="@dimen/lay_20"
             android:text="@string/having"
             android:gravity="center"
+            android:background="@color/white"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:id="@+id/activity_register_detail_bady_no"
             android:layout_marginLeft="@dimen/lay_20"
             android:text="@string/no"
             android:gravity="center"
             android:layout_weight="1"
+            android:background="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

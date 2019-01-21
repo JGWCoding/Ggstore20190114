@@ -15,6 +15,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 import ggstore.com.R;
+import ggstore.com.activity.MainActivity;
 import ggstore.com.base.BaseRecyclerAdapter;
 import ggstore.com.base.BaseRecyclerViewFragment;
 import ggstore.com.base.Constent;
@@ -22,7 +23,8 @@ import ggstore.com.bean.CourseBookBean;
 import ggstore.com.utils.AppOperator;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.OkHttpManager;
-import ggstore.com.utils.ToastUtils;
+import ggstore.com.utils.ShopCartItemManagerUtil;
+import ggstore.com.utils.ToastUtil;
 import okhttp3.Request;
 
 public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
@@ -39,14 +41,14 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
-                            ToastUtils.showToast("网络出错");
+                            ToastUtil.showToast("网络出错");
                             onRequestError();
                         }
                         @Override
                         public void requestSuccess(String result) throws Exception {
 //                            ArrayList<CourseBookBean> list = parseData(result);
                             ArrayList<String> list = new ArrayList<>();
-                            for (int i = 0; i < 3; i++) {
+                            for (int i = 0; i < ShopCartItemManagerUtil.getSize(); i++) {
                                 list.add(i+"");
                             }
                             mAdapter.resetItem(list);
@@ -98,11 +100,14 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
                 @Override
                 public void onClick(View v) {
                     if (getCount()==1) {
+                        ShopCartItemManagerUtil.deleteShopCart();
                         ((ShopCartFragment)getParentFragment()).emptyShopCart();
                     }else{
                         LogUtil.e(position+" = "+item);
 //                        removeItem(position); //position不确定性的,有时候不是对应的item position
                         removeItem(item);
+                        ((MainActivity)getActivity()).badge.setBadgeNumber(ShopCartItemManagerUtil.getSize()-1);
+                        ShopCartItemManagerUtil.deleteShopCart();
                     }
                 }
             });

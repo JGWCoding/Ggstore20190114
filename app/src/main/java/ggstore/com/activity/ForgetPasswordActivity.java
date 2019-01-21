@@ -7,7 +7,7 @@ import android.widget.ImageView;
 
 import ggstore.com.R;
 import ggstore.com.base.BaseTitleActivity;
-import ggstore.com.utils.ToastUtils;
+import ggstore.com.utils.ToastUtil;
 
 public class ForgetPasswordActivity extends BaseTitleActivity {
 
@@ -26,9 +26,9 @@ public class ForgetPasswordActivity extends BaseTitleActivity {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(email.getText())) {
-                    ToastUtils.showToast("请输入正确邮箱");
+                    ToastUtil.showToast("请输入正确邮箱");
                 } else {
-                    ToastUtils.showToast("开始提交");
+                    ToastUtil.showToast("开始提交");
                     resetPassword(email.getText().toString());
                 }
             }
@@ -39,7 +39,7 @@ public class ForgetPasswordActivity extends BaseTitleActivity {
 //        OkHttpManager.runMainSync(Constent.base_url + "api_get_forgotpassword.php" + "?email=" + email, new OkHttpManager.DataCallBack() {
 //            @Override
 //            public void requestFailure(Request request, Exception e) {
-//                ToastUtils.showToast("重置密码失败,请再一次重置");
+//                ToastUtil.showToast("重置密码失败,请再一次重置");
 //            }
 //
 //            @Override
@@ -48,13 +48,13 @@ public class ForgetPasswordActivity extends BaseTitleActivity {
 //                    JSONObject jsonObject = new JSONObject(result);
 //                    boolean success = jsonObject.optBoolean("success");
 //                    if(success) {
-//                        ToastUtils.showToast( "密码已发送到邮箱,请注意查收" + success);
+//                        ToastUtil.showToast( "密码已发送到邮箱,请注意查收" + success);
 //                        return;
 //                    }
 //                    String err_msg = jsonObject.optString("err_msg");
-//                    ToastUtils.showToast(err_msg+ "测试账号不行" + success);
+//                    ToastUtil.showToast(err_msg+ "测试账号不行" + success);
 //                } catch (Exception e) {
-//                    ToastUtils.showToast("获取密码失败,请再一次输入邮箱");
+//                    ToastUtil.showToast("获取密码失败,请再一次输入邮箱");
 //                }
 //            }
 //        });

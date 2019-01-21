@@ -2,6 +2,7 @@ package ggstore.com.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -42,19 +43,19 @@ import ggstore.com.fragment.ToyEduFragment;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.ReflectUtils;
 import ggstore.com.utils.SPUtils;
-import ggstore.com.utils.ToastUtils;
+import ggstore.com.utils.ShopCartItemManagerUtil;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    //TODO 添加购物车功能  badge应该进行BaseActivity封装
     public Toolbar toolbar;
     private SearchView searchView;
     public Badge badge;
     private SearchView.SearchAutoComplete searchViewOfKnowledge;
     private DrawerLayout drawer;
-    private NavigationView navigationView;
+    public NavigationView navigationView;
 
     @Override
     protected int getContentView() {
@@ -71,17 +72,8 @@ public class MainActivity extends BaseActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        String paypal = getIntent().getStringExtra("paypal");
-        if (paypal != null && paypal.equals("success")) {
-            orderNumberfragment();
-        } else {
-            newProductFragment();
-            navigationView.setCheckedItem(R.id.new_product);
-        }
 
         findViewById(R.id.activity_main_my_order).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,11 +83,24 @@ public class MainActivity extends BaseActivity
                 setNavigationViewCheckedFalse();
             }
         });
+        badge = new QBadgeView(this);
     }
 
 
     @Override
     protected void initData() {
+        String paypal = getIntent().getStringExtra("paypal");
+        Intent intent = getIntent();
+        String startActivity = intent.getStringExtra("startActivity");
+
+        if (paypal != null && paypal.equals("success")) {
+            orderNumberfragment();
+        } else if(startActivity!=null&&startActivity.equals("shopCart")){
+            shopCartFragment();
+        } else {
+            newProductFragment();
+
+        }
     }
 
     @Override
@@ -119,22 +124,31 @@ public class MainActivity extends BaseActivity
                 Fragment shopCartFragment = getSupportFragmentManager().findFragmentByTag(ShopCartFragment.class.getName());
                 if (shopCartFragment!=null&&shopCartFragment.isVisible()){
                     //购物车页面点击购物车没有用
-                }else {
+                } else {
                     shopCartFragment();
-//                    ToastUtils.showToast("点击购物车了");
+//                    ToastUtil.showToast("点击购物车了");
                 }
             }
         });
-        badge = new QBadgeView(this).bindTarget(img).setBadgeNumber(1).setBadgeGravity(Gravity.END | Gravity.TOP)
+        badge = badge.bindTarget(img).setBadgeNumber(ShopCartItemManagerUtil.getSize()).setBadgeGravity(Gravity.END | Gravity.TOP)
                 .setBadgeTextSize(7, true).setBadgePadding(0, true);
         initSearchView(menu.findItem(R.id.action_search));
         return true;
     }
 
+    public void addToShopCart(){
+        //TODO 添加到购物车
+    }
 
     public void setShopingCartNumber(int number) {
         if (badge == null) return;
         badge.setBadgeNumber(number);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        badge.setBadgeNumber(ShopCartItemManagerUtil.getSize());
     }
 
     String title;
@@ -294,11 +308,10 @@ public class MainActivity extends BaseActivity
         toolbar.setTitle(R.string.shop_cart);
         ShopCartFragment shopCartFragment = new ShopCartFragment();
         Bundle bundle = new Bundle();
-        bundle.putBoolean("isEmptyShopCart",false);
+        bundle.putBoolean("isEmptyShopCart",false); //这个参数主要用来规避show,hide Fragment(没参数不会改变,购物车应该时时会变数量)
         shopCartFragment.setArguments(bundle);
         addFragment(R.id.activity_main_content_frame,shopCartFragment);
         setNavigationViewCheckedFalse();
-
     }
     public void setNavigationViewCheckedFalse(){
         MenuItem checkedItem = navigationView.getCheckedItem();
@@ -323,6 +336,7 @@ public class MainActivity extends BaseActivity
 
 
     public void newProductFragment() {
+        navigationView.setCheckedItem(R.id.new_product);
         LogUtil.e("显示最新产品");
         toolbar.setTitle(R.string.new_product);
         addFragment(R.id.activity_main_content_frame, new NewProductFragment());

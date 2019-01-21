@@ -98,7 +98,7 @@
     <string name="action_settings">Settings</string>
 
 
-    <string name="login_name">登錄名稱</string>
+    <string name="login_name">登入名稱</string>
     <string name="login_password">登錄密碼</string>
     <string name="forget_password">忘記密碼</string>
     <string name="permission_pass">權限通過</string>
@@ -108,7 +108,7 @@
     <string name="mather_gravida">孕婦及媽媽</string>
     <string name="bady_children">yin</string>
     <string name="bady_chdren">嬰幼兒</string>
-    <string name="toy_education">教育產品</string>
+    <string name="toy_education">玩具教育</string>
     <string name="all_product">所有產品</string>
     <string name="brand">品牌</string>
     <string name="order">訂單</string>
@@ -130,105 +130,13 @@
     <string name="register_title">使用條例及免責聲明</string>
 
 
-    <string name="register_details">
-歡迎你使用 Googoogaga.com.hk 的服務；Googoogaga 為閣下提供服務時受以下服務條款限制，本服務條款有可能不時被本公司更新而不作另行通知，你亦可隨時瀏覽本公司有關之服務條款的最新動向 www.googoogaga.com.hk。此外，Googoogaga 亦可能提供其他受不同或附加條款限制之服務。
-
-在任何情況下，若有任何網路或接駁方面發生問題，包括但不限於錯誤、遺漏、服務中斷、延誤、失效及電腦病毒入侵等以致數據部份或全部失效，Googoogaga 均無須就相關的損失、損壞、責任債務和支出承擔任何責任。
-
-用戶須透過其服務上載、刊登、電子郵件發送、提供或以其他方式傳輸之內容承擔全部責任。 為保障 Googoogaga 其平台形象及質素，如使用者上載粗俗、淫穢或令人反感之內容，在任何情況下，Googoogaga 均有權刪除其內容，以免影響其他用戶。
-
-
-資料保護
-
-為防止未獲授權登入，保持數據的安全及確保資料得到正確使用，我們會保護網站所收集的資料安全性；不容許傳輸任何有關非法性、威脅性、騷擾性或誹謗性等內容,以確保本網頁之其優質形象及服務質素。
-
-
-個人資料收集聲明
-
-我們不會在沒有用戶的同意下向第三者披露你的個人資料，包括但不限於閣下的姓名、性別、年齡、身分證號碼、電話號碼、傳真號碼、住址、電子郵件地址、信用卡、銀行賬號、教育程度、職業或收入等資料。
-
-
-1. 私隱政策的適用範圍
-
-(a) 本個人資料收集聲明內容涵蓋Googoogaga如何處理從Googoogaga.com.hk收集的個人資料及閣下使用我們的服務。個人資料包括你的名字、地址、電郵地址或電話號碼。
-
-(b) 本個人資料收集聲明不適用於並非由我們擁有或控制的公司政策，也不適用於並非由我們聘用或管理的人士。
-
-
-2. 資料收集及使用
-
-(a) 我們在你登記Googoogaga帳戶、使用Googoogaga的某些服務、瀏覽Googoogaga的網頁或參加我們的推廣計劃時，均會收集你的個人資料。我們亦會從我們的商業夥伴取得你的個人資料。
-
-(b) (b) 當你在Googoogaga登記時，我們會問及你的個人資料，如姓名、電郵地址、出生日期、性別、職業、行業及個人興趣。當你使用我們的某些服務時，我們可能會再問及你的電話號碼、地址及個人識別號碼等因此，你在Googoogaga登記，並登入使用我們的服務後，對我們來說你並不是匿名的。
-
-(c) 我們會自動從你的電腦及瀏覽器上，接收並紀錄資料，包括網路協定位址 (IP Address) 、Googoogaga的cookie中資料、及你要求讀取的網頁紀錄。
-
-(d) 如閣下 點擊本聲明末端的“同意”鍵，表示 閣下已同意本公司使用閣下的個人資料（包括閣下的姓名、電話號碼、傳真號碼、電郵位址、郵寄地址等）作為本公司溝通及推廣之用。
-
-(e) 我們會使用資料作以下一般用途：提供更適合你的廣告及網頁內容、為你提供你所要求的產品或服務、改善我們的服務及就特別或新推出的產品與你聯絡。
-
-
-3. 資訊共享及披露
-
-(a) 除了我們的關聯公司，我們不會租用、出售、或披露你的個人資料予他人。
-
-(b) 我們會在以下情況向其他公司或人士發送或披露你的個人資料：
-
-(i) 我們取得你同意分享該等資料；
-
-(ii) 我們需要就提供你要求的產品或服務，分享你的個人資料；
-
-(iii) 我們需要發送你的個人資料予代表我們向你提供產品或服務的公司(除非你提出反對，否則該等公司沒有權將我們提供的資料用於超越協助我們的範圍)；
-
-(iv) 我們回應傳票、法庭、命令或法律程序，或我們行使我們的權利或對申索作出抗辯；
-
-(v) 我們收到按照個人資料(私隱)條例第58條下提出的要求；
-
-(vi) 我們認為有必要分享有關資料以協助調查、預防或制止非法活動；
-
-(vii) 我們懷疑詐騙，或任何人的人身安全受到威脅；
-
-(viii) 我們懷疑你在我們的網站的行為違反我們的使用條款，或特定的產品或服務守則；或
-
-(ix) 如果我們被其他公司收購或與之合併，我們會將你的有關資料移交新的實體，並會受制於另一份私隱條款。在此情況下，我們會在資料移交前通知你。
-
-(x) 你使用我們的某些服務，如討論區及個人化網站，你的某些個人資料(如帳戶名稱)會被披露，並為他人所瀏覽。
-
-
-4. Cookie
-
-(a) 我們可能會定並取用你的電腦cookie。
-
-(b) 我們會容許在我們某些網頁上擺放廣告的其他公司到你的電腦設定並取用cookies。其他公司將根據其自訂的私隱政策。廣告商或其他公司是不能提取我們的cookies。
-
-
-5. 修改資料的權利
-
-你有權在任何時候修改你在Googoogaga網頁上的帳戶資料。
-
-
-6. 帳戶安全
-
-你的帳戶資料受密碼保護，以保障你的私隱及帳戶安全。
-
-
-7. 個人資料收集政策的修訂
-
-(a) 我們可能不時修訂本個人資料收集政策。如果我們在使用個人資料的規定上作出大修改，我們會在網頁上張貼告示，通知你有關修訂。
-
-(b) 你同意於該修改後繼續使用我們的產品與服務構成你同意及接受受經修改的個人資料收集政策約束。
-
-
-8. 查詢及更改個人資料
-
-你有權通過向本公司支付合理之手續費，要求查閱及更改本公司所持有關於你的資料。若你希望查核本公司是否持有閣下之個人資料，或欲查閱或更改你的個人資料，請電郵至pfwong@googoogaga.com.hk或以郵寄方式致香港九龍海濱道139-141號，海濱中心1808室，與黃小姐聯絡。
-
-</string>
+    <string name="register_details"> 需要HTML拼接起来
+    </string>
 
     <string name="register_bottom">
         本人同意接受以上條款並願意接受任何Googoogaga的溝通訊息包括Googoogaga的資訊及講座、培訓等服務及活動的最新消息與推廣。
     </string>
-    <string name="agree">同意并繼續</string>
+    <string name="agree">同意並繼續</string>
     <string name="disagree">不同意</string>
 
 
@@ -240,7 +148,7 @@
 
     <string name="sir">先生</string>
     <string name="lady">女士</string>
-    <string name="gender">性別</string>
+    <string name="gender">稱謂</string>
     <string name="birth">出生日期</string>
     <string name="year">年</string>
     <string name="month">月</string>
@@ -249,7 +157,7 @@
     <string name="have">有</string>
     <string name="having">懷孕中</string>
     <string name="no">沒有</string>
-    <string name="create_my_account">創建我的賬戶</string>
+    <string name="create_my_account">創建我的帳戶</string>
     <string name="education_toy">教育玩具</string>
     <string name="book">圖書</string>
     <string name="baby_toy">嬰兒玩具</string>
@@ -260,7 +168,7 @@
     <string name="pay">結賬</string>
     <string name="cancel">取消</string>
     <string name="go">繼續</string>
-    <string name="cargo_data">送貨地址</string>
+    <string name="cargo_data">送貨資料</string>
     <string name="delivery_way">送貨方式</string>
     <string name="delivery_way_detail">快遞 (暫時只提供香港運送服務)  運費 HK$50, 購物滿HK$300(優惠後)即可以享有免費 送貨服務</string>
     <string name="receiver_data">收貨人資料</string>
