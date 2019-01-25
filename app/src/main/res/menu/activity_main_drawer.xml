@@ -32,7 +32,10 @@
             android:id="@+id/brand"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/brand" />
-
+        <item
+            android:id="@+id/my_order"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/my_order" />
     </group>
     <!--<item android:titleBar="Communicate" android:visible="false">-->
         <!--<menu>-->

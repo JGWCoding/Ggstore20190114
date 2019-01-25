@@ -191,4 +191,5 @@
     <string name="order_state">訂單狀態</string>
     <string name="order_state_details">運送中\n  26/11/2018送出</string>
     <string name="order_details">訂單詳情</string>
+    <string name="product_number">產品編號 : %s</string>
 </resources>

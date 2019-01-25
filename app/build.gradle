@@ -2,7 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'cn.leo.plugin.magic'
 apply plugin: 'org.greenrobot.greendao'
 
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC")).toString()
+}
+
 android {
+    def date = "\"time : " + releaseTime()+"\"";
     compileSdkVersion 28
     defaultConfig {
         applicationId "ggstore.com"
@@ -36,11 +41,13 @@ android {
     }
     buildTypes {
         debug {
+            buildConfigField("String", "date", "${date}")   //
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
         }
         release {
+            buildConfigField("String", "date", "${date}")
             minifyEnabled false          //混淆
             zipAlignEnabled true       //zip压缩
 //            shrinkResources true    //超过res限制
@@ -70,16 +77,17 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    implementation 'com.squareup.okhttp3:okhttp-ws:3.4.2'
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    implementation 'com.squareup.okhttp3:okhttp-ws:3.4.2'   //网络框架
+    implementation 'com.github.bumptech.glide:glide:4.8.0'  //gilde图片展示处理
     implementation 'q.rorbin:badgeview:1.1.3'   //https://github.com/qstumn/BadgeView
-    implementation 'com.facebook.android:facebook-login:[4,5)'
+    implementation 'com.facebook.android:facebook-login:[4,5)'  //
 //    implementation('com.paypal.sdk:paypal-android-sdk:2.16.0') {
 //        exclude group: 'io.card'//禁止通过信用卡直接支付，如果不禁止可以直接去掉这一句
 //    }
-    implementation 'com.braintreepayments.api:drop-in:3.+'
-    implementation 'com.github.jarryleo:MagicScreenAdapter:v1.5'
-    implementation 'com.tencent.bugly:crashreport:latest.release'
+    implementation 'com.braintreepayments.api:drop-in:3.+'     //paypal支付
+    implementation 'com.github.jarryleo:MagicScreenAdapter:v1.5'    //屏幕适配
+    implementation 'com.tencent.bugly:crashreport:latest.release'   //bugly bug上传
 
-    implementation 'org.greenrobot:greendao:3.2.0'
+    implementation 'org.greenrobot:greendao:3.2.0'  //greendao数据库
+    implementation 'com.alibaba:fastjson:1.1.70.android'   //json解析
 }

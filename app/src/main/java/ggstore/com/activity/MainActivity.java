@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import ggstore.com.BuildConfig;
 import ggstore.com.R;
 import ggstore.com.base.BaseActivity;
 import ggstore.com.fragment.MyOrderFragment;
@@ -75,12 +76,10 @@ public class MainActivity extends BaseActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        findViewById(R.id.activity_main_my_order).setOnClickListener(new View.OnClickListener() {
+        navigationView.getViewTreeObserver().addOnDrawListener(new ViewTreeObserver.OnDrawListener() {
             @Override
-            public void onClick(View v) {
-                myOrderfragment();
-                drawer.closeDrawer(Gravity.START);
-                setNavigationViewCheckedFalse();
+            public void onDraw() {
+                ((TextView) findViewById(R.id.activity_main_header_name)).setText(BuildConfig.date);
             }
         });
         badge = new QBadgeView(this);
@@ -95,7 +94,7 @@ public class MainActivity extends BaseActivity
 
         if (paypal != null && paypal.equals("success")) {
             orderNumberfragment();
-        } else if(startActivity!=null&&startActivity.equals("shopCart")){
+        } else if (startActivity != null && startActivity.equals("shopCart")) {
             shopCartFragment();
         } else {
             newProductFragment();
@@ -109,7 +108,8 @@ public class MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            moveTaskToBack(true);
+//            super.onBackPressed();
         }
     }
 
@@ -122,7 +122,7 @@ public class MainActivity extends BaseActivity
             @Override
             public void onClick(View v) {
                 Fragment shopCartFragment = getSupportFragmentManager().findFragmentByTag(ShopCartFragment.class.getName());
-                if (shopCartFragment!=null&&shopCartFragment.isVisible()){
+                if (shopCartFragment != null && shopCartFragment.isVisible()) {
                     //购物车页面点击购物车没有用
                 } else {
                     shopCartFragment();
@@ -136,7 +136,7 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
-    public void addToShopCart(){
+    public void addToShopCart() {
         //TODO 添加到购物车
     }
 
@@ -278,6 +278,7 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {    //这里最好使用replaceFragment,因为add 里会出现问题(某部分Fragment不显示)
         int id = item.getItemId();
+        showSearchAndShopCart();
         if (id == R.id.new_product) {
             newProductFragment();
         } else if (id == R.id.today_discount) {
@@ -292,11 +293,18 @@ public class MainActivity extends BaseActivity
 
         } else if (id == R.id.brand) {
 
+        } else if (id == R.id.my_order) {
+            myOrderfragment();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showSearchAndShopCart() {
+        toolbar.getMenu().findItem(R.id.action_search).getActionView().setVisibility(View.VISIBLE);
+        toolbar.getMenu().findItem(R.id.action_shop).getActionView().setVisibility(View.VISIBLE);
     }
 
     public void toyEduFragment() {
@@ -308,26 +316,29 @@ public class MainActivity extends BaseActivity
         toolbar.setTitle(R.string.shop_cart);
         ShopCartFragment shopCartFragment = new ShopCartFragment();
         Bundle bundle = new Bundle();
-        bundle.putBoolean("isEmptyShopCart",false); //这个参数主要用来规避show,hide Fragment(没参数不会改变,购物车应该时时会变数量)
+        bundle.putBoolean("isEmptyShopCart", false); //这个参数主要用来规避show,hide Fragment(没参数不会改变,购物车应该时时会变数量)
         shopCartFragment.setArguments(bundle);
-        addFragment(R.id.activity_main_content_frame,shopCartFragment);
+        addFragment(R.id.activity_main_content_frame, shopCartFragment);
         setNavigationViewCheckedFalse();
     }
-    public void setNavigationViewCheckedFalse(){
+
+    public void setNavigationViewCheckedFalse() {
         MenuItem checkedItem = navigationView.getCheckedItem();
-        if (checkedItem!=null){
+        if (checkedItem != null) {
             checkedItem.setChecked(false);
         }
     }
+
     public void emptyShopCartFragment() {
         toolbar.setTitle(R.string.shop_cart);
         ShopCartFragment shopCartFragment = new ShopCartFragment();
         Bundle bundle = new Bundle();
-        bundle.putBoolean("isEmptyShopCart",true);
+        bundle.putBoolean("isEmptyShopCart", true);
         shopCartFragment.setArguments(bundle);
-        addFragment(R.id.activity_main_content_frame,shopCartFragment);
+        addFragment(R.id.activity_main_content_frame, shopCartFragment);
         setNavigationViewCheckedFalse();
     }
+
     public void shopCartListFragment() {
         toolbar.setTitle(R.string.shoping_list);
         addFragment(R.id.activity_main_content_frame, new ShopCartListFragment());
@@ -345,6 +356,10 @@ public class MainActivity extends BaseActivity
     public void myOrderfragment() {
         addFragment(R.id.activity_main_content_frame, new MyOrderFragment());
         toolbar.setTitle(getString(R.string.my_order));
+        hideSearchAndShopCart();
+    }
+
+    private void hideSearchAndShopCart() {
         toolbar.getMenu().findItem(R.id.action_search).getActionView().setVisibility(View.INVISIBLE);
         toolbar.getMenu().findItem(R.id.action_shop).getActionView().setVisibility(View.INVISIBLE);
     }

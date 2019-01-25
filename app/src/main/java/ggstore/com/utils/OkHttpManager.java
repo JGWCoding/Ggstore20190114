@@ -443,6 +443,7 @@ public class OkHttpManager {
                     } catch (Exception e) {
                         e.printStackTrace();
                         LogUtil.e("请求成功,但出错了:"+e.getMessage());
+                        callBack.requestFailure(new Request.Builder().build(),e);
                     }
                 }
             }

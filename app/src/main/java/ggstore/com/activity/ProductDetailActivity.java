@@ -2,6 +2,7 @@ package ggstore.com.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.text.HtmlCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -28,6 +29,8 @@ import java.util.List;
 
 import ggstore.com.R;
 import ggstore.com.base.BaseActivity;
+import ggstore.com.base.Constent;
+import ggstore.com.bean.NewProductBean;
 import ggstore.com.bean.ShopCartBean;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.ShopCartItemManagerUtil;
@@ -50,29 +53,74 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        if (getIntent()!=null) {
+        if (getIntent() != null) {
             getSupportActionBar().setTitle(getIntent().getStringExtra("title"));
         }
+        ((TextView) findViewById(R.id.activity_product_detail_title)).setText(Constent.newProductBean.getProductName_cn());
+        ((TextView) findViewById(R.id.activity_product_detail_number)).setText(getString(R.string.product_number, Constent.newProductBean.getProductCode()));
+        ((TextView) findViewById(R.id.activity_product_detail_description)).setText(HtmlCompat.fromHtml(Constent.newProductBean.getProductDescription_cn(),HtmlCompat.FROM_HTML_MODE_COMPACT));
 //        addFragment(R.id.activity_product_detail_content_frame,new ProductDetailFragment());
-        ViewPager viewPager = findViewById(R.id.act_pro_detail_viewpager);
+        ViewPager viewPager = findViewById(R.id.activity_product_detail_viewpager);
         ArrayList<ImageView> imageViews = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            ImageView imageView = new ImageView(this);
-            imageView.setBackground(getResources().getDrawable(R.drawable.product));
-            imageViews.add(imageView);
-        }
+        getImages(imageViews);  //小心imageViews为空
         viewPager.setAdapter(new MyImagePagerAdapter(imageViews, viewPager));
+        if (imageViews.size()<1){
+            viewPager.setVisibility(View.GONE);
+        }
         TextView price = findViewById(R.id.price);
-        String content_price = "&nbsp<myfont size=\"15\" color=\"gray\"><del>HK$120</del></myfont>&nbsp&nbsp&nbsp&nbsp<myfont color=\"#148BA6\" size=\"25\">HK$100</myfont>";
-        price.setText(Html.fromHtml(content_price,null,new HtmlTagHandler("myfont")));
+        String content_price = "&nbsp<myfont size=\"15\" color=\"gray\"><del>HK$" +Constent.newProductBean.getMarketPrice()+
+                "</del></myfont>&nbsp&nbsp&nbsp&nbsp<myfont color=\"#148BA6\" size=\"25\">HK$" +Constent.newProductBean.getUnitPrice()+
+                "</myfont>";
+        price.setText(Html.fromHtml(content_price, null, new HtmlTagHandler("myfont")));
         findViewById(R.id.activity_product_detail_add_shop_cart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO 应该上传给服务器
-                badge.setBadgeNumber(ShopCartItemManagerUtil.getSize()+1);
+                badge.setBadgeNumber(ShopCartItemManagerUtil.getSize() + 1);
                 ShopCartItemManagerUtil.insertShopCart(new ShopCartBean());
             }
         });
+    }
+
+    private void getImages(ArrayList<ImageView> imageViews) {
+        NewProductBean newProductBean = Constent.newProductBean;
+        if (!TextUtils.isEmpty(newProductBean.getPictureL())) {
+            ImageView imageView = new ImageView(this);
+            setImageFromNet(imageView, Constent.base_images_url + newProductBean.getPictureL());
+            imageViews.add(imageView);
+        } else if (!TextUtils.isEmpty((CharSequence) newProductBean.getPictureS1())) {
+            ImageView imageView = new ImageView(this);
+            setImageFromNet(imageView, Constent.base_images_url + newProductBean.getPictureS1());
+            imageViews.add(imageView);
+        } else if (!TextUtils.isEmpty((CharSequence) newProductBean.getPictureS2())) {
+            ImageView imageView = new ImageView(this);
+            setImageFromNet(imageView, Constent.base_images_url + newProductBean.getPictureS2());
+            imageViews.add(imageView);
+        } else if (!TextUtils.isEmpty((CharSequence) newProductBean.getPictureS3())) {
+            ImageView imageView = new ImageView(this);
+            setImageFromNet(imageView, Constent.base_images_url + newProductBean.getPictureS3());
+            imageViews.add(imageView);
+        } else if (!TextUtils.isEmpty((CharSequence) newProductBean.getPictureS4())) {
+            ImageView imageView = new ImageView(this);
+            setImageFromNet(imageView, Constent.base_images_url + newProductBean.getPictureS4());
+            imageViews.add(imageView);
+        } else if (!TextUtils.isEmpty((CharSequence) newProductBean.getPictureS5())) {
+            ImageView imageView = new ImageView(this);
+            setImageFromNet(imageView, Constent.base_images_url + newProductBean.getPictureS5());
+            imageViews.add(imageView);
+        } else if (!TextUtils.isEmpty((CharSequence) newProductBean.getPictureS6())) {
+            ImageView imageView = new ImageView(this);
+            setImageFromNet(imageView, Constent.base_images_url + newProductBean.getPictureS6());
+            imageViews.add(imageView);
+        } else if (!TextUtils.isEmpty((CharSequence) newProductBean.getPictureS7())) {
+            ImageView imageView = new ImageView(this);
+            setImageFromNet(imageView, Constent.base_images_url + newProductBean.getPictureS7());
+            imageViews.add(imageView);
+        } else if (!TextUtils.isEmpty((CharSequence) newProductBean.getPictureS8())) {
+            ImageView imageView = new ImageView(this);
+            setImageFromNet(imageView, Constent.base_images_url + newProductBean.getPictureS8());
+            imageViews.add(imageView);
+        }
     }
 
     @Override
@@ -89,8 +137,8 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProductDetailActivity.this,MainActivity.class);
-                intent.putExtra("startActivity","shopCart");
+                Intent intent = new Intent(ProductDetailActivity.this, MainActivity.class);
+                intent.putExtra("startActivity", "shopCart");
                 startActivity(intent);
                 ToastUtil.showToast("点击购物车了");
             }
@@ -200,18 +248,19 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
             endIndex = output.length(); // 获取对应的属性值
             String color = attributes.get("color");
             String size = attributes.get("size");
-            LogUtil.e(size+color);
+            LogUtil.e(size + color);
 //            size = size.split("px")[0];
             if (!TextUtils.isEmpty(color)) {// 设置颜色
                 output.setSpan(new ForegroundColorSpan(Color.parseColor(color)), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } // 设置字体大小
             if (!TextUtils.isEmpty(size)) {
-                output.setSpan(new AbsoluteSizeSpan(Integer.parseInt(size),true), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                output.setSpan(new AbsoluteSizeSpan(Integer.parseInt(size), true), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
         }
 
         /**
          * 解析所有属性值
+         *
          * @param xmlReader
          */
         private void parseAttributes(final XMLReader xmlReader) {

@@ -21,7 +21,7 @@ public class OrderNumberFragment extends BaseFragment {
                 ((MainActivity) getActivity()).newProductFragment();
             }
         });
-        findView(R.id.my_order).setOnClickListener(new View.OnClickListener() {
+        findView(R.id.fragment_order_number_my_order).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((MainActivity) getActivity()).myOrderfragment();
