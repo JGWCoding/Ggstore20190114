@@ -58,6 +58,8 @@ public class MyOrderRecyclerFragment extends BaseRecyclerViewFragment {
                             mAdapter.resetItem(list);
                             onRequestSuccess();
                             mRefreshLayout.setEnabled(false);    //设置不可以刷新
+                            onNoRequest();
+                            mAdapter.setState(BaseRecyclerAdapter.STATE_HIDE,true);
                         }
                     });
                 }

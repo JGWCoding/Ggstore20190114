@@ -184,7 +184,7 @@ public class MainActivity extends BaseActivity
                 if (newText == null || newText.length() == 0) {
                     //由于实现了历史数据的功能，在此重新设置此 item才能实时生效
 //                    initSearchView(item);
-//                    showHistory();
+                    showHistory();
                 }
                 return false;
             }
