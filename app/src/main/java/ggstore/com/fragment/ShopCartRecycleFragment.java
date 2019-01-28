@@ -20,7 +20,9 @@ import ggstore.com.base.BaseRecyclerAdapter;
 import ggstore.com.base.BaseRecyclerViewFragment;
 import ggstore.com.base.Constent;
 import ggstore.com.bean.CourseBookBean;
+import ggstore.com.bean.ShopCartBean;
 import ggstore.com.utils.AppOperator;
+import ggstore.com.utils.ImageLoader;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.OkHttpManager;
 import ggstore.com.utils.ShopCartItemManagerUtil;
@@ -47,10 +49,7 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
                         @Override
                         public void requestSuccess(String result) throws Exception {
 //                            ArrayList<CourseBookBean> list = parseData(result);
-                            ArrayList<String> list = new ArrayList<>();
-                            for (int i = 0; i < ShopCartItemManagerUtil.getSize(); i++) {
-                                list.add(i+"");
-                            }
+                            ArrayList<ShopCartBean> list = (ArrayList<ShopCartBean>) ShopCartItemManagerUtil.queryAll();
                             mAdapter.resetItem(list);
                             onRequestSuccess();
                             mRefreshLayout.setEnabled(false);//设置不可刷新,以为购物车一般只加载一次
@@ -79,7 +78,7 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
         return new GridLayoutManager(getActivity(), 1);
     }
 
-    class CourseAdapter extends BaseRecyclerAdapter<String> {
+    class CourseAdapter extends BaseRecyclerAdapter<ShopCartBean> {
 
         public CourseAdapter(Context context, int mode) {
             super(context, mode);
@@ -94,41 +93,79 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
 
 
         @Override
-        protected void onBindDefaultViewHolder(RecyclerView.ViewHolder holder, final String item, final int position) {
+        protected void onBindDefaultViewHolder(final RecyclerView.ViewHolder holder, final ShopCartBean item, final int position) {
             //TODO 绑定视图--->加上数据
+            ((MyViewHolder)holder).title.setText(item.getName());
             ((MyViewHolder)holder).cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (getCount()==1) {
-                        ShopCartItemManagerUtil.deleteShopCart();
+                        ShopCartItemManagerUtil.deleteShopCart(item.getId());
                         ((ShopCartFragment)getParentFragment()).emptyShopCart();
                     }else{
                         LogUtil.e(position+" = "+item);
 //                        removeItem(position); //position不确定性的,有时候不是对应的item position
                         removeItem(item);
                         ((MainActivity)getActivity()).badge.setBadgeNumber(ShopCartItemManagerUtil.getSize()-1);
-                        ShopCartItemManagerUtil.deleteShopCart();
+                        ShopCartItemManagerUtil.deleteShopCart(item.getId());
                     }
                 }
             });
+            ((MyViewHolder) holder).sum.setText(item.getBuy_number()+"");
+            ImageLoader.loadImage(getContext(),((MyViewHolder)holder).img,Constent.base_images_url+item.getImage_url());
+            ((MyViewHolder)holder).add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String s = ((MyViewHolder) holder).sum.getText().toString();
+                    if (Integer.valueOf(s)>=item.getLimit_number()){
+                        ((MyViewHolder) holder).sum.setText(item.getLimit_number()+"");
+                        item.setBuy_number(item.getLimit_number());
+                    }else{
+                        ((MyViewHolder) holder).sum.setText(item.getBuy_number()+1+"");
+                        item.setBuy_number(item.getBuy_number()+1);
+                    }
+                    ShopCartItemManagerUtil.updateShopCart(item);
+                    ((ShopCartFragment)getParentFragment()).setPriceSum();
+                }
+            });
+            ((MyViewHolder)holder).del.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String s = ((MyViewHolder) holder).sum.getText().toString();
+                    if (Integer.valueOf(s)<=1){
+                        ((MyViewHolder) holder).sum.setText(1+"");
+                        item.setBuy_number(1);
+                    }else{
+                        ((MyViewHolder) holder).sum.setText(item.getBuy_number()-1+"");
+                        item.setBuy_number(item.getBuy_number()-1);
+                    }
+                    ShopCartItemManagerUtil.updateShopCart(item);
+                    ((ShopCartFragment)getParentFragment()).setPriceSum();
+                }
+            });
+            ((MyViewHolder)holder).price.setText(getString(R.string.product_price,(int)item.getPrice()+""));
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
-            public ImageView addShop;
-            public ImageView imgDetail;
             public TextView title;
+            public ImageView img;
             public TextView cancel;
-            public TextView newPrice;
+            public TextView sum;
+            public TextView add;
+            public TextView del;
+            public TextView price;
             public TextView detail1;
             public TextView detail2;
 
             public MyViewHolder(View view) {
                 super(view);
                 cancel = view.findViewById(R.id.fragment_shopcart_item_cancel);
-//                addShop = view.findViewById(R.id.add_shop);
-//                oldPrice = view.findViewById(R.id.old_price);
-//                newPrice = view.findViewById(R.id.new_price);
-//                imgDetail = view.findViewById(R.id.img_detail);
+                add = view.findViewById(R.id.fragment_shopcart_item_add);
+                del = view.findViewById(R.id.fragment_shopcart_item_del);
+                title = view.findViewById(R.id.fragment_shopcart_item_title);
+                img = view.findViewById(R.id.fragment_shopcart_item_image);
+                price = view.findViewById(R.id.fragment_shopcart_item_price);
+                sum = view.findViewById(R.id.fragment_shopcart_item_sum);
 //                detail1 = view.findViewById(R.id.detail1);
 //                detail2 = view.findViewById(R.id.detail2);
             }

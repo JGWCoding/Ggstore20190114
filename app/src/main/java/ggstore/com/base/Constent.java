@@ -7,7 +7,7 @@ public class Constent {
     public static final String is_remeber = "is_remeber";
     public static final String username_passwrod = "username_passwrod";
 
-    public static  boolean is_chinese = true; //表明是否登录
+    public static  boolean is_chinese = true; //表明是否为中文语言
 
 
     public static final String file_path = "file"; //CrashHandler 里面的字段

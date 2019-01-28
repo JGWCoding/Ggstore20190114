@@ -2,10 +2,14 @@ package ggstore.com.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
+
+import java.util.List;
 
 import ggstore.com.R;
 import ggstore.com.activity.MainActivity;
 import ggstore.com.base.BaseFragment;
+import ggstore.com.bean.ShopCartBean;
 import ggstore.com.utils.ShopCartItemManagerUtil;
 
 public class ShopCartFragment extends BaseFragment {
@@ -72,9 +76,17 @@ public class ShopCartFragment extends BaseFragment {
                 }
             });
 
-
+            setPriceSum();
 
 
         }
+    }
+    public void setPriceSum(){
+        List<ShopCartBean> shopCartBeans = ShopCartItemManagerUtil.queryAll();
+        int priceSum = 0;
+        for (ShopCartBean bean:shopCartBeans){
+            priceSum += bean.getPrice()*bean.getBuy_number();
+        }
+        ((TextView)findView(R.id.fragment_shopcart_price)).setText(getString(R.string.total_price,priceSum));
     }
 }

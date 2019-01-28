@@ -27,7 +27,6 @@ import ggstore.com.base.BaseRecyclerAdapter;
 import ggstore.com.base.BaseRecyclerViewFragment;
 import ggstore.com.base.Constent;
 import ggstore.com.bean.NewProductBean;
-import ggstore.com.bean.ShopCartBean;
 import ggstore.com.utils.AppOperator;
 import ggstore.com.utils.ImageLoader;
 import ggstore.com.utils.LogUtil;
@@ -165,7 +164,7 @@ public class NewProductRecyclerFragment extends BaseRecyclerViewFragment {
                 @Override
                 public void onClick(View v) {
                     //TODO 应该上传给服务器
-                    ShopCartItemManagerUtil.insertShopCart(new ShopCartBean());
+                    ShopCartItemManagerUtil.updateShopCart(Long.valueOf(item.getProductID()),item.getProductName_cn(),Float.valueOf(item.getUnitPrice()),1,Integer.valueOf(item.getLimitNumber()),item.getPictureL(),item.getProductCode(),item.getRemark_cn(),item.getRemark_cn());
                     ((MainActivity) getActivity()).badge.setBadgeNumber(ShopCartItemManagerUtil.getSize());
                 }
             });

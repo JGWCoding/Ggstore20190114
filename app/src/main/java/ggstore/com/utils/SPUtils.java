@@ -37,7 +37,7 @@ public class SPUtils {
             editor.putLong(key, (Long)object);
         }  
           
-        editor.apply();
+        editor.commit();
     }  
       
       

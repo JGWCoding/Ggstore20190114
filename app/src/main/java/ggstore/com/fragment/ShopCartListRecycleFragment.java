@@ -19,8 +19,11 @@ import ggstore.com.base.BaseRecyclerAdapter;
 import ggstore.com.base.BaseRecyclerViewFragment;
 import ggstore.com.base.Constent;
 import ggstore.com.bean.CourseBookBean;
+import ggstore.com.bean.ShopCartBean;
 import ggstore.com.utils.AppOperator;
+import ggstore.com.utils.ImageLoader;
 import ggstore.com.utils.OkHttpManager;
+import ggstore.com.utils.ShopCartItemManagerUtil;
 import ggstore.com.utils.ToastUtil;
 import okhttp3.Request;
 
@@ -44,15 +47,14 @@ public class ShopCartListRecycleFragment extends BaseRecyclerViewFragment {
                         @Override
                         public void requestSuccess(String result) throws Exception {
 //                            ArrayList<CourseBookBean> list = parseData(result);
-                            ArrayList<String> list = new ArrayList<>();
-                            for (int i = 0; i < 10; i++) {
-                                list.add("1");
-                            }
+                            ArrayList<ShopCartBean> list = (ArrayList<ShopCartBean>)ShopCartItemManagerUtil.queryAll();
                             mAdapter.resetItem(list);
                             onRequestSuccess();
                             mRefreshLayout.setEnabled(false);//设置不可刷新,以为购物车一般只加载一次
                             mRefreshLayout.setCanLoadMore(false);   //设置
-                            mAdapter.setStateCustom("運費 : HK$50",Gravity.RIGHT);
+//                            mAdapter.setStateCustom("運費 : HK$50",Gravity.RIGHT);
+                            mAdapter.setStateCustom(getString(R.string.freight,50),Gravity.RIGHT);
+
                         }
                     });
                 }
@@ -76,7 +78,7 @@ public class ShopCartListRecycleFragment extends BaseRecyclerViewFragment {
         return new GridLayoutManager(getActivity(), 1);
     }
 
-    class CourseAdapter extends BaseRecyclerAdapter<String> {
+    class CourseAdapter extends BaseRecyclerAdapter<ShopCartBean> {
 
         public CourseAdapter(Context context, int mode) {
             super(context, mode);
@@ -91,28 +93,32 @@ public class ShopCartListRecycleFragment extends BaseRecyclerViewFragment {
 
 
         @Override
-        protected void onBindDefaultViewHolder(RecyclerView.ViewHolder holder, final String item, int position) {
+        protected void onBindDefaultViewHolder(RecyclerView.ViewHolder holder, final ShopCartBean item, int position) {
             //TODO 绑定视图--->加上数据
+            ImageLoader.loadImage(getContext(),((MyViewHolder) holder).img,Constent.base_images_url+item.getImage_url());
+            ((MyViewHolder) holder).title.setText(item.getName());
+            ((MyViewHolder) holder).productNumber.setText(getString(R.string.product_number,item.getProductNumber()));
+            ((MyViewHolder) holder).number.setText(getString(R.string.product_number_sum,item.getBuy_number()));
+            ((MyViewHolder) holder).price.setText(getString(R.string.product_price_detail,(int)item.getPrice()));
+            ((MyViewHolder) holder).totalPrice.setText(getString(R.string.product_price_sum,(int)(item.getPrice()*item.getBuy_number())));
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
-            public ImageView addShop;
-            public ImageView imgDetail;
+            public ImageView img;
             public TextView title;
-            public TextView oldPrice;
-            public TextView newPrice;
-            public TextView detail1;
-            public TextView detail2;
+            public TextView number;
+            public TextView price;
+            public TextView totalPrice;
+            public TextView productNumber;
 
             public MyViewHolder(View view) {
                 super(view);
-//                titleBar = view.findViewById(R.id.titleBar);
-//                addShop = view.findViewById(R.id.add_shop);
-//                oldPrice = view.findViewById(R.id.old_price);
-//                newPrice = view.findViewById(R.id.new_price);
-//                imgDetail = view.findViewById(R.id.img_detail);
-//                detail1 = view.findViewById(R.id.detail1);
-//                detail2 = view.findViewById(R.id.detail2);
+                img = view.findViewById(R.id.recycler_shopcart_list_item_image);
+                title = view.findViewById(R.id.recycler_shopcart_list_item_title);
+                number = view.findViewById(R.id.recycler_shopcart_list_item_number);
+                price = view.findViewById(R.id.recycler_shopcart_list_item_price);
+                totalPrice = view.findViewById(R.id.recycler_shopcart_list_item_total_price);
+                productNumber = view.findViewById(R.id.recycler_shopcart_list_item_product_number);
             }
         }
     }

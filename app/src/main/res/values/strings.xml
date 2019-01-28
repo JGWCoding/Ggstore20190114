@@ -192,4 +192,12 @@
     <string name="order_state_details">運送中\n  26/11/2018送出</string>
     <string name="order_details">訂單詳情</string>
     <string name="product_number">產品編號 : %s</string>
+    <string name="product_number_sum">數量 : %d</string>
+    <string name="product_price">HK$%s</string>
+    <string name="product_price_detail">價錢 : HK$%d</string>
+    <string name="product_price_sum">小計 : HK$%d</string>
+    <string name="freight">運費 : HK$%d</string>
+    <string name="total_price">總計:HK$%d</string>
+
+
 </resources>

@@ -1,17 +1,12 @@
 package ggstore.com.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v4.text.HtmlCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.Html;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.AbsoluteSizeSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,26 +15,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.xml.sax.XMLReader;
-
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import ggstore.com.R;
 import ggstore.com.base.BaseActivity;
 import ggstore.com.base.Constent;
 import ggstore.com.bean.NewProductBean;
-import ggstore.com.bean.ShopCartBean;
-import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.ShopCartItemManagerUtil;
 import ggstore.com.utils.ToastUtil;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
 
 public class ProductDetailActivity extends BaseActivity {   //title应该是传过来的
-
+    //TODO 中英文切换功能
     private Badge badge;
 
     @Override
@@ -67,17 +56,22 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
         if (imageViews.size()<1){
             viewPager.setVisibility(View.GONE);
         }
-        TextView price = findViewById(R.id.price);
-        String content_price = "&nbsp<myfont size=\"15\" color=\"gray\"><del>HK$" +Constent.newProductBean.getMarketPrice()+
-                "</del></myfont>&nbsp&nbsp&nbsp&nbsp<myfont color=\"#148BA6\" size=\"25\">HK$" +Constent.newProductBean.getUnitPrice()+
-                "</myfont>";
-        price.setText(Html.fromHtml(content_price, null, new HtmlTagHandler("myfont")));
+//        TextView price = findViewById(R.id.price);    //不设配android23以下的机型
+//        String content_price = "&nbsp<myfont size=\"15\" color=\"gray\"><del>HK$" +Constent.newProductBean.getMarketPrice()+
+//                "</del></myfont>&nbsp&nbsp&nbsp&nbsp<myfont color=\"#148BA6\" size=\"25\">HK$" +Constent.newProductBean.getUnitPrice()+
+//                "</myfont>";
+//        price.setText(Html.fromHtml(content_price, null, new HtmlTagHandler("myfont")));
+        ((TextView)findViewById(R.id.activity_product_detail_new_price)).setText(getString(R.string.product_price,Constent.newProductBean.getUnitPrice()));
+        TextView oldPrice = (TextView) findViewById(R.id.activity_product_detail_old_price);
+        oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);   //加横线效果
+        oldPrice.setText(getString(R.string.product_price,Constent.newProductBean.getMarketPrice()));
         findViewById(R.id.activity_product_detail_add_shop_cart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO 应该上传给服务器
                 badge.setBadgeNumber(ShopCartItemManagerUtil.getSize() + 1);
-                ShopCartItemManagerUtil.insertShopCart(new ShopCartBean());
+                NewProductBean bean = Constent.newProductBean;
+                ShopCartItemManagerUtil.updateShopCart(Long.valueOf(bean.getProductID()),bean.getProductName_cn(),Float.valueOf(bean.getUnitPrice()),1,Integer.valueOf(bean.getLimitNumber()),bean.getPictureL(),bean.getProductCode(),bean.getRemark_cn(),bean.getRemark_cn());
             }
         });
     }
@@ -216,72 +210,72 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
     }
 
 
-    class HtmlTagHandler implements Html.TagHandler {
-        // 自定义标签名称
-        private String tagName; // 标签开始索引
-        private int startIndex = 0; // 标签结束索引
-        private int endIndex = 0; // 存放标签所有属性键值对
-        final HashMap<String, String> attributes = new HashMap<>();
-
-        public HtmlTagHandler(String tagName) {
-            this.tagName = tagName;
-        }
-
-        @Override
-        public void handleTag(boolean opening, String tag, Editable output, XMLReader xmlReader) {  // 判断是否是当前需要的tag
-            if (tag.equalsIgnoreCase(tagName)) {
-                //解析所有属性值
-                parseAttributes(xmlReader);
-                if (opening) {
-                    startHandleTag(tag, output, xmlReader);
-                } else {
-                    endEndHandleTag(tag, output, xmlReader);
-                }
-            }
-        }
-
-        public void startHandleTag(String tag, Editable output, XMLReader xmlReader) {
-            startIndex = output.length();
-        }
-
-        public void endEndHandleTag(String tag, Editable output, XMLReader xmlReader) {
-            endIndex = output.length(); // 获取对应的属性值
-            String color = attributes.get("color");
-            String size = attributes.get("size");
-            LogUtil.e(size + color);
-//            size = size.split("px")[0];
-            if (!TextUtils.isEmpty(color)) {// 设置颜色
-                output.setSpan(new ForegroundColorSpan(Color.parseColor(color)), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            } // 设置字体大小
-            if (!TextUtils.isEmpty(size)) {
-                output.setSpan(new AbsoluteSizeSpan(Integer.parseInt(size), true), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-        }
-
-        /**
-         * 解析所有属性值
-         *
-         * @param xmlReader
-         */
-        private void parseAttributes(final XMLReader xmlReader) {
-            try {
-                Field elementField = xmlReader.getClass().getDeclaredField("theNewElement");
-                elementField.setAccessible(true);
-                Object element = elementField.get(xmlReader);
-                Field attsField = element.getClass().getDeclaredField("theAtts");
-                attsField.setAccessible(true);
-                Object atts = attsField.get(element);
-                Field dataField = atts.getClass().getDeclaredField("data");
-                dataField.setAccessible(true);
-                String[] data = (String[]) dataField.get(atts);
-                Field lengthField = atts.getClass().getDeclaredField("length");
-                lengthField.setAccessible(true);
-                int len = (Integer) lengthField.get(atts);
-                for (int i = 0; i < len; i++) {
-                    attributes.put(data[i * 5 + 1], data[i * 5 + 4]);
-                }
-            } catch (Exception e) {
-            }
-        }
-    }
+//    class HtmlTagHandler implements Html.TagHandler {
+//        // 自定义标签名称
+//        private String tagName; // 标签开始索引
+//        private int startIndex = 0; // 标签结束索引
+//        private int endIndex = 0; // 存放标签所有属性键值对
+//        final HashMap<String, String> attributes = new HashMap<>();
+//
+//        public HtmlTagHandler(String tagName) {
+//            this.tagName = tagName;
+//        }
+//
+//        @Override
+//        public void handleTag(boolean opening, String tag, Editable output, XMLReader xmlReader) {  // 判断是否是当前需要的tag
+//            if (tag.equalsIgnoreCase(tagName)) {
+//                //解析所有属性值
+//                parseAttributes(xmlReader);
+//                if (opening) {
+//                    startHandleTag(tag, output, xmlReader);
+//                } else {
+//                    endEndHandleTag(tag, output, xmlReader);
+//                }
+//            }
+//        }
+//
+//        public void startHandleTag(String tag, Editable output, XMLReader xmlReader) {
+//            startIndex = output.length();
+//        }
+//
+//        public void endEndHandleTag(String tag, Editable output, XMLReader xmlReader) {
+//            endIndex = output.length(); // 获取对应的属性值
+//            String color = attributes.get("color");
+//            String size = attributes.get("size");
+//            LogUtil.e(size + color);
+////            size = size.split("px")[0];
+//            if (!TextUtils.isEmpty(color)) {// 设置颜色
+//                output.setSpan(new ForegroundColorSpan(Color.parseColor(color)), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            } // 设置字体大小
+//            if (!TextUtils.isEmpty(size)) {
+//                output.setSpan(new AbsoluteSizeSpan(Integer.parseInt(size), true), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            }
+//        }
+//
+//        /**
+//         * 解析所有属性值
+//         *
+//         * @param xmlReader
+//         */
+//        private void parseAttributes(final XMLReader xmlReader) {
+//            try {
+//                Field elementField = xmlReader.getClass().getDeclaredField("theNewElement");
+//                elementField.setAccessible(true);
+//                Object element = elementField.get(xmlReader);
+//                Field attsField = element.getClass().getDeclaredField("theAtts");
+//                attsField.setAccessible(true);
+//                Object atts = attsField.get(element);
+//                Field dataField = atts.getClass().getDeclaredField("data");
+//                dataField.setAccessible(true);
+//                String[] data = (String[]) dataField.get(atts);
+//                Field lengthField = atts.getClass().getDeclaredField("length");
+//                lengthField.setAccessible(true);
+//                int len = (Integer) lengthField.get(atts);
+//                for (int i = 0; i < len; i++) {
+//                    attributes.put(data[i * 5 + 1], data[i * 5 + 4]);
+//                }
+//            } catch (Exception e) {
+//            }
+//        }
+//    }
 }

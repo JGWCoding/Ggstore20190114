@@ -26,7 +26,7 @@
         android:layout_width="@dimen/lay_150"
         android:layout_height="@dimen/lay_40" />
     <TextView
-        android:id="@+id/price"
+        android:id="@+id/fragment_shopcart_price"
         android:layout_above="@id/go"
         android:layout_marginRight="@dimen/lay_10"
         android:layout_alignParentRight="true"
@@ -38,7 +38,7 @@
         android:layout_height="@dimen/lay_40" />
     <FrameLayout
         android:id="@+id/fragment_shopcart_content"
-        android:layout_above="@id/price"
+        android:layout_above="@id/fragment_shopcart_price"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></FrameLayout>
 
