@@ -84,10 +84,12 @@ dependencies {
 //    implementation('com.paypal.sdk:paypal-android-sdk:2.16.0') {
 //        exclude group: 'io.card'//禁止通过信用卡直接支付，如果不禁止可以直接去掉这一句
 //    }
-    implementation 'com.braintreepayments.api:drop-in:3.+'     //paypal支付
+    implementation 'com.braintreepayments.api:braintree:2.20.1' //paypal和信用卡本地支付方式等
+    implementation 'com.braintreepayments.api:drop-in:3.+'     //paypal支付和信用卡支付方式
     implementation 'com.github.jarryleo:MagicScreenAdapter:v1.5'    //屏幕适配
     implementation 'com.tencent.bugly:crashreport:latest.release'   //bugly bug上传
 
     implementation 'org.greenrobot:greendao:3.2.0'  //greendao数据库
     implementation 'com.alibaba:fastjson:1.1.70.android'   //json解析
+
 }
