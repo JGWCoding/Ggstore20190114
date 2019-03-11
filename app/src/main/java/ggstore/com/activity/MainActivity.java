@@ -35,11 +35,17 @@ import java.util.Map;
 import ggstore.com.BuildConfig;
 import ggstore.com.R;
 import ggstore.com.base.BaseActivity;
+import ggstore.com.fragment.AllProductFragment;
+import ggstore.com.fragment.BabyChildrenFragment;
+import ggstore.com.fragment.BrandFragment;
+import ggstore.com.fragment.GravidaMotherFragment;
 import ggstore.com.fragment.MyOrderFragment;
 import ggstore.com.fragment.NewProductFragment;
 import ggstore.com.fragment.OrderNumberFragment;
+import ggstore.com.fragment.SearchFragment;
 import ggstore.com.fragment.ShopCartFragment;
 import ggstore.com.fragment.ShopCartListFragment;
+import ggstore.com.fragment.TodayDiscountFragment;
 import ggstore.com.fragment.ToyEduFragment;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.ReflectUtils;
@@ -173,8 +179,10 @@ public class MainActivity extends BaseActivity
                 //在输入法按下搜索或者回车时，会调用次方法，在这里可以作保存历史记录的操作，我这里用了 sharepreference 保存
                 SPUtils.getSP(MainActivity.this, "knowledgeHistory").edit()
                         .putString(query, query).commit();
-                //todo 搜索结果
-                return false;
+                searchView.onActionViewCollapsed();
+                searchFragment(query);
+                showToolbar();
+                return true;   //false 代表关闭键盘
             }
 
             @Override
@@ -231,7 +239,7 @@ public class MainActivity extends BaseActivity
             HistoryAdapter adapter = new HistoryAdapter(MainActivity.this, R.layout.item_history, arr, searchView);
             //设置 adapter
             searchViewOfKnowledge.setAdapter(adapter);
-            //如果重写了 Adapter 的 getView 方法，可以不用实现 item 监听（实现了也没用），否则必须实现监听，不然会报错
+            //如果重写了 Adapter 的 getView 方法，可以不用实现 item 监听（实现了也没用），否则必须实现监听，不然会报错  --  这个实现没用
             searchViewOfKnowledge.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -258,6 +266,10 @@ public class MainActivity extends BaseActivity
         if (TextUtils.isEmpty(toolbar.getTitle())) {
             LogUtil.e("title和icon显示");
             toolbar.setTitle(title);
+        }else{
+            toolbar.setTitle(toolbar.getTitle());
+        }
+        if (icon != null) {
             toolbar.setNavigationIcon(icon);
         }
     }
@@ -282,17 +294,17 @@ public class MainActivity extends BaseActivity
         if (id == R.id.new_product) {
             newProductFragment();
         } else if (id == R.id.today_discount) {
-
-        } else if (id == R.id.mather_gravida) {
-
-        } else if (id == R.id.bady_chdren) {
-
+            todayDiscount();
+        } else if (id == R.id.gravida_mother) {
+            gravidaMotherFragment();
+        } else if (id == R.id.bady_children) {
+            badyChildrenFragment();
         } else if (id == R.id.toy_education) {
             toyEduFragment();
         } else if (id == R.id.all_product) {
-
+            allProductFragment();
         } else if (id == R.id.brand) {
-
+            brandFragment();
         } else if (id == R.id.my_order) {
             myOrderfragment();
         }
@@ -302,10 +314,46 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
-    private void showSearchAndShopCart() {
-        toolbar.getMenu().findItem(R.id.action_search).getActionView().setVisibility(View.VISIBLE);
-        toolbar.getMenu().findItem(R.id.action_shop).getActionView().setVisibility(View.VISIBLE);
+    private void searchFragment(String searchKeyword) {
+        if (TextUtils.isEmpty(searchKeyword)) {
+            return;
+        }
+        title = searchKeyword ;
+        toolbar.setTitle(searchKeyword);
+        replaceFragment(R.id.activity_main_content_frame, new SearchFragment());
     }
+
+    private void brandFragment() {
+        toolbar.setTitle(R.string.brand);
+        addFragment(R.id.activity_main_content_frame, new BrandFragment());
+    }
+
+    private void allProductFragment() {
+        toolbar.setTitle(R.string.all_product);
+        addFragment(R.id.activity_main_content_frame, new AllProductFragment());
+    }
+
+    private void badyChildrenFragment() {
+        toolbar.setTitle(R.string.bady_children);
+        addFragment(R.id.activity_main_content_frame, new BabyChildrenFragment());
+    }
+
+    private void gravidaMotherFragment() {
+        toolbar.setTitle(R.string.gravida_mother);
+        addFragment(R.id.activity_main_content_frame, new GravidaMotherFragment());
+    }
+
+    public void newProductFragment() {
+        navigationView.setCheckedItem(R.id.new_product);
+        toolbar.setTitle(R.string.new_product);
+        addFragment(R.id.activity_main_content_frame, new NewProductFragment());
+    }
+
+    private void todayDiscount() {
+        toolbar.setTitle(R.string.today_discount);
+        addFragment(R.id.activity_main_content_frame, new TodayDiscountFragment());
+    }
+
 
     public void toyEduFragment() {
         toolbar.setTitle(R.string.toy_education);
@@ -346,13 +394,6 @@ public class MainActivity extends BaseActivity
     }
 
 
-    public void newProductFragment() {
-        navigationView.setCheckedItem(R.id.new_product);
-        LogUtil.e("显示最新产品");
-        toolbar.setTitle(R.string.new_product);
-        addFragment(R.id.activity_main_content_frame, new NewProductFragment());
-    }
-
     public void myOrderfragment() {
         addFragment(R.id.activity_main_content_frame, new MyOrderFragment());
         toolbar.setTitle(getString(R.string.my_order));
@@ -362,6 +403,11 @@ public class MainActivity extends BaseActivity
     private void hideSearchAndShopCart() {
         toolbar.getMenu().findItem(R.id.action_search).getActionView().setVisibility(View.INVISIBLE);
         toolbar.getMenu().findItem(R.id.action_shop).getActionView().setVisibility(View.INVISIBLE);
+    }
+
+    private void showSearchAndShopCart() {
+        toolbar.getMenu().findItem(R.id.action_search).getActionView().setVisibility(View.VISIBLE);
+        toolbar.getMenu().findItem(R.id.action_shop).getActionView().setVisibility(View.VISIBLE);
     }
 
     public void orderNumberfragment() {

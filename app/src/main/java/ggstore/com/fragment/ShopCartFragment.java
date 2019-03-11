@@ -54,7 +54,7 @@ public class ShopCartFragment extends BaseFragment {
         super.initWidget(root);
         if (!isEmptyShopCart) { //一定要getChildFragmentManager
            addFragment(R.id.fragment_shopcart_content,new ShopCartRecycleFragment());
-            findView(R.id.go).setOnClickListener(new View.OnClickListener() {
+            findView(R.id.fragment_shopcart_pay).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ((MainActivity) getActivity()).shopCartListFragment();
@@ -75,10 +75,7 @@ public class ShopCartFragment extends BaseFragment {
                     ((MainActivity) getActivity()).newProductFragment();
                 }
             });
-
             setPriceSum();
-
-
         }
     }
     public void setPriceSum(){

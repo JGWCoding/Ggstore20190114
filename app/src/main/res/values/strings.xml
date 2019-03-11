@@ -19,7 +19,7 @@
     <!--<string name="forget_password">忘记密码</string>-->
     <!--<string name="permission_pass">权限通过</string>-->
     <!--<string name="permission_no_pass">权限没通过,请授权权限</string>-->
-    <!--<string name="new_product">最新产品</string>-->
+    <!--<string name="icon_new_product">最新产品</string>-->
     <!--<string name="today_discount">今日优惠</string>-->
     <!--<string name="mather_gravida">孕妇及妈妈</string>-->
     <!--<string name="bady_children">yin</string>-->
@@ -104,10 +104,9 @@
     <string name="permission_pass">權限通過</string>
     <string name="permission_no_pass">權限沒通過,請接收權限</string>
     <string name="new_product">最新產品</string>
-    <string name="today_discount">今日優惠</string>
-    <string name="mather_gravida">孕婦及媽媽</string>
-    <string name="bady_children">yin</string>
-    <string name="bady_chdren">嬰幼兒</string>
+    <string name="today_discount">今期優惠</string>
+    <string name="gravida_mother">孕婦及媽媽</string>
+    <string name="bady_children">嬰幼兒</string>
     <string name="toy_education">玩具教育</string>
     <string name="all_product">所有產品</string>
     <string name="brand">品牌</string>
@@ -198,6 +197,12 @@
     <string name="product_price_sum">小計 : HK$%d</string>
     <string name="freight">運費 : HK$%d</string>
     <string name="total_price">總計:HK$%d</string>
+    <string name="set_password">設置密碼</string>
+    <string name="confirm_password">確認密碼</string>
+    <string name="name">姓名</string>
+    <string name="contact_phone">聯絡電話</string>
+    <string name="postal_address">通訊地址</string>
+    <string name="hongkong">香港</string>
 
 
 </resources>

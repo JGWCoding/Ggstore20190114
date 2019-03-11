@@ -84,7 +84,7 @@ public class RecyclerRefreshLayout extends SwipeRefreshLayout implements SwipeRe
 
                     @Override
                     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                        if (canLoad() && mCanLoadMore) {
+                        if (canLoad() && mCanLoadMore) {    //向下拉,最后一个可见条目,有更多数据标记,不是正在加载,能加载更多
                             loadData();
                         }
                     }
@@ -183,6 +183,9 @@ public class RecyclerRefreshLayout extends SwipeRefreshLayout implements SwipeRe
      */
     public int getLastVisiblePosition() {
         int position;
+        if (mRecycleView==null){
+             getRecycleView();
+        }
         if (mRecycleView.getLayoutManager() instanceof LinearLayoutManager) {
             position = ((LinearLayoutManager) mRecycleView.getLayoutManager()).findLastVisibleItemPosition();
         } else if (mRecycleView.getLayoutManager() instanceof GridLayoutManager) {

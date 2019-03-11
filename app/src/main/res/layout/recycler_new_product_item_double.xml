@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/lay_250">
+    <ImageView
+        android:id="@+id/img_detail"
+        android:padding="@dimen/lay_5"
+        android:src="@drawable/product"
+        android:layout_weight="440"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+    <RelativeLayout
+        android:layout_weight="167"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/lay_5"
+        android:layout_marginRight="@dimen/lay_10"
+        android:layout_marginLeft="@dimen/lay_10"
+        android:layout_height="0dp">
+        <TextView
+            android:id="@+id/recycler_new_product_title"
+            android:textSize="@dimen/font_15"
+            android:text="婴儿动物玩具车 - 象"
+            android:textColor="@color/bg"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_below="@id/recycler_new_product_title"
+            android:id="@+id/old_price"
+            android:textSize="@dimen/font_10"
+            android:text="HK$ 120"
+            android:maxLines="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_below="@id/old_price"
+            android:id="@+id/new_price"
+            android:textColor="@color/bg"
+            android:textSize="@dimen/font_13"
+            android:text="HK$ 108"
+            android:maxLines="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/add_shop"
+            android:layout_margin="@dimen/lay_10"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/add_shop_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</LinearLayout>

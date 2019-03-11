@@ -23,7 +23,7 @@ public class ShopCartListFragment extends BaseFragment {
     protected void initWidget(View root) {
         super.initWidget(root);//一定要getChildFragmentManager
         addFragment(R.id.fragment_shopcart_content,new ShopCartListRecycleFragment());
-        TextView pay = findView(R.id.go);
+        TextView pay = findView(R.id.fragment_shopcart_pay);
         pay.setText(R.string.go);
         pay.setOnClickListener(new View.OnClickListener() {
                 @Override

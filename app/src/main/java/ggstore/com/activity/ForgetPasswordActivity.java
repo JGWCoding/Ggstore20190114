@@ -5,9 +5,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import org.json.JSONObject;
+
 import ggstore.com.R;
 import ggstore.com.base.BaseTitleActivity;
+import ggstore.com.constant.Constent;
+import ggstore.com.utils.OkHttpManager;
 import ggstore.com.utils.ToastUtil;
+import okhttp3.Request;
 
 public class ForgetPasswordActivity extends BaseTitleActivity {
 
@@ -28,36 +33,38 @@ public class ForgetPasswordActivity extends BaseTitleActivity {
                 if (TextUtils.isEmpty(email.getText())) {
                     ToastUtil.showToast("请输入正确邮箱");
                 } else {
-                    ToastUtil.showToast("开始提交");
                     resetPassword(email.getText().toString());
                 }
             }
         });
     }
 
+
+
     private void resetPassword(String email) {
-//        OkHttpManager.runMainSync(Constent.base_url + "api_get_forgotpassword.php" + "?email=" + email, new OkHttpManager.DataCallBack() {
-//            @Override
-//            public void requestFailure(Request request, Exception e) {
-//                ToastUtil.showToast("重置密码失败,请再一次重置");
-//            }
-//
-//            @Override
-//            public void requestSuccess(String result) throws Exception {
-//                try {
-//                    JSONObject jsonObject = new JSONObject(result);
-//                    boolean success = jsonObject.optBoolean("success");
-//                    if(success) {
-//                        ToastUtil.showToast( "密码已发送到邮箱,请注意查收" + success);
-//                        return;
-//                    }
-//                    String err_msg = jsonObject.optString("err_msg");
-//                    ToastUtil.showToast(err_msg+ "测试账号不行" + success);
-//                } catch (Exception e) {
-//                    ToastUtil.showToast("获取密码失败,请再一次输入邮箱");
-//                }
-//            }
-//        });
+        OkHttpManager.getAsync(Constent.url_forget_password + email, new OkHttpManager.DataCallBack() {
+            @Override
+            public void requestFailure(Request request, Exception e) {
+                ToastUtil.showToast("network is error,please check your network");
+            }
+
+            @Override
+            public void requestSuccess(String result) throws Exception {
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    int code = jsonObject.optInt("code");
+                    if(code==200) {
+                        ToastUtil.showToast(jsonObject.optString("msg","mailbox look in new password"));
+                        finish();
+                        return;
+                    }else{
+                        ToastUtil.showToast( jsonObject.optString("msg","fall"));
+                    }
+                } catch (Exception e) {
+                    ToastUtil.showToast("获取密码失败,请再一次输入邮箱");
+                }
+            }
+        });
     }
 
     @Override

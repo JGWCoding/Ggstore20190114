@@ -6,35 +6,35 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/new_product"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/menu_icon_new_product"
             android:title="@string/new_product" />
         <item
             android:id="@+id/today_discount"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/menu_icon_today_discount"
             android:title="@string/today_discount" />
         <item
-            android:id="@+id/mather_gravida"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/mather_gravida" />
+            android:id="@+id/gravida_mother"
+            android:icon="@drawable/menu_icon_gravida_mother"
+            android:title="@string/gravida_mother" />
         <item
-            android:id="@+id/bady_chdren"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/bady_chdren" />
+            android:id="@+id/bady_children"
+            android:icon="@drawable/menu_icon_bady_children"
+            android:title="@string/bady_children" />
         <item
             android:id="@+id/toy_education"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/menu_icon_toy_education"
             android:title="@string/toy_education" />
         <item
             android:id="@+id/all_product"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/menu_icon_all_product"
             android:title="@string/all_product" />
         <item
             android:id="@+id/brand"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/menu_icon_brand"
             android:title="@string/brand" />
         <item
             android:id="@+id/my_order"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/menu_icon_my_order"
             android:title="@string/my_order" />
     </group>
     <!--<item android:titleBar="Communicate" android:visible="false">-->

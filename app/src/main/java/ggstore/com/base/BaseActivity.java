@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
 import ggstore.com.utils.ImageLoader;
+import ggstore.com.utils.KeyboardUtil;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected RequestManager mImageLoader;
@@ -76,16 +77,23 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+
     public void replaceFragment(int frameLayoutId, Fragment fragment) {
         if (fragment != null) {
-            if (mFragment.getClass().getName().equals(fragment.getClass().getName())) {  //替换的为同一个Fragment
-                return;
-            }
+//            if (mFragment.getClass().getName().equals(fragment.getClass().getName())) {  //替换的为同一个Fragment
+//                return;
+//            }
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(frameLayoutId, fragment);
             transaction.commit();
             mFragment = fragment;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        KeyboardUtil.hideSoftInput(this);
     }
 
     protected abstract int getContentView();

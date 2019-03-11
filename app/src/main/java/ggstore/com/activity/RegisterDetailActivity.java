@@ -1,19 +1,36 @@
 package ggstore.com.activity;
 
+import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
 import ggstore.com.R;
 import ggstore.com.base.BaseTitleActivity;
+import ggstore.com.constant.Constent;
+import ggstore.com.utils.LogUtil;
+import ggstore.com.utils.OkHttpManager;
+import ggstore.com.utils.RegexUtils;
+import ggstore.com.utils.ToastUtil;
+import okhttp3.Request;
 
-public class RegisterDetailActivity extends BaseTitleActivity { //TODO 需要点击事件
+public class RegisterDetailActivity extends BaseTitleActivity {
+    private Spinner spYear;
+    private Spinner spMonth;
+    private Spinner spDay;
+
     @Override
     protected CharSequence getContentTitle() {
         return getString(R.string.register);
@@ -22,6 +39,8 @@ public class RegisterDetailActivity extends BaseTitleActivity { //TODO 需要点
     private ArrayList<String> dataYear = new ArrayList<String>();
     private ArrayList<String> dataMonth = new ArrayList<String>();
     private ArrayList<String> dataDay = new ArrayList<String>();
+    private boolean isSir = true;
+    private int babyState = 0;//0代表有 1怀孕中 2没有
 
     @Override
     protected int getContentLayoutId() {
@@ -36,6 +55,7 @@ public class RegisterDetailActivity extends BaseTitleActivity { //TODO 需要点
         textSir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isSir = true;
                 textSir.setBackgroundColor(getResources().getColor(R.color.bg));
                 textLady.setBackgroundColor(getResources().getColor(R.color.white));
             }
@@ -43,6 +63,7 @@ public class RegisterDetailActivity extends BaseTitleActivity { //TODO 需要点
         textLady.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isSir = false;
                 textSir.setBackgroundColor(getResources().getColor(R.color.white));
                 textLady.setBackgroundColor(getResources().getColor(R.color.bg));
             }
@@ -54,6 +75,7 @@ public class RegisterDetailActivity extends BaseTitleActivity { //TODO 需要点
         badyHaved.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                babyState = 0;
                 badyHaved.setBackgroundColor(getResources().getColor(R.color.bg));
                 badyHaving.setBackgroundColor(getResources().getColor(R.color.white));
                 badyNo.setBackgroundColor(getResources().getColor(R.color.white));
@@ -62,6 +84,7 @@ public class RegisterDetailActivity extends BaseTitleActivity { //TODO 需要点
         badyHaving.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                babyState = 1;
                 badyHaving.setBackgroundColor(getResources().getColor(R.color.bg));
                 badyHaved.setBackgroundColor(getResources().getColor(R.color.white));
                 badyNo.setBackgroundColor(getResources().getColor(R.color.white));
@@ -70,13 +93,14 @@ public class RegisterDetailActivity extends BaseTitleActivity { //TODO 需要点
         badyNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                babyState = 2;
                 badyNo.setBackgroundColor(getResources().getColor(R.color.bg));
                 badyHaving.setBackgroundColor(getResources().getColor(R.color.white));
                 badyHaved.setBackgroundColor(getResources().getColor(R.color.white));
             }
         });
 
-        Spinner spYear = (Spinner) findViewById(R.id.activity_register_detail_year);
+        spYear = (Spinner) findViewById(R.id.activity_register_detail_year);
         // 年份设定为当年的前后20年
         SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd");
         dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
@@ -90,23 +114,109 @@ public class RegisterDetailActivity extends BaseTitleActivity { //TODO 需要点
             ArrayAdapter adapterSpYear = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, dataYear);
             spYear.setAdapter(adapterSpYear);
             spYear.setSelection(99);// 默认选中今年
-
             for (int i = 0; i < 12; i++) {
-                dataMonth.add(i+1+"");
+                dataMonth.add(i + 1 + "");
             }
-            Spinner spMonth = (Spinner) findViewById(R.id.activity_register_detail_month);
+            spMonth = (Spinner) findViewById(R.id.activity_register_detail_month);
             ArrayAdapter adapterSpMonth = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dataMonth);
             spMonth.setAdapter(adapterSpMonth);
-            spMonth.setSelection(Integer.valueOf(dateArr[1])-1);
+            spMonth.setSelection(Integer.valueOf(dateArr[1]) - 1);
 
             for (int i = 0; i < 31; i++) {
-                dataDay.add(i+1+"");
+                dataDay.add(i + 1 + "");
             }
-            Spinner spDay = (Spinner) findViewById(R.id.activity_register_detail_day);
+            spDay = (Spinner) findViewById(R.id.activity_register_detail_day);
             ArrayAdapter spDayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, dataDay);
             spDay.setAdapter(spDayAdapter);
-            spDay.setSelection(Integer.valueOf(dateArr[2])-1);
+            spDay.setSelection(Integer.valueOf(dateArr[2]) - 1);
         }
+        findViewById(R.id.activity_register_detail_create_account).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCreateAccount();
+            }
+        });
+    }
+
+    private void onCreateAccount() {
+        EditText view_email = (EditText) findViewById(R.id.activity_register_detail_email);
+        if (TextUtils.isEmpty(view_email.getText().toString())) {
+            ToastUtil.showToast("please input your email");
+            return;
+        }else if(!RegexUtils.isEmail(view_email.getText())){
+            ToastUtil.showToast("your email is error");
+        }
+        EditText view_loginName = (EditText) findViewById(R.id.activity_register_detail_login_name);
+        if (TextUtils.isEmpty(view_loginName.getText().toString())) {
+            ToastUtil.showToast("please input your login name");
+            return;
+        }
+        EditText view_setPassword = findViewById(R.id.activity_register_detail_set_password);
+        if (TextUtils.isEmpty(view_setPassword.getText().toString())) {
+            ToastUtil.showToast("password is empty");
+            return;
+        }else if (view_setPassword.getText().toString().length()<8){
+            ToastUtil.showToast("Please set an 8-digit password");
+            return;
+        }
+        EditText view_confirmPassword = findViewById(R.id.activity_register_detail_confirm_password);
+        if (TextUtils.isEmpty(view_confirmPassword.getText().toString())) {
+            ToastUtil.showToast("confirm password is error");
+            return;
+        }
+        if (!view_setPassword.getText().toString().equals(view_confirmPassword.getText().toString())) {
+            ToastUtil.showToast("confirm password please reset");
+            return;
+        }
+        EditText view_name = findViewById(R.id.activity_register_detail_name);
+        if (TextUtils.isEmpty(view_name.getText().toString())) {
+            ToastUtil.showToast("your name is empty");
+            return;
+        }
+
+
+
+        EditText view_tel = findViewById(R.id.activity_register_detail_tel);
+        if (TextUtils.isEmpty(view_tel.getText().toString())) {
+            ToastUtil.showToast("your telephone is empty");
+            return;
+        }else if (!RegexUtils.isMobileSimple_8(view_tel.getText().toString())){
+            ToastUtil.showToast("your telephone is error");
+            return;
+        }
+        EditText view_address = findViewById(R.id.activity_register_detail_address);
+        if (TextUtils.isEmpty(view_address.getText().toString())) {
+            ToastUtil.showToast("your address is empty");
+            return;
+        }
+        Map<String, String> map = new HashMap<>();
+        map.put("email",view_email.getText().toString());
+        map.put("name",view_name.getText().toString());
+        map.put("set_password",view_setPassword.getText().toString());
+        map.put("confirm",view_confirmPassword.getText().toString());
+        map.put("login_name",view_loginName.getText().toString());
+        map.put("tel",view_tel.getText().toString());
+        map.put("address",view_address.getText().toString());
+        map.put("gender",isSir?"sir":"lady");
+        map.put("have_bady",babyState==0?"have":babyState==1?"pregnant":"no");//pregnant 怀孕中
+        map.put("birthday",spYear.getSelectedItem()+"-"+spMonth.getSelectedItem()+"-"+spDay.getSelectedItem());
+
+        OkHttpManager.postAsync(this,Constent.url_register, map, new OkHttpManager.DataCallBack() {
+            @Override
+            public void requestFailure(Request request, Exception e) {
+                ToastUtil.showToast("network is error,please check your network");
+            }
+            @Override
+            public void requestSuccess(String result) throws Exception {
+                int code = new JSONObject(result).optInt("code");
+                LogUtil.e(result);
+                if (code == 200) {  //TODO 这里登录跳转主页面需要改变登录者信息
+                    startActivity(new Intent(RegisterDetailActivity.this,MainActivity.class));
+                } else {
+                    ToastUtil.showToast("register is error" );
+                }
+            }
+        });
     }
 
     @Override

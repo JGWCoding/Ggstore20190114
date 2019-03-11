@@ -1,10 +1,13 @@
 package ggstore.com.utils;
 
+import android.text.TextUtils;
+
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
 import ggstore.com.BaseApplication;
+import ggstore.com.bean.NewProductBean;
 import ggstore.com.bean.ShopCartBean;
 import ggstore.com.bean.ShopCartBeanDao;
 
@@ -15,7 +18,6 @@ public class ShopCartItemManagerUtil {
      * @param shop
      */
     public static void insertShopCart(ShopCartBean shop) {
-        ToastUtil.showToast("add success");
         BaseApplication.getDaoInstant().getShopCartBeanDao().insertOrReplace(shop);
     }
 
@@ -26,7 +28,6 @@ public class ShopCartItemManagerUtil {
      * @param id
      */
     public static void deleteShopCart(long id) {
-//        ToastUtil.showToast("delete success");
         BaseApplication.getDaoInstant().getShopCartBeanDao().deleteByKey(id);
     }
 
@@ -36,7 +37,7 @@ public class ShopCartItemManagerUtil {
      * @param shop
      */
     public static void updateShopCart(ShopCartBean shop) {
-//        ToastUtil.showToast("add success");
+        limitNumberCheckAndReset(shop.getId());
         BaseApplication.getDaoInstant().getShopCartBeanDao().update(shop);
     }
 
@@ -65,19 +66,28 @@ public class ShopCartItemManagerUtil {
         }
     }
 
-    public static void updateShopCart(Long id, String productName, float price, int number, int limitNumber, String iconUrl, String productCode, String detail1, String detail2) {
+
+    private static void limitNumberCheckAndReset(Long id) {
+        if (queryBuyNumber(id) != null) {
+            ShopCartBean shopCartBean = queryBuyNumber(id);
+            if (shopCartBean.getBuy_number() > shopCartBean.getLimit_number()) {
+                shopCartBean.setBuy_number(shopCartBean.getLimit_number());
+            }
+        }
+    }
+
+    public static void addShopCart(NewProductBean item) {
+        long id = Long.valueOf(item.getProductID());
         if (queryBuyNumber(id) != null) {
             ShopCartBean shopCartBean = queryBuyNumber(id);
             if (shopCartBean.getBuy_number() >= shopCartBean.getLimit_number()) {
-                //todo 超出限制数量,是否作出提示
-                shopCartBean.setBuy_number(shopCartBean.getLimit_number());
-                return;
-            } else {
-                shopCartBean.setBuy_number(shopCartBean.getBuy_number() + number);
+                limitNumberCheckAndReset(id);
+            }else{
+                shopCartBean.setBuy_number(shopCartBean.getBuy_number()+1);
             }
-                updateShopCart(shopCartBean);
+            updateShopCart(shopCartBean);
         } else {
-            insertShopCart(new ShopCartBean(id, productName, price, number, limitNumber, iconUrl, productCode, detail1, detail2));
+            insertShopCart(new ShopCartBean(Long.valueOf(item.getProductID()), item.getProductName_cn(), Float.valueOf(item.getUnitPrice()), 1,TextUtils.isEmpty(item.getUnitsInStock())?Integer.MAX_VALUE:Integer.valueOf(item.getUnitsInStock()), item.getPictureL(), item.getProductCode(), item.getRemark_cn(), item.getRemark_cn()));
         }
     }
 }

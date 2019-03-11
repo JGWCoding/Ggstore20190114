@@ -7,6 +7,7 @@ import android.os.Handler;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.Bugly;
 
 import ggstore.com.bean.DaoMaster;
@@ -30,7 +31,8 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         ToastUtil.init(this,true); //初始化
-        LogUtil.init(true);
+
+        LogUtil.init(BuildConfig.DEBUG);
         mHandler = new Handler();
         _context = this;
 //        CrashHandler.getInstance().init(this);  //处理程序异常 --> 没进行研究
@@ -38,8 +40,20 @@ public class BaseApplication extends Application {
 
         FacebookSdk.sdkInitialize(getApplicationContext());//facebook
         AppEventsLogger.activateApp(this);
+        Utils.init(this);   //工具类初始化
+
+        setupDatabase();    //greenDao数据库设置
+
+        if(BuildConfig.DEBUG) {
+            if (LeakCanary.isInAnalyzerProcess(this)) {
+                // This process is dedicated to LeakCanary for heap analysis.
+                // You should not init your app in this process.
+                return;
+            }
+            LeakCanary.install(this);
+            // Normal app init code...
+        }
         Utils.init(this);
-        setupDatabase();
     }
     private void setupDatabase() {
         //创建数据库shop.db"

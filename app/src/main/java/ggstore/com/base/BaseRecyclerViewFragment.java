@@ -8,9 +8,9 @@ import android.view.View;
 
 import ggstore.com.BaseApplication;
 import ggstore.com.R;
+import ggstore.com.utils.KeyboardUtil;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.OkHttpManager;
-import ggstore.com.utils.TDevice;
 import ggstore.com.utils.ToastUtil;
 import ggstore.com.view.RecyclerRefreshLayout;
 import ggstore.com.view.SpacesItemDecoration;
@@ -24,13 +24,14 @@ import ggstore.com.view.SpacesItemDecoration;
  */
 public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implements
         RecyclerRefreshLayout.SuperRefreshLayoutListener,
-        BaseRecyclerAdapter.OnItemClickListener{
+        BaseRecyclerAdapter.OnItemClickListener {
     private final String TAG = this.getClass().getSimpleName();
     protected BaseRecyclerAdapter<T> mAdapter;
     protected RecyclerView mRecyclerView;
     protected RecyclerRefreshLayout mRefreshLayout;
     protected boolean isRefreshing;
     protected String CACHE_NAME = getClass().getName();
+    private View.OnLayoutChangeListener onLayoutChangeListener;
 
     @Override
     public int getLayoutId() {
@@ -53,20 +54,29 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
         mRefreshLayout.setSuperRefreshLayoutListener(this);
         mAdapter.setState(BaseRecyclerAdapter.STATE_HIDE, false);
         mRecyclerView.setLayoutManager(getLayoutManager()); //设置线性布局
-        mRecyclerView.addItemDecoration(new SpacesItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));//设置分割线
+        mRecyclerView.addItemDecoration(new SpacesItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));//设置分割线
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() { //滑动监听
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (RecyclerView.SCROLL_STATE_DRAGGING == newState && getActivity() != null
                         && getActivity().getCurrentFocus() != null) {
-                    TDevice.hideSoftKeyboard(getActivity().getCurrentFocus());  //拖拉状态直接隐藏键盘
+                    KeyboardUtil.hideSoftInput(getActivity());  //拖拉状态直接隐藏键盘
                 }
             }
         });
-        onRefreshing(); //加载数据
+        mRefreshLayout.onRefresh(); //加载数据  ---- onRefreshing
+//        onRefreshing();
     }
 
+    public void setLayoutManager(RecyclerView.LayoutManager layoutManager) {
+        if (layoutManager == null) {
+            mRecyclerView.setLayoutManager(getLayoutManager());
+        } else {
+            mRecyclerView.setLayoutManager(layoutManager);
+        }
+        mRecyclerView.setAdapter(mAdapter); //必须重新设置Adapter,不然会有有时可以有时设置不了问题
+    }
 
     @Override
     public void onItemClick(int position, long itemId) {
@@ -82,7 +92,7 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
     }
 
     @Override
-    public void onLoadMore() { // TODO 主要这里有不刷新的item情况
+    public void onLoadMore() { //
         mAdapter.setState(isRefreshing ? BaseRecyclerAdapter.STATE_HIDE : BaseRecyclerAdapter.STATE_LOADING, true);
         requestData(false);
         refreshState(OkHttpManager.NetWorkTimeOut); //注意设置超时时长 ---- 可能由于这里过长 体验差
@@ -100,7 +110,7 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
                         break;
                 }
             }
-        }, delayMillis*1000);
+        }, delayMillis * 1000);
     }
 
     protected abstract void requestData(boolean isRefreshing);
@@ -109,6 +119,20 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
     protected void onComplete() {
         mRefreshLayout.onComplete();
         isRefreshing = false;
+        if (onLayoutChangeListener==null) {
+            onLayoutChangeListener = new View.OnLayoutChangeListener() { //需要修复第一次刷新填不满页面,需要提示没数据了
+                @Override
+                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                    LogUtil.e("布局变化了"); //todo 没有修复到
+                    if (mRefreshLayout.getLastVisiblePosition() >= mAdapter.getCount() ) {
+                        if (BaseRecyclerAdapter.STATE_HIDE==mAdapter.getState()) {
+                            mAdapter.setState(BaseRecyclerAdapter.STATE_NO_MORE, true); //设置没有更多数据
+                        }
+                    }
+                }
+            };
+            mRecyclerView.addOnLayoutChangeListener(onLayoutChangeListener);
+        }
     }
 
     protected void onRequestSuccess() {

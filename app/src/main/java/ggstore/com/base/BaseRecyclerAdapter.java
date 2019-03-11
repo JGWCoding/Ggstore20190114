@@ -2,6 +2,7 @@ package ggstore.com.base;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -63,6 +64,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
     private OnLongClickListener onLongClickListener;
 
     protected View mHeaderView;
+    private RecyclerView mRecyclerView;
 
     private OnLoadingHeaderCallBack onLoadingHeaderCallBack;
 
@@ -133,6 +135,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
                     onLoadingHeaderCallBack.onBindHeaderHolder(holder, position);
                 break;
             case VIEW_TYPE_FOOTER:
+                showOneLineIsHeaderOrFooter(mRecyclerView); //修复hide和show Fragment(带有RecyclerView)不显示一行
                 FooterViewHolder fvh = (FooterViewHolder) holder;
                 fvh.itemView.setVisibility(View.VISIBLE);
                 switch (mState) {
@@ -198,6 +201,12 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+        mRecyclerView = recyclerView;
+        showOneLineIsHeaderOrFooter(recyclerView);
+    }
+
+    private void showOneLineIsHeaderOrFooter(RecyclerView recyclerView) {
+        if (recyclerView == null) return;
         RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
         if (manager instanceof GridLayoutManager) {
             final GridLayoutManager gridManager = ((GridLayoutManager) manager);
@@ -231,6 +240,12 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
                 }
             }
         }
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        mRecyclerView = null;
     }
 
     @Override
@@ -352,6 +367,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
 
     public void setState(int mState, boolean isUpdate) {
         this.mState = mState;
+        LogUtil.e("刷新了"+mState);
         if (isUpdate)
             updateItem(getItemCount() - 1);
     }

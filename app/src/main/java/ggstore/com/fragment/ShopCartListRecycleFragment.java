@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import ggstore.com.R;
 import ggstore.com.base.BaseRecyclerAdapter;
 import ggstore.com.base.BaseRecyclerViewFragment;
-import ggstore.com.base.Constent;
+import ggstore.com.constant.Constent;
 import ggstore.com.bean.CourseBookBean;
 import ggstore.com.bean.ShopCartBean;
 import ggstore.com.utils.AppOperator;

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--导航栏颜色ActionBar      colorPrimary-->
     <color name="colorPrimary">#148BA6</color>
+    <!--顶部通知栏       colorPrimaryDark-->
     <color name="colorPrimaryDark">#148BA6</color>
-    <color name="colorAccent">#D81B60</color>
+    <!--控件选中颜色      colorAccent-->
+    <color name="colorAccent">#148BA6</color>
 
 
 

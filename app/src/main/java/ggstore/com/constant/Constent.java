@@ -1,4 +1,4 @@
-package ggstore.com.base;
+package ggstore.com.constant;
 
 import ggstore.com.bean.NewProductBean;
 
@@ -19,10 +19,20 @@ public class Constent {
     public static final String base_url = "http://shop.googoogaga.com.hk/";
     public static final String base_images_url = "http://shop.googoogaga.com.hk/images/product/";
 
-    public static final String login_url = base_url+"api_get_login.php";
-    public static final String getInfo_url = base_url+"api_get_member_info.php";
-    public static final String url_home = base_url +"api_get_news.php";
+
+
     public static final String url_new_product = base_url +"api/getLatest.php?sort=new";
+    public static final String url_today_discount = base_url +"api/getCategories.php?cid=25";
+    public static final String url_gravida_mother = base_url +"api/getCategories.php?cid=1";
+    public static final String url_baby_children = base_url +"api/getCategories.php?cid=9";
+    public static final String url_toy_education = base_url +"api/getCategories.php?cid=22";
+    public static final String url_baby_education = base_url +"api/getCategories.php?cid=21";
+    public static final String url_book_education = base_url +"api/getCategories.php?cid=23";
+    public static final String url_all_product = base_url +"api/getCategories.php?cid=20";
+    public static final String url_search_product = base_url +"api/search.php?keyword=";
+    public static final String url_register = base_url +"api/register.php";
+    public static final String url_login = base_url +"api/login.php";
+    public static final String url_forget_password = base_url +"api/resetPassword.php?email=";
 
     public static final String testUrl = "https://www.ziweiyang.com/api_get_news.php?recordperpage=8&page=1&sortby=data";
 

@@ -1,156 +1,271 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="@dimen/lay_15"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="@dimen/lay_15">
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <TextView
-        android:text="@string/register_detail_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:layout_marginTop="@dimen/lay_10"
-        android:textColor="@color/bg"
-        android:text="@string/email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <EditText
-        android:layout_marginTop="@dimen/lay_5"
-        android:background="@drawable/et_selector"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/lay_30" />
-    <TextView
-        android:layout_marginTop="@dimen/lay_10"
-        android:textColor="@color/bg"
-        android:text="@string/login_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <EditText
-        android:layout_marginTop="@dimen/lay_5"
-        android:background="@drawable/et_selector"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/lay_30" />
-    <TextView
-        android:layout_marginTop="@dimen/lay_10"
-        android:text="@string/gender"
-        android:textColor="@color/bg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <LinearLayout
-        android:layout_marginTop="@dimen/lay_5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:padding="@dimen/lay_10"
-            android:id="@+id/activity_register_detail_sir"
-            android:background="@color/bg"
-            android:text="@string/sir"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:padding="@dimen/lay_10"
-            android:id="@+id/activity_register_detail_lady"
-            android:layout_marginLeft="@dimen/lay_20"
-            android:text="@string/lady"
-            android:background="@color/white"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <TextView
-        android:layout_marginTop="@dimen/lay_10"
-        android:text="@string/birth"
-        android:textColor="@color/bg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <LinearLayout
-        android:layout_marginTop="@dimen/lay_5"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/lay_40">
-        <Spinner
-            android:id="@+id/activity_register_detail_year"
-            android:gravity="center"
-            android:text="@string/year"
-            android:padding="@dimen/lay_10"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-        <Spinner
-            android:id="@+id/activity_register_detail_month"
-            android:padding="@dimen/lay_10"
-            android:gravity="center"
-            android:layout_marginLeft="@dimen/lay_20"
-            android:text="@string/month"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-        <Spinner
-            android:id="@+id/activity_register_detail_day"
-            android:padding="@dimen/lay_10"
-            android:gravity="center"
-            android:layout_marginLeft="@dimen/lay_20"
-            android:text="@string/day"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-    </LinearLayout>
-    <TextView
-        android:layout_marginTop="@dimen/lay_10"
-        android:text="@string/have_child"
-        android:textColor="@color/bg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <LinearLayout
-        android:layout_marginTop="@dimen/lay_5"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
-            android:padding="@dimen/lay_10"
-            android:id="@+id/activity_register_detail_bady_haved"
-            android:background="@color/bg"
-            android:text="@string/have"
-            android:gravity="center"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:padding="@dimen/lay_10"
-            android:id="@+id/activity_register_detail_bady_having"
-            android:layout_marginLeft="@dimen/lay_20"
-            android:text="@string/having"
-            android:gravity="center"
-            android:background="@color/white"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:padding="@dimen/lay_10"
-            android:id="@+id/activity_register_detail_bady_no"
-            android:layout_marginLeft="@dimen/lay_20"
-            android:text="@string/no"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="@string/register_detail_content" />
 
-    <TextView
-        android:textSize="@dimen/font_25"
-        android:layout_marginTop="@dimen/lay_50"
-        android:text="@string/create_my_account"
-        android:padding="@dimen/lay_5"
-        android:background="@drawable/gray_bg"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_10"
+            android:text="@string/email"
+            android:textColor="@color/bg" />
+
+        <EditText
+            android:id="@+id/activity_register_detail_email"
+            android:layout_width="match_parent"
+            android:maxLines="1"
+            android:layout_height="@dimen/lay_30"
+            android:layout_marginTop="@dimen/lay_5"
+            android:background="@drawable/et_selector" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_10"
+            android:text="@string/login_name"
+            android:textColor="@color/bg" />
+
+        <EditText
+            android:maxLines="1"
+            android:id="@+id/activity_register_detail_login_name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lay_30"
+            android:layout_marginTop="@dimen/lay_5"
+            android:background="@drawable/et_selector" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_10"
+            android:text="@string/set_password"
+            android:textColor="@color/bg" />
+
+        <EditText
+            android:maxLines="1"
+            android:id="@+id/activity_register_detail_set_password"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lay_30"
+            android:layout_marginTop="@dimen/lay_5"
+            android:background="@drawable/et_selector" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_10"
+            android:text="@string/confirm_password"
+            android:textColor="@color/bg" />
+
+        <EditText
+            android:maxLines="1"
+            android:inputType="textPassword"
+            android:id="@+id/activity_register_detail_confirm_password"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lay_30"
+            android:layout_marginTop="@dimen/lay_5"
+            android:background="@drawable/et_selector" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_10"
+            android:text="@string/name"
+            android:textColor="@color/bg" />
+
+        <EditText
+            android:maxLines="1"
+            android:id="@+id/activity_register_detail_name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lay_30"
+            android:layout_marginTop="@dimen/lay_5"
+            android:background="@drawable/et_selector" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_10"
+            android:text="@string/gender"
+            android:textColor="@color/bg" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_5">
+
+            <TextView
+                android:id="@+id/activity_register_detail_sir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/bg"
+                android:gravity="center"
+                android:padding="@dimen/lay_10"
+                android:text="@string/sir" />
+
+            <TextView
+                android:id="@+id/activity_register_detail_lady"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/lay_20"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:padding="@dimen/lay_10"
+                android:text="@string/lady" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_10"
+            android:text="@string/birth"
+            android:textColor="@color/bg" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lay_40"
+            android:layout_marginTop="@dimen/lay_5">
+
+            <Spinner
+                android:id="@+id/activity_register_detail_year"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/lay_10"
+                android:text="@string/year" />
+
+            <Spinner
+                android:id="@+id/activity_register_detail_month"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/lay_20"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/lay_10"
+                android:text="@string/month" />
+
+            <Spinner
+                android:id="@+id/activity_register_detail_day"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/lay_20"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/lay_10"
+                android:text="@string/day" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_10"
+            android:text="@string/contact_phone"
+            android:textColor="@color/bg" />
+
+        <EditText
+            android:maxLines="1"
+            android:id="@+id/activity_register_detail_tel"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lay_30"
+            android:layout_marginTop="@dimen/lay_5"
+            android:background="@drawable/et_selector" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_10"
+            android:text="@string/postal_address"
+            android:textColor="@color/bg" />
+
+        <EditText
+            android:maxLines="1"
+            android:id="@+id/activity_register_detail_address"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lay_30"
+            android:layout_marginTop="@dimen/lay_5"
+            android:background="@drawable/et_selector" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_10"
+            android:text="@string/area"
+            android:textColor="@color/bg" />
+
+        <TextView
+            android:text="@string/hongkong"
+            android:gravity="center"
+            android:background="@color/gray"
+            android:layout_width="@dimen/lay_40"
+            android:layout_height="@dimen/lay_40"
+            android:layout_marginTop="@dimen/lay_5" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_10"
+            android:text="@string/have_child"
+            android:textColor="@color/bg" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_5"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/activity_register_detail_bady_haved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/bg"
+                android:gravity="center"
+                android:padding="@dimen/lay_10"
+                android:text="@string/have" />
+
+            <TextView
+                android:id="@+id/activity_register_detail_bady_having"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/lay_20"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:padding="@dimen/lay_10"
+                android:text="@string/having" />
+
+            <TextView
+                android:id="@+id/activity_register_detail_bady_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/lay_20"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:padding="@dimen/lay_10"
+                android:text="@string/no" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/activity_register_detail_create_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/lay_50"
+            android:background="@drawable/gray_bg"
+            android:padding="@dimen/lay_5"
+            android:text="@string/create_my_account"
+            android:textSize="@dimen/font_25" />
     </LinearLayout>
 </ScrollView>

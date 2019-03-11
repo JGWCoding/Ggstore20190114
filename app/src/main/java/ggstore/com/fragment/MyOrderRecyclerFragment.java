@@ -21,7 +21,7 @@ import ggstore.com.R;
 import ggstore.com.activity.OrderDetailsActivity;
 import ggstore.com.base.BaseRecyclerAdapter;
 import ggstore.com.base.BaseRecyclerViewFragment;
-import ggstore.com.base.Constent;
+import ggstore.com.constant.Constent;
 import ggstore.com.bean.CourseBookBean;
 import ggstore.com.utils.AppOperator;
 import ggstore.com.utils.LogUtil;
@@ -34,6 +34,7 @@ public class MyOrderRecyclerFragment extends BaseRecyclerViewFragment {
     @Override
     protected void requestData(final boolean isRefreshing) { //true 为刷新 false 为加载更多
         // todo
+            LogUtil.e("刷新了"+isRefreshing);
         if (isRefreshing) {
             page = 1;
             AppOperator.runOnThread(new Runnable() {
@@ -58,8 +59,7 @@ public class MyOrderRecyclerFragment extends BaseRecyclerViewFragment {
                             mAdapter.resetItem(list);
                             onRequestSuccess();
                             mRefreshLayout.setEnabled(false);    //设置不可以刷新
-                            onNoRequest();
-                            mAdapter.setState(BaseRecyclerAdapter.STATE_HIDE,true);
+                            onNoRequest();  //设置不可以加载更多
                         }
                     });
                 }

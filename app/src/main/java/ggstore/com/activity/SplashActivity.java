@@ -13,13 +13,14 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.blankj.utilcode.util.ScreenUtils;
+
 import java.lang.reflect.Method;
 import java.util.List;
 
 import ggstore.com.R;
 import ggstore.com.utils.AppOperator;
 import ggstore.com.utils.LogUtil;
-import ggstore.com.utils.ScreenUtils;
 
 public class SplashActivity extends Activity {  //TODO 刘海屏需要设配
 

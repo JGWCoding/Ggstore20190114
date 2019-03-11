@@ -14,7 +14,7 @@
         android:layout_width="@dimen/lay_150"
         android:layout_height="@dimen/lay_40" />
     <TextView
-        android:id="@+id/go"
+        android:id="@+id/fragment_shopcart_pay"
         android:layout_margin="@dimen/lay_10"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
@@ -27,7 +27,7 @@
         android:layout_height="@dimen/lay_40" />
     <TextView
         android:id="@+id/fragment_shopcart_price"
-        android:layout_above="@id/go"
+        android:layout_above="@id/fragment_shopcart_pay"
         android:layout_marginRight="@dimen/lay_10"
         android:layout_alignParentRight="true"
         android:textSize="@dimen/font_20"

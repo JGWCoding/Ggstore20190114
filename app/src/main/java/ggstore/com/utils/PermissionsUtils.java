@@ -15,36 +15,34 @@ import android.support.v7.app.AlertDialog;
 import java.util.ArrayList;
 import java.util.List;
 
+import ggstore.com.BaseApplication;
+
 /**
  * 权限工具类
  * 使用:
-            @Override
-            protected void requestPermissions() {
-            //两个日历权限和一个数据读写权限
-            String[] permissions = new String[]{Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-            PermissionsUtils.showSystemSetting = false;//是否支持显示系统设置权限设置窗口跳转
-            //这里的this不是上下文，是Activity对象！
-            PermissionsUtils.getInstance().chekPermissions(this, permissions, permissionsResult);
-
-            }
-            PermissionsUtils.IPermissionsResult permissionsResult = new PermissionsUtils.IPermissionsResult() {
-            @Override
-            public void passPermissons() {
-            Toast.makeText(SplashActivity.this, "权限通过，可以做其他事情!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void forbitPermissons() {
-            //            finish();
-            Toast.makeText(SplashActivity.this, "权限不通过!", Toast.LENGTH_SHORT).show();
-            }
-            };
-            @Override
-            public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            //就多一个参数this
-            PermissionsUtils.getInstance().onRequestPermissionsResult(this, requestCode, permissions, grantResults);
-            }
+ *
+ * @Override protected void requestPermissions() {
+ * //两个日历权限和一个数据读写权限
+ * String[] permissions = new String[]{Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+ * PermissionsUtils.showSystemSetting = false;//是否支持显示系统设置权限设置窗口跳转
+ * //这里的this不是上下文，是Activity对象！
+ * PermissionsUtils.getInstance().chekPermissions(this, permissions, permissionsResult);
+ * <p>
+ * }
+ * PermissionsUtils.IPermissionsResult permissionsResult = new PermissionsUtils.IPermissionsResult() {
+ * @Override public void passPermissons() {
+ * Toast.makeText(SplashActivity.this, "权限通过，可以做其他事情!", Toast.LENGTH_SHORT).show();
+ * }
+ * @Override public void forbitPermissons() {
+ * //            finish();
+ * Toast.makeText(SplashActivity.this, "权限不通过!", Toast.LENGTH_SHORT).show();
+ * }
+ * };
+ * @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+ * super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+ * //就多一个参数this
+ * PermissionsUtils.getInstance().onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+ * }
  */
 
 public class PermissionsUtils {
@@ -70,7 +68,9 @@ public class PermissionsUtils {
         mPermissionsResult = permissionsResult;
 
         if (Build.VERSION.SDK_INT < 23) {//6.0才用动态权限
-            permissionsResult.passPermissons();
+            if (mPermissionsResult!=null) {
+                permissionsResult.passPermissons();
+            }
             return;
         }
 
@@ -78,7 +78,7 @@ public class PermissionsUtils {
         List<String> mPermissionList = new ArrayList<>();
         //逐个判断你要的权限是否已经通过
         for (int i = 0; i < permissions.length; i++) {
-            if (ContextCompat.checkSelfPermission(context, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(BaseApplication.context(), permissions[i]) != PackageManager.PERMISSION_GRANTED) {
                 mPermissionList.add(permissions[i]);//添加还未授予的权限
             }
         }
@@ -88,7 +88,9 @@ public class PermissionsUtils {
             ActivityCompat.requestPermissions(context, permissions, mRequestCode);
         } else {
             //说明权限都已经通过，可以做你想做的事情去
-            permissionsResult.passPermissons();
+            if (mPermissionsResult != null) {
+                permissionsResult.passPermissons();
+            }
             return;
         }
 
@@ -114,11 +116,15 @@ public class PermissionsUtils {
                 if (showSystemSetting) {
                     showSystemPermissionsSettingDialog(context);//跳转到系统设置权限页面，或者直接关闭页面，不让他继续访问
                 } else {
-                    mPermissionsResult.forbitPermissons();
+                    if (mPermissionsResult != null) {
+                        mPermissionsResult.forbitPermissons();
+                    }
                 }
             } else {
                 //全部权限通过，可以进行下一步操作。。。
-                mPermissionsResult.passPermissons();
+                if (mPermissionsResult != null) {
+                    mPermissionsResult.passPermissons();
+                }
             }
         }
 
@@ -139,7 +145,6 @@ public class PermissionsUtils {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             cancelPermissionDialog();
-
                             Uri packageURI = Uri.parse("package:" + mPackName);
                             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
                             context.startActivity(intent);
@@ -152,7 +157,9 @@ public class PermissionsUtils {
                             //关闭页面或者做其他操作
                             cancelPermissionDialog();
                             //mContext.finish();
-                            mPermissionsResult.forbitPermissons();
+                            if (mPermissionsResult != null) {
+                                mPermissionsResult.forbitPermissons();
+                            }
                         }
                     })
                     .create();
@@ -171,9 +178,9 @@ public class PermissionsUtils {
 
 
     public interface IPermissionsResult {
-        void passPermissons();
+        void passPermissons();  //通过权限
 
-        void forbitPermissons();
+        void forbitPermissons();    //禁止权限
     }
 
 

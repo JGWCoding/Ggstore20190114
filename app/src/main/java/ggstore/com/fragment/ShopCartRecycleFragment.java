@@ -18,7 +18,7 @@ import ggstore.com.R;
 import ggstore.com.activity.MainActivity;
 import ggstore.com.base.BaseRecyclerAdapter;
 import ggstore.com.base.BaseRecyclerViewFragment;
-import ggstore.com.base.Constent;
+import ggstore.com.constant.Constent;
 import ggstore.com.bean.CourseBookBean;
 import ggstore.com.bean.ShopCartBean;
 import ggstore.com.utils.AppOperator;
@@ -31,6 +31,7 @@ import okhttp3.Request;
 
 public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
     int page;
+
     @Override
     protected void requestData(final boolean isRefreshing) { //true 为刷新 false 为加载更多
         if (isRefreshing) {
@@ -46,15 +47,16 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
                             ToastUtil.showToast("网络出错");
                             onRequestError();
                         }
+
                         @Override
                         public void requestSuccess(String result) throws Exception {
 //                            ArrayList<CourseBookBean> list = parseData(result);
                             ArrayList<ShopCartBean> list = (ArrayList<ShopCartBean>) ShopCartItemManagerUtil.queryAll();
                             mAdapter.resetItem(list);
                             onRequestSuccess();
-                            mRefreshLayout.setEnabled(false);//设置不可刷新,以为购物车一般只加载一次
+                            mRefreshLayout.setEnabled(false);//设置不可刷新,因为购物车一般只加载一次
                             mRefreshLayout.setCanLoadMore(false);   //设置不可加载更多
-                            mAdapter.setStateCustom(getString(R.string.shop_cart_discount),Gravity.CENTER);
+                            mAdapter.setStateCustom(getString(R.string.shop_cart_discount), Gravity.CENTER);
                         }
                     });
                 }
@@ -95,55 +97,61 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
         @Override
         protected void onBindDefaultViewHolder(final RecyclerView.ViewHolder holder, final ShopCartBean item, final int position) {
             //TODO 绑定视图--->加上数据
-            ((MyViewHolder)holder).title.setText(item.getName());
-            ((MyViewHolder)holder).cancel.setOnClickListener(new View.OnClickListener() {
+            ((MyViewHolder) holder).title.setText(item.getName());
+            ((MyViewHolder) holder).cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (getCount()==1) {
+                    if (getCount() == 1) {
                         ShopCartItemManagerUtil.deleteShopCart(item.getId());
-                        ((ShopCartFragment)getParentFragment()).emptyShopCart();
-                    }else{
-                        LogUtil.e(position+" = "+item);
+                        ((ShopCartFragment) getParentFragment()).emptyShopCart();
+                    } else {
+                        LogUtil.e(position + " = " + item);
 //                        removeItem(position); //position不确定性的,有时候不是对应的item position
                         removeItem(item);
-                        ((MainActivity)getActivity()).badge.setBadgeNumber(ShopCartItemManagerUtil.getSize()-1);
+                        ((MainActivity) getActivity()).badge.setBadgeNumber(ShopCartItemManagerUtil.getSize() - 1);
                         ShopCartItemManagerUtil.deleteShopCart(item.getId());
+                        ((ShopCartFragment) getParentFragment()).setPriceSum();
                     }
                 }
             });
-            ((MyViewHolder) holder).sum.setText(item.getBuy_number()+"");
-            ImageLoader.loadImage(getContext(),((MyViewHolder)holder).img,Constent.base_images_url+item.getImage_url());
-            ((MyViewHolder)holder).add.setOnClickListener(new View.OnClickListener() {
+            ((MyViewHolder) holder).sum.setText(item.getBuy_number() + "");
+            ImageLoader.loadImage(getContext(), ((MyViewHolder) holder).img, Constent.base_images_url + item.getImage_url());
+            ((MyViewHolder) holder).add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String s = ((MyViewHolder) holder).sum.getText().toString();
-                    if (Integer.valueOf(s)>=item.getLimit_number()){
-                        ((MyViewHolder) holder).sum.setText(item.getLimit_number()+"");
+                    if (Integer.valueOf(s) >= item.getLimit_number()) {
+                        ToastUtil.showToast("Exceeding the limit");
+                        ((MyViewHolder) holder).sum.setText(item.getLimit_number() + "");
                         item.setBuy_number(item.getLimit_number());
-                    }else{
-                        ((MyViewHolder) holder).sum.setText(item.getBuy_number()+1+"");
-                        item.setBuy_number(item.getBuy_number()+1);
+                    } else {
+                        ((MyViewHolder) holder).sum.setText(item.getBuy_number() + 1 + "");
+                        item.setBuy_number(item.getBuy_number() + 1);
                     }
                     ShopCartItemManagerUtil.updateShopCart(item);
-                    ((ShopCartFragment)getParentFragment()).setPriceSum();
+                        ((ShopCartFragment) getParentFragment()).setPriceSum();
                 }
             });
-            ((MyViewHolder)holder).del.setOnClickListener(new View.OnClickListener() {
+            ((MyViewHolder) holder).del.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String s = ((MyViewHolder) holder).sum.getText().toString();
-                    if (Integer.valueOf(s)<=1){
-                        ((MyViewHolder) holder).sum.setText(1+"");
+                    if (Integer.valueOf(s) <= 0) {
+                        ((MyViewHolder) holder).sum.setText(0 + "");
+                        item.setBuy_number(0);
+                        ((ShopCartFragment) getParentFragment()).setPriceSum();
+                    } else if (Integer.valueOf(s) <= 1) {
+                        ((MyViewHolder) holder).sum.setText(1 + "");
                         item.setBuy_number(1);
-                    }else{
-                        ((MyViewHolder) holder).sum.setText(item.getBuy_number()-1+"");
-                        item.setBuy_number(item.getBuy_number()-1);
+                    } else {
+                        ((MyViewHolder) holder).sum.setText(item.getBuy_number() - 1 + "");
+                        item.setBuy_number(item.getBuy_number() - 1);
                     }
                     ShopCartItemManagerUtil.updateShopCart(item);
-                    ((ShopCartFragment)getParentFragment()).setPriceSum();
+                    ((ShopCartFragment) getParentFragment()).setPriceSum();
                 }
             });
-            ((MyViewHolder)holder).price.setText(getString(R.string.product_price,(int)item.getPrice()+""));
+            ((MyViewHolder) holder).price.setText(getString(R.string.product_price, (int) item.getPrice() + ""));
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {

@@ -30,7 +30,6 @@
         <activity android:name=".activity.SplashActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <meta-data android:name="android.notch_support" android:value="true"/>
@@ -79,7 +78,12 @@
         </provider>
 
         <activity android:name=".activity.ShopTermsActivity" />
-        <activity android:name=".activity.PaypalActivity" />
+        <activity android:name=".activity.PaypalActivity" >
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
         <activity android:name=".activity.OrderDetailsActivity"/>
     </application>
 

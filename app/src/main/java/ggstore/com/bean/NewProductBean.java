@@ -545,6 +545,68 @@ public class NewProductBean {
         return PromotionNumber;
     }
 
+    @Override
+    public String toString() {
+        return "NewProductBean{" +
+                "ProductID='" + ProductID + '\'' +
+                ", ProductCode='" + ProductCode + '\'' +
+                ", ProductName='" + ProductName + '\'' +
+                ", ProductName_cn='" + ProductName_cn + '\'' +
+                ", PictureL='" + PictureL + '\'' +
+                ", PictureS1=" + PictureS1 +
+                ", PictureS2=" + PictureS2 +
+                ", PictureS3=" + PictureS3 +
+                ", PictureS4=" + PictureS4 +
+                ", PictureS5=" + PictureS5 +
+                ", PictureS6=" + PictureS6 +
+                ", PictureS7=" + PictureS7 +
+                ", PictureS8=" + PictureS8 +
+                ", ProductDescription='" + ProductDescription + '\'' +
+                ", ProductDescription_cn='" + ProductDescription_cn + '\'' +
+                ", SupplierID='" + SupplierID + '\'' +
+                ", CategoryID='" + CategoryID + '\'' +
+                ", BrandID='" + BrandID + '\'' +
+                ", QuantityPerUnit='" + QuantityPerUnit + '\'' +
+                ", UnitPrice='" + UnitPrice + '\'' +
+                ", MarketPrice='" + MarketPrice + '\'' +
+                ", Size='" + Size + '\'' +
+                ", Color='" + Color + '\'' +
+                ", Discount='" + Discount + '\'' +
+                ", UnitWeight='" + UnitWeight + '\'' +
+                ", UnitsInStock='" + UnitsInStock + '\'' +
+                ", UnitsOnOrder='" + UnitsOnOrder + '\'' +
+                ", RecorderLevel='" + RecorderLevel + '\'' +
+                ", ProductAvailable='" + ProductAvailable + '\'' +
+                ", DiscountAvailable='" + DiscountAvailable + '\'' +
+                ", LastModifiedDate='" + LastModifiedDate + '\'' +
+                ", OnStock='" + OnStock + '\'' +
+                ", Ranking='" + Ranking + '\'' +
+                ", SizeList=" + SizeList +
+                ", SizeList_cn=" + SizeList_cn +
+                ", Brand=" + Brand +
+                ", Brand_cn=" + Brand_cn +
+                ", Stutas='" + Stutas + '\'' +
+                ", Hot='" + Hot + '\'' +
+                ", News='" + News + '\'' +
+                ", Remark='" + Remark + '\'' +
+                ", Remark_cn='" + Remark_cn + '\'' +
+                ", Installment='" + Installment + '\'' +
+                ", ExtraDeliveryFee='" + ExtraDeliveryFee + '\'' +
+                ", Limits='" + Limits + '\'' +
+                ", LimitDate='" + LimitDate + '\'' +
+                ", LimitNumber='" + LimitNumber + '\'' +
+                ", WholesalePrice='" + WholesalePrice + '\'' +
+                ", Commission='" + Commission + '\'' +
+                ", ExpiryDate='" + ExpiryDate + '\'' +
+                ", Storage='" + Storage + '\'' +
+                ", Promotion='" + Promotion + '\'' +
+                ", PromotionDate='" + PromotionDate + '\'' +
+                ", PromotionNumber='" + PromotionNumber + '\'' +
+                ", BkUnitPrice='" + BkUnitPrice + '\'' +
+                ", BKMarketPrice='" + BKMarketPrice + '\'' +
+                '}';
+    }
+
     public void setPromotionNumber(String PromotionNumber) {
         this.PromotionNumber = PromotionNumber;
     }

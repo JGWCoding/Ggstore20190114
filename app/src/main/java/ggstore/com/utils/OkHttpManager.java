@@ -1,5 +1,6 @@
 package ggstore.com.utils;
 
+import android.app.Activity;
 import android.text.TextUtils;
 
 import java.io.File;
@@ -18,6 +19,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import ggstore.com.BaseApplication;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Cookie;
@@ -28,7 +30,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import ggstore.com.BaseApplication;
 
 /**
  * Created by Administrator on 2017/10/18.
@@ -137,46 +138,6 @@ public class OkHttpManager {
         return sOkHttpManager.inner_getSync(url);
     }
 
-    public static void runMainSync(final String url) {
-        AppOperator.runOnThread(new Runnable() {
-            @Override
-            public void run() {
-                sOkHttpManager.inner_getSync(url);
-            }
-        });
-    }
-
-    public static void runMainSync(final String url, final DataCallBack dataCallBack) {
-        AppOperator.runOnThread(new Runnable() {
-            @Override
-            public void run() {
-                final Request request = new Request.Builder().url(url).build();
-                try {
-                    //同步请求返回的是response对象
-                    mClient.newCall(request).enqueue(new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                            deliverDataFailure(request, e, dataCallBack);
-                        }
-
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            String result = null;
-                            try {
-                                result = response.body().string();
-                                deliverDataSuccess(result, dataCallBack);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                deliverDataFailure(request, e, dataCallBack);
-                            }
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
     /**
      * GET方式请求的内部逻辑处理方式，同步的方式
@@ -264,7 +225,10 @@ public class OkHttpManager {
     public static void postAsync(String url, Map<String, String> params, DataCallBack callBack) {
         getInstance().inner_postAsync(url, params, callBack);
     }
-
+    public static void postAsync(Activity activity,String url, Map<String, String> params, DataCallBack callBack) {
+        DialogUtil.loading(activity,false);
+        getInstance().inner_postAsync(url, params, callBack);
+    }
     private void inner_postAsync(String url, Map<String, String> params, final DataCallBack callBack) {
 
         RequestBody requestBody = null;
@@ -413,11 +377,13 @@ public class OkHttpManager {
         BaseApplication.getHandler().post(new Runnable() {
             @Override
             public void run() {
+                DialogUtil.dismiss();
                 if (callBack != null) {
                     LogUtil.e("网络请求失败了");
                     ToastUtil.showToast("网络请求失败了");
                     callBack.requestFailure(request, e);
                 }
+
             }
         });
     }
@@ -436,6 +402,7 @@ public class OkHttpManager {
         BaseApplication.getHandler().post(new Runnable() {
             @Override
             public void run() {
+                DialogUtil.dismiss();
                 if (callBack != null) {
                     try {
                         if (TextUtils.isEmpty(result)) { LogUtil.e("请求成功,但没有内容");return;}

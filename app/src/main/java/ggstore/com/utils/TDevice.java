@@ -15,6 +15,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -93,8 +96,8 @@ public class TDevice {
     /**
      * 打开或关闭键盘
      */
-    public static void startOrCloseKeyboard(View view) {
-        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+    public static void startOrCloseKeyboard(View view) {    //InputMethodManager 输入管理会一直存在 要使用BaseApplication.context
+        InputMethodManager imm = (InputMethodManager) BaseApplication.context().getSystemService(Context.INPUT_METHOD_SERVICE);
         // 得到InputMethodManager的实例
         if (imm.isActive()) {
             // 如果开启
@@ -105,8 +108,25 @@ public class TDevice {
 
     public static void closeKeyboard(EditText view) {
         view.clearFocus();
-        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) BaseApplication.context().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+    }
+
+    public static void closeKeyboard(Activity activity) {
+        final InputMethodManager imm = (InputMethodManager) BaseApplication.context().getSystemService(Context.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN,new ResultReceiver(new Handler()){
+            @Override
+            protected void onReceiveResult(int resultCode, Bundle resultData) {
+                if (resultCode == InputMethodManager.RESULT_UNCHANGED_SHOWN
+                        || resultCode == InputMethodManager.RESULT_SHOWN) {
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                }
+            }
+        });
     }
 
     public static void openKeyboard(View view) {
@@ -136,7 +156,7 @@ public class TDevice {
         }
         if (mFocusView == null) return;
         mFocusView.clearFocus();
-        InputMethodManager manager = (InputMethodManager) mFocusView.getContext()
+        InputMethodManager manager = (InputMethodManager) BaseApplication.context()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(mFocusView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }

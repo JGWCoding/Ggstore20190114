@@ -25,7 +25,7 @@ import ggstore.com.activity.MainActivity;
 import ggstore.com.activity.ProductDetailActivity;
 import ggstore.com.base.BaseRecyclerAdapter;
 import ggstore.com.base.BaseRecyclerViewFragment;
-import ggstore.com.base.Constent;
+import ggstore.com.constant.Constent;
 import ggstore.com.bean.NewProductBean;
 import ggstore.com.utils.AppOperator;
 import ggstore.com.utils.ImageLoader;
@@ -111,7 +111,6 @@ public class NewProductRecyclerFragment extends BaseRecyclerViewFragment {
     private ArrayList<NewProductBean> parseData(String result) throws JSONException {
         JSONArray jsonArray = new JSONObject(result).getJSONObject("data").getJSONArray("newProduct");
         ArrayList<NewProductBean> newProductBeans = (ArrayList<NewProductBean>) JSON.parseArray(jsonArray.toString(), NewProductBean.class);
-        LogUtil.e(newProductBeans.get(0).getProductName_cn());
         return newProductBeans;
     }
 
@@ -156,15 +155,23 @@ public class NewProductRecyclerFragment extends BaseRecyclerViewFragment {
             //TODO 绑定视图--->加上数据
             ((MyViewHolder) holder).title.setText(item.getProductName_cn());
             ((MyViewHolder) holder).oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);   //加横线效果
-            ((MyViewHolder) holder).oldPrice.setText(item.getMarketPrice());
-            ((MyViewHolder) holder).newPrice.setText(item.getUnitPrice());
+            if (TextUtils.isEmpty(item.getMarketPrice())) {
+                ((MyViewHolder) holder).oldPrice.setText(null);
+            } else {
+                ((MyViewHolder) holder).oldPrice.setText(getString(R.string.product_price, item.getMarketPrice()));
+            }
+            if (TextUtils.isEmpty(item.getUnitPrice())) {
+                ((MyViewHolder) holder).newPrice.setText(null);
+            } else {
+                ((MyViewHolder) holder).newPrice.setText(getString(R.string.product_price,item.getUnitPrice()));
+            }
             ImageLoader.loadImage(NewProductRecyclerFragment.this.getContext(), ((MyViewHolder) holder).imgDetail, Constent.base_images_url + item.getPictureL());
 //            ((MyViewHolder)holder).imgDetail.setImageURI(Uri.parse(Constent.base_images_url+item.getPictureL()));//只能进行文件的
             ((MyViewHolder) holder).addShop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //TODO 应该上传给服务器
-                    ShopCartItemManagerUtil.updateShopCart(Long.valueOf(item.getProductID()),item.getProductName_cn(),Float.valueOf(item.getUnitPrice()),1,Integer.valueOf(item.getLimitNumber()),item.getPictureL(),item.getProductCode(),item.getRemark_cn(),item.getRemark_cn());
+                    ShopCartItemManagerUtil.addShopCart(item);
                     ((MainActivity) getActivity()).badge.setBadgeNumber(ShopCartItemManagerUtil.getSize());
                 }
             });

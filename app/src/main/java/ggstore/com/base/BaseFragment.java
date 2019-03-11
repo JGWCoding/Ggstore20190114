@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 import ggstore.com.activity.LoginActivity;
 import ggstore.com.utils.ImageLoader;
+import ggstore.com.utils.KeyboardUtil;
 
 /**
  * Fragment基础类
@@ -75,42 +76,73 @@ public abstract class BaseFragment extends Fragment {
         }
         return mRoot;
     }
+
     //控制Fragment显示和隐藏
-    public void addFragment(int frameLayoutId,Fragment fragment) {  //应该对Fragment进行管理,使用一个实例Fragment
+    public void addFragment(int frameLayoutId, Fragment fragment) {  //应该对Fragment进行管理,使用一个实例Fragment
+
         if (fragment != null) {
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            if (fragment.isAdded()) {
-                if (mFragment != null) {    //如果是同一个类不同对象 说明显示的是同一个Fragment
-                    if (mFragment == fragment || mFragment.getClass().getName().equals(fragment.getClass().getName())) {
-                        return;
-                    }else {
-                        transaction.hide(mFragment).show(fragment);
-                    }
-                } else {
-                    transaction.show(fragment);
-                }
-            } else {
-                if (mFragment!=null&&mFragment.getClass().getName().equals(fragment.getClass().getName())) { //添加的是同一个Fragment(不同对象) 不改变
-                    return; //因为这里会出现空白页面不知道什么原因, hide和add 为同一个Fragment不同对象
+            //已经有过该fragment(没有带参数的),
+            if (fragment.getArguments() == null && getChildFragmentManager().findFragmentByTag(fragment.getClass().getName()) != null) {
+                if (mFragment != null && mFragment.getClass().getName().equals(fragment.getClass().getName())) { //添加的是同一个Fragment(不同对象) 不改变
+                    return; // hide和add 为同一个Fragment不同对象
                 }
                 if (mFragment != null) {
-                    transaction.hide(mFragment).add(frameLayoutId, fragment);
+                    Fragment fragmentByTag = getChildFragmentManager().findFragmentByTag(fragment.getClass().getName());
+                    fragment = fragmentByTag;   //必须进行赋值,不然以后隐藏 mFragment 会进行出错
+                    transaction.hide(mFragment).show(fragmentByTag);
                 } else {
-                    transaction.add(frameLayoutId, fragment);
+                    transaction.add(frameLayoutId, fragment, fragment.getClass().getName());
+                }
+            } else {    //有参数的fragment不管有没有添加过相同的显示新的fragment
+                if (mFragment != null) {
+                    if (mFragment.getClass().getName().equals(fragment.getClass().getName())) { //添加的为同一个fragment
+                        transaction.remove(mFragment);
+                        transaction.add(frameLayoutId,fragment,fragment.getClass().getName());
+                    } else {
+                        transaction.hide(mFragment).add(frameLayoutId, fragment,fragment.getClass().getName());
+                    }
+                } else {
+                    transaction.add(frameLayoutId, fragment, fragment.getClass().getName());
                 }
             }
             mFragment = fragment;
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
         }
     }
+//    //控制Fragment显示和隐藏
+//    public void addFragment(int frameLayoutId,Fragment fragment) {  //应该对Fragment进行管理,使用一个实例Fragment
+//        if (fragment != null) {
+//            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//            if (fragment.isAdded()) {
+//                if (mFragment != null) {    //如果是同一个类不同对象 说明显示的是同一个Fragment
+//                    if (mFragment == fragment || mFragment.getClass().getName().equals(fragment.getClass().getName())) {
+//                        return;
+//                    }else {
+//                        transaction.hide(mFragment).show(fragment);
+//                    }
+//                } else {
+//                    transaction.show(fragment);
+//                }
+//            } else {
+//                if (mFragment!=null&&mFragment.getClass().getName().equals(fragment.getClass().getName())) { //添加的是同一个Fragment(不同对象) 不改变
+//                    return; //因为这里会出现空白页面不知道什么原因, hide和add 为同一个Fragment不同对象
+//                }
+//                if (mFragment != null) {
+//                    transaction.hide(mFragment).add(frameLayoutId, fragment);
+//                } else {
+//                    transaction.add(frameLayoutId, fragment,fragment.getClass().getName());
+//                }
+//            }
+//            mFragment = fragment;
+//            transaction.commit();
+//        }
+//    }
 
     public void replaceFragment(int frameLayoutId, Fragment fragment) {
         if (fragment != null) {
-            if (mFragment.getClass().getName().equals(fragment.getClass().getName())){  //替换的为同一个Fragment
-                return;
-            }
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.replace(frameLayoutId, fragment);
+            transaction.replace(frameLayoutId, fragment,fragment.getClass().getName());
             transaction.commit();
             mFragment = fragment;
         }
@@ -121,6 +153,12 @@ public abstract class BaseFragment extends Fragment {
 
     public void startLoginActivity() {
        startActivity(new Intent(getActivity(), LoginActivity.class));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        KeyboardUtil.hideSoftInput(getActivity());
     }
 
     @Override

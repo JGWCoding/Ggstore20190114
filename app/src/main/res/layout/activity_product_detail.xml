@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,108 +22,119 @@
     </android.support.design.widget.AppBarLayout>
 
     <!--<FrameLayout-->
-        <!--android:id="@+id/activity_product_detail_content_frame"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"/>-->
+    <!--android:id="@+id/activity_product_detail_content_frame"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"/>-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ScrollView
-            android:padding="@dimen/lay_10"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/activity_product_detail_title"
-                android:textColor="@color/bg"
-                android:textSize="@dimen/font_20"
-                android:text="嬰兒動物玩具車 - 象"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/activity_product_detail_number"
-                android:text="產品編號 : TEIT11-00342"
-                android:layout_marginTop="@dimen/lay_5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <!--图片指示器-->
-            <android.support.v4.view.ViewPager
-                android:layout_marginTop="@dimen/lay_10"
-                android:id="@+id/activity_product_detail_viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/lay_200">
 
-            </android.support.v4.view.ViewPager>
-            <View
-                android:layout_marginTop="@dimen/lay_10"
-                android:background="@color/gray"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/lay_1"/>
-            <!--产品描述-->
-            <TextView
-                android:layout_marginTop="@dimen/lay_10"
-                android:textColor="@color/bg"
-                android:textSize="@dimen/font_18"
-                android:text="產品描述"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/activity_product_detail_description"
-                android:layout_marginTop="@dimen/lay_5"
-                android:text="特點 ：
-‧由粟米澱粉提取的聚乳酸製作而成
-‧可環保分解
-‧為嬰幼兒設計的可愛動物造型
-‧可自由旋轉的車輪鼓勵運動技能發展
-‧安全圓身設計及無塗裝"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            </LinearLayout>
-        </ScrollView>
-        <TextView
-            android:id="@+id/price"
-            android:visibility="gone"
-            android:text="HK$100"
-            android:layout_above="@id/activity_product_detail_add_shop_cart"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
         <LinearLayout
+            android:id="@+id/price_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/activity_product_detail_add_shop_cart"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:layout_above="@id/activity_product_detail_add_shop_cart"
-            android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
+            android:orientation="horizontal">
+
             <TextView
-                android:text="HK$120"
-                android:textSize="@dimen/font_15"
                 android:id="@+id/activity_product_detail_old_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_above="@id/activity_product_detail_add_shop_cart"
                 android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:text="HK$120"
+                android:textSize="@dimen/font_15" />
+
             <TextView
+                android:id="@+id/activity_product_detail_new_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/activity_product_detail_add_shop_cart"
+                android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/lay_5"
                 android:text="HK$100"
-                android:textSize="@dimen/font_20"
                 android:textColor="@color/bg"
-                android:id="@+id/activity_product_detail_new_price"
-                android:layout_above="@id/activity_product_detail_add_shop_cart"
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/font_20" />
         </LinearLayout>
+
         <ImageView
             android:id="@+id/activity_product_detail_add_shop_cart"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/add_shop_cart"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/lay_10"
             android:layout_width="@dimen/lay_150"
-            android:layout_height="@dimen/lay_30" />
+            android:layout_height="@dimen/lay_30"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/lay_10"
+            android:background="@drawable/add_shop_cart" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/price_ll"
+            android:padding="@dimen/lay_10">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/activity_product_detail_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="嬰兒動物玩具車 - 象"
+                    android:textColor="@color/bg"
+                    android:textSize="@dimen/font_20" />
+
+                <TextView
+                    android:id="@+id/activity_product_detail_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/lay_5"
+                    android:text="產品編號 : TEIT11-00342" />
+                <!--图片指示器-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/activity_product_detail_viewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/lay_200"
+                        android:layout_marginTop="@dimen/lay_10"></android.support.v4.view.ViewPager>
+
+                    <LinearLayout
+                        android:id="@+id/activity_product_detail_tips"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/lay_20"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="@dimen/lay_5"
+                        android:orientation="horizontal"></LinearLayout>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/lay_1"
+                    android:layout_marginTop="@dimen/lay_10"
+                    android:background="@color/gray" />
+                <!--产品描述-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/lay_10"
+                    android:text="產品描述"
+                    android:textColor="@color/bg"
+                    android:textSize="@dimen/font_18" />
+
+                <WebView
+                    android:id="@+id/activity_product_detail_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/lay_5"
+                   />
+            </LinearLayout>
+        </ScrollView>
     </RelativeLayout>
 </LinearLayout>
