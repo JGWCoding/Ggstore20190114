@@ -155,6 +155,17 @@ public class MainActivity extends BaseActivity
     protected void onPause() {
         super.onPause();
         badge.setBadgeNumber(ShopCartItemManagerUtil.getSize());
+        System.gc();    //进行内存回收,保障了内存不会太大
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        LogUtil.e("start gc");
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(ToyEduFragment.class.getName().toString());
+        if (fragment!=null&&fragment.isAdded()&&fragment.isVisible()){
+            getSupportFragmentManager().beginTransaction().remove(fragment).commitNowAllowingStateLoss();
+        }
     }
 
     String title;

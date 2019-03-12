@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
+import ggstore.com.BuildConfig;
 import ggstore.com.R;
 import ggstore.com.base.BaseTitleActivity;
+import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.OkHttpManager;
+import ggstore.com.utils.PayPalHelper;
+import ggstore.com.utils.ToastUtil;
 import okhttp3.Request;
 
 public class ShopTermsActivity extends BaseTitleActivity {
@@ -39,6 +43,7 @@ public class ShopTermsActivity extends BaseTitleActivity {
                 "11. 如因個人問題或本網站系統故障、伺服器問題導致Googoogaga會員未能購買貨品，受影響之Googoogaga會員將不獲補償，不便之處，敬請原諒。\n" +
                 "12. Googoogaga保留最終決定權。\n\n\n";
         ((TextView) findViewById(R.id.shop_terms_details)).setText(text);
+        PayPalHelper.getInstance().startPayPalService(this);//todo  old paypal
         findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,7 +67,12 @@ public class ShopTermsActivity extends BaseTitleActivity {
 //                        onBraintreeSubmit(null);
                     }
                 });
-                startActivity(new Intent(ShopTermsActivity.this,PaypalActivity.class));
+                if (!BuildConfig.DEBUG) {
+                    PayPalHelper.getInstance().doPayPalPay(ShopTermsActivity.this); //todo  old paypal
+                }
+                if (BuildConfig.DEBUG) {
+                    startActivity(new Intent(ShopTermsActivity.this, PaypalActivity.class));
+                }
 
             }
         });
@@ -80,6 +90,45 @@ public class ShopTermsActivity extends BaseTitleActivity {
     }
 
     private String token;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {//todo  old paypal
+        PayPalHelper.getInstance().confirmPayResult(this, requestCode, resultCode, data, new PayPalHelper.DoResult() {
+            @Override
+            public void confirmSuccess(String id) {
+                ToastUtil.showToast("paypal is success");
+                LogUtil.e("支付成功" + id);
+                Intent intent = new Intent(ShopTermsActivity.this, MainActivity.class);
+                intent.putExtra("paypal","success");
+                startActivity(intent);
+            }
+
+            @Override
+            public void confirmNetWorkError() {
+                LogUtil.e("支付失败");
+            }
+
+            @Override
+            public void customerCanceled() {
+                LogUtil.e("支付取消");
+            }
+
+            @Override
+            public void confirmFuturePayment() {
+
+            }
+
+            @Override
+            public void invalidPaymentConfiguration() {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {//todo  old paypal
+        super.onDestroy();
+        PayPalHelper.getInstance().stopPayPalService(this);
+    }
 
 //    public void onBraintreeSubmit(View v) {
 //        DropInRequest dropInRequest = new DropInRequest()

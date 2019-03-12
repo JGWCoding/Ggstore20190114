@@ -203,6 +203,11 @@
     <string name="contact_phone">聯絡電話</string>
     <string name="postal_address">通訊地址</string>
     <string name="hongkong">香港</string>
+    <string name="frist_name_empty">姓氏請填寫</string>
+    <string name="last_name_empty">請填寫名字</string>
+    <string name="phone_empty">請填寫電話</string>
+    <string name="area_empty">請填寫地區</string>
+    <string name="phone_error">填寫的電話格式不對</string>
 
 
 </resources>

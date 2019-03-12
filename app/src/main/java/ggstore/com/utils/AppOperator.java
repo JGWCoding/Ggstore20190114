@@ -22,10 +22,11 @@ public final class AppOperator {
 
     private static int mCorePoolSize = 3;//核心线程数
     private static int mMaximumPoolSize = 10;//最大线程数
+    private static BlockingQueue<Runnable> workQueue;
 
     public AppOperator(int corePoolSize) {
         mCorePoolSize = corePoolSize;
-        mMaximumPoolSize = corePoolSize*2;
+        mMaximumPoolSize = corePoolSize * 2;
     }
 
     /**
@@ -38,7 +39,8 @@ public final class AppOperator {
                 if (mExecutor == null || mExecutor.isShutdown() || mExecutor.isTerminated()) {
                     long keepAliveTime = 60;//保持存活时间--> 当超过了核心线程,其他线程没有task时存活的时间
                     TimeUnit unit = TimeUnit.MILLISECONDS;//时间的单位
-                    BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();//任务队列-->无界队列
+                    //任务队列-->无界队列
+                    workQueue = new LinkedBlockingQueue<>();
                     ThreadFactory threadFactory = Executors.defaultThreadFactory();//线程工厂
                     RejectedExecutionHandler handler = new ThreadPoolExecutor.DiscardPolicy();//异常捕获器-->用不上
 
@@ -64,7 +66,7 @@ public final class AppOperator {
     public static Future<?> submit(Runnable task) {
         //完成初始化
         initThreadPoolExecutor();
-        Future<?> result  = mExecutor.submit(task);
+        Future<?> result = mExecutor.submit(task);
         return result;
     }
 
@@ -72,7 +74,7 @@ public final class AppOperator {
     /**
      * 执行任务
      */
-    public static void execute(Runnable task) {
+    private static void execute(Runnable task) {
         //完成初始化
         initThreadPoolExecutor();
         mExecutor.execute(task);
@@ -81,24 +83,35 @@ public final class AppOperator {
     /**
      * 移除任务
      */
-    public void remove(Runnable task) {
+    public static void remove(Runnable task) {
         //完成初始化
         initThreadPoolExecutor();
         mExecutor.remove(task);
     }
-    
+
+    public static void removeAll() {
+        //完成初始化
+        initThreadPoolExecutor();
+        for (Runnable r : workQueue) {
+            remove(r);
+        }
+    }
+
     public static Executor getExecutor() {
         initThreadPoolExecutor();
         return mExecutor;
     }
 
     public static void runOnThread(Runnable runnable) {
-        initThreadPoolExecutor();
-        mExecutor.execute(runnable);
+//        initThreadPoolExecutor();
+//        mExecutor.execute(runnable);
+        submit(runnable);
     }
+
     public static void runMainThread(Runnable runnable) {
         BaseApplication.mHandler.post(runnable);
     }
+
     public static void shutdown() {
         mExecutor.shutdownNow();
     }

@@ -128,8 +128,7 @@ public class ToyEducationRecyclerFragment extends BaseRecyclerViewFragment {
     }
 
     protected RecyclerView.LayoutManager getLayoutManager() {
-        EducationToyFragment fragment = (EducationToyFragment) getParentFragment();
-        if (fragment.isSingle) {
+        if (EducationToyFragment.isSingle) {
             return new GridLayoutManager(getActivity(), 1);
         } else {
             return new GridLayoutManager(getActivity(), 2);
@@ -144,9 +143,8 @@ public class ToyEducationRecyclerFragment extends BaseRecyclerViewFragment {
 
         @Override
         protected RecyclerView.ViewHolder onCreateDefaultViewHolder(ViewGroup parent, int type) {
-            EducationToyFragment fragment = (EducationToyFragment) getParentFragment();
             CourseAdapter.MyViewHolder myViewHolder;
-            if (fragment.isSingle) {
+            if (EducationToyFragment.isSingle) {
                 myViewHolder = new CourseAdapter.MyViewHolder(LayoutInflater.from(parent.getContext()).
                         inflate(R.layout.recycler_new_product_item, parent, false));
             } else {
@@ -160,8 +158,7 @@ public class ToyEducationRecyclerFragment extends BaseRecyclerViewFragment {
         @Override
         protected void onBindDefaultViewHolder(RecyclerView.ViewHolder holder, final NewProductBean item, int position) {
             //TODO 绑定视图--->加上数据
-            EducationToyFragment fragment = (EducationToyFragment) getParentFragment();
-            if (fragment.isSingle) {
+            if (EducationToyFragment.isSingle) {
 
             } else {
 
@@ -203,8 +200,7 @@ public class ToyEducationRecyclerFragment extends BaseRecyclerViewFragment {
             public MyViewHolder(View view) {
                 super(view);
                 root = view;
-                EducationToyFragment fragment = (EducationToyFragment) getParentFragment();
-                if (fragment.isSingle) {
+                if (EducationToyFragment.isSingle) {
                     detail1 = view.findViewById(R.id.detail1);
                     detail2 = view.findViewById(R.id.detail2);
                 } else {

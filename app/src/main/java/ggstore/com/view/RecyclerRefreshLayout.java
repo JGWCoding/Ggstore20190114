@@ -43,7 +43,7 @@ public class RecyclerRefreshLayout extends SwipeRefreshLayout implements SwipeRe
         super(context, attrs);
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         setOnRefreshListener(this);
-        setColorSchemeResources(R.color.bg_content);
+        setColorSchemeResources(R.color.colorAccent);
     }
 
 
@@ -51,8 +51,9 @@ public class RecyclerRefreshLayout extends SwipeRefreshLayout implements SwipeRe
     public void onRefresh() {
         if (listener != null && !mIsOnLoading) {
             listener.onRefreshing();
-        } else
-            setRefreshing(false);
+        } else {
+            setRefreshing(false);  //设置刷新图标隐藏
+        }
     }
 
 

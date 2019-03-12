@@ -65,6 +65,7 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
                 }
             }
         });
+        mRefreshLayout.setRefreshing(true); //设置刷新图标出来
         mRefreshLayout.onRefresh(); //加载数据  ---- onRefreshing
 //        onRefreshing();
     }
@@ -123,7 +124,7 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
             onLayoutChangeListener = new View.OnLayoutChangeListener() { //需要修复第一次刷新填不满页面,需要提示没数据了
                 @Override
                 public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                    LogUtil.e("布局变化了"); //todo 没有修复到
+                    LogUtil.e("布局变化了");
                     if (mRefreshLayout.getLastVisiblePosition() >= mAdapter.getCount() ) {
                         if (BaseRecyclerAdapter.STATE_HIDE==mAdapter.getState()) {
                             mAdapter.setState(BaseRecyclerAdapter.STATE_NO_MORE, true); //设置没有更多数据

@@ -115,7 +115,6 @@ public class SplashActivity extends Activity {  //TODO 刘海屏需要设配
     }
 
     protected void initData() {
-
         AppOperator.runOnThread(new Runnable() { //必须放在子线程执行
             @Override
             public void run() {
@@ -124,11 +123,21 @@ public class SplashActivity extends Activity {  //TODO 刘海屏需要设配
                 } catch (InterruptedException e) {
 
                 }
-                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+                AppOperator.runMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);   //子线程中finish没有完成
+                        startActivity(intent);
+                        finish();
+                    }
+                });
             }
         });
+    }
 
+    @Override
+    protected void onDestroy() {
+        AppOperator.removeAll();
+        super.onDestroy();
     }
 }

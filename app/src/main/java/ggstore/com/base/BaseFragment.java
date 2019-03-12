@@ -19,6 +19,7 @@ import com.bumptech.glide.RequestManager;
 import java.io.Serializable;
 
 import ggstore.com.activity.LoginActivity;
+import ggstore.com.utils.AppOperator;
 import ggstore.com.utils.ImageLoader;
 import ggstore.com.utils.KeyboardUtil;
 
@@ -163,6 +164,7 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public void onDestroy() {
+        AppOperator.removeAll();
         super.onDestroy();
         mImgLoader = null;
         mBundle = null;

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
+import ggstore.com.utils.AppOperator;
 import ggstore.com.utils.ImageLoader;
 import ggstore.com.utils.KeyboardUtil;
 
@@ -125,6 +126,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        AppOperator.removeAll();
         mIsDestroy = true;
         super.onDestroy();
     }
