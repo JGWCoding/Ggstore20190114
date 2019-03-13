@@ -9,18 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.json.JSONException;
-
 import java.util.ArrayList;
 
+import ggstore.com.BaseApplication;
 import ggstore.com.R;
 import ggstore.com.activity.OrderDetailsActivity;
 import ggstore.com.base.BaseRecyclerAdapter;
 import ggstore.com.base.BaseRecyclerViewFragment;
-import ggstore.com.bean.CourseBookBean;
+import ggstore.com.bean.OrderNumberBean;
 import ggstore.com.constant.Constent;
 import ggstore.com.utils.AppOperator;
 import ggstore.com.utils.OkHttpManager;
+import ggstore.com.utils.OrderNumberManagerUtil;
 import ggstore.com.utils.ToastUtil;
 import okhttp3.Request;
 
@@ -44,11 +44,8 @@ public class MyOrderRecyclerFragment extends BaseRecyclerViewFragment {
 
                         @Override
                         public void requestSuccess(String result) throws Exception {
-//                            ArrayList<CourseBookBean> list = parseData(result);
-                            ArrayList<String> list = new ArrayList<>();
-                            for (int i = 0; i < 10; i++) {
-                                list.add("PO1234567"+i);
-                            }
+//                            ArrayList<OrderNumberBean> list = parseData(result);
+                            ArrayList<OrderNumberBean> list = OrderNumberManagerUtil.queryAll();
                             mAdapter.resetItem(list);
                             onRequestSuccess();
                             mRefreshLayout.setEnabled(false);    //设置不可以刷新
@@ -63,10 +60,6 @@ public class MyOrderRecyclerFragment extends BaseRecyclerViewFragment {
     int page = 1;
     int maxPage = 10;
 
-    private ArrayList<CourseBookBean> parseData(String result) throws JSONException {
-        ArrayList<CourseBookBean> courseBooList = new ArrayList<>();
-        return courseBooList;
-    }
 
     @Override
     protected BaseRecyclerAdapter getRecyclerAdapter() {
@@ -85,7 +78,7 @@ public class MyOrderRecyclerFragment extends BaseRecyclerViewFragment {
         return new GridLayoutManager(getActivity(), 1);
     }
 
-    class CourseAdapter extends BaseRecyclerAdapter<String> {
+    class CourseAdapter extends BaseRecyclerAdapter<OrderNumberBean> {
 
         public CourseAdapter(Context context, int mode) {
             super(context, mode);
@@ -100,14 +93,16 @@ public class MyOrderRecyclerFragment extends BaseRecyclerViewFragment {
 
 
         @Override
-        protected void onBindDefaultViewHolder(RecyclerView.ViewHolder holder, final String item, int position) {
+        protected void onBindDefaultViewHolder(RecyclerView.ViewHolder holder, final OrderNumberBean item, int position) {
             //TODO 绑定视图--->加上数据
-            ((MyViewHolder)holder).title.setText(item);
+            ((MyViewHolder)holder).orderNumber.setText(item.getOrder_id()+"");
+            ((MyViewHolder)holder).productName.setText(item.getName());
+            ((MyViewHolder)holder).date.setText(BaseApplication.context().getString(R.string.order_state_details,item.getOrder_state(),item.getPay_day()));
 
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
-            public TextView title;
+            public TextView orderNumber;
             public TextView productName;
             public TextView date;
             public View root;
@@ -115,7 +110,7 @@ public class MyOrderRecyclerFragment extends BaseRecyclerViewFragment {
             public MyViewHolder(View view) {
                 super(view);
                 root = view;
-                title = view.findViewById(R.id.item_my_order_number);
+                orderNumber = view.findViewById(R.id.item_my_order_number);
                 productName = view.findViewById(R.id.item_my_order_product_name);
                 date = view.findViewById(R.id.item_my_order_date);
             }

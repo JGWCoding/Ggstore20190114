@@ -1,6 +1,9 @@
 package ggstore.com.constant;
 
+import java.util.List;
+
 import ggstore.com.bean.NewProductBean;
+import ggstore.com.bean.ShopCartBean;
 
 public class Constent {
     //sp里面的字段
@@ -37,4 +40,5 @@ public class Constent {
     public static final String testUrl = "https://www.ziweiyang.com/api_get_news.php?recordperpage=8&page=1&sortby=data";
 
     public static NewProductBean newProductBean ; //用来保存bean
+    public static List<ShopCartBean> shopCartList  ;    //用来保存购物清单的物品
 }

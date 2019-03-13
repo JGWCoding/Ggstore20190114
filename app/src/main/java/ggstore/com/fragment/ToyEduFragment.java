@@ -4,7 +4,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -17,7 +17,7 @@ import ggstore.com.utils.LogUtil;
 
 public class ToyEduFragment extends BaseFragment {
 
-    private ViewPager viewPager;
+    public ViewPager viewPager;
 
     @Override
     protected int getLayoutId() {
@@ -36,32 +36,18 @@ public class ToyEduFragment extends BaseFragment {
         tabLayout.setupWithViewPager(viewPager);//这行代码会removeAllTabs,使用Adapter的getPageTitle方法设置tab
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
 
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
         LogUtil.e("start gc");
-        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(ToyEduFragment.class.getName().toString());
-        if (fragment!=null&&fragment.isAdded()&&fragment.isVisible()){
-            getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commitNowAllowingStateLoss();
-        }
     }
 
-    @Override
-    public void onDestroy() {
-        getChildFragmentManager().popBackStack();
-        LogUtil.e("onDestroy");
-        super.onDestroy();
-    }
 
-    class MyFragmentPagerAdapter extends FragmentStatePagerAdapter {
+    public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
         public int[] titles = {R.string.education_toy, R.string.baby_toy, R.string.book};
 //        private FragmentManager fragmetnmanager;  //创建FragmentManager
-        private ArrayList<Fragment> listfragment; //创建一个List<Fragment>
+        public ArrayList<Fragment> listfragment; //创建一个List<Fragment>
 
         //定义构造带两个参数
         public MyFragmentPagerAdapter(FragmentManager fm, ArrayList<Fragment> list) {

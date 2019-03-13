@@ -19,6 +19,7 @@ public class BabyToyFragment extends BaseFragment {
 
     @Override
     protected void initWidget(View root) {
+        isSingle = true;
         addFragment(R.id.fragment_new_product_fragment,new ToyEducationRecyclerFragment2());
         final ImageView singleImg = findView(R.id.fragment_new_product_img);
         final ImageView doubleImg = findView(R.id.fragment_new_product_img2);

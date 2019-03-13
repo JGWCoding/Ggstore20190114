@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 
+import com.blankj.utilcode.util.Utils;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.squareup.leakcanary.LeakCanary;
@@ -14,7 +15,6 @@ import ggstore.com.bean.DaoMaster;
 import ggstore.com.bean.DaoSession;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.ToastUtil;
-import ggstore.com.utils.Utils;
 
 
 /**
@@ -42,7 +42,7 @@ public class BaseApplication extends Application {
         AppEventsLogger.activateApp(this);
         Utils.init(this);   //工具类初始化
 
-        setupDatabase();    //greenDao数据库设置
+        setupShopCartDatabase();    //greenDao数据库设置
 
         if(BuildConfig.DEBUG) {
             if (LeakCanary.isInAnalyzerProcess(this)) {
@@ -53,9 +53,8 @@ public class BaseApplication extends Application {
             LeakCanary.install(this);
             // Normal app init code...
         }
-        Utils.init(this);
     }
-    private void setupDatabase() {
+    private void setupShopCartDatabase() {
         //创建数据库shop.db"
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "shopCart.db", null);
         //获取可写数据库

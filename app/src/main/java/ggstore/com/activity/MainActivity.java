@@ -152,9 +152,24 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        badge.setBadgeNumber(ShopCartItemManagerUtil.getSize());
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
-        badge.setBadgeNumber(ShopCartItemManagerUtil.getSize());
+        LogUtil.e("start gc");
+        ToyEduFragment fragment = (ToyEduFragment) getSupportFragmentManager().findFragmentByTag(ToyEduFragment.class.getName().toString());
+        if (fragment != null && fragment.isAdded() && !fragment.isVisible()) {  //ToyEduFragment 容易造成内存泄漏,viewpager不释放Fragment
+            ArrayList<Fragment> listfragment = ((ToyEduFragment.MyFragmentPagerAdapter) fragment.viewPager.getAdapter()).listfragment;
+            for (int i = 0; i < listfragment.size(); i++) {
+                fragment.viewPager.getAdapter().destroyItem(fragment.viewPager, i,listfragment.get(i));
+            }
+            getSupportFragmentManager().beginTransaction().remove(fragment).commitNowAllowingStateLoss();
+            LogUtil.e("start gc" + fragment.getClass().getName());
+        }
         System.gc();    //进行内存回收,保障了内存不会太大
     }
 
@@ -162,10 +177,6 @@ public class MainActivity extends BaseActivity
     protected void finalize() throws Throwable {
         super.finalize();
         LogUtil.e("start gc");
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(ToyEduFragment.class.getName().toString());
-        if (fragment!=null&&fragment.isAdded()&&fragment.isVisible()){
-            getSupportFragmentManager().beginTransaction().remove(fragment).commitNowAllowingStateLoss();
-        }
     }
 
     String title;
@@ -277,7 +288,7 @@ public class MainActivity extends BaseActivity
         if (TextUtils.isEmpty(toolbar.getTitle())) {
             LogUtil.e("title和icon显示");
             toolbar.setTitle(title);
-        }else{
+        } else {
             toolbar.setTitle(toolbar.getTitle());
         }
         if (icon != null) {
@@ -329,7 +340,7 @@ public class MainActivity extends BaseActivity
         if (TextUtils.isEmpty(searchKeyword)) {
             return;
         }
-        title = searchKeyword ;
+        title = searchKeyword;
         toolbar.setTitle(searchKeyword);
         replaceFragment(R.id.activity_main_content_frame, new SearchFragment());
     }

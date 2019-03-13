@@ -107,7 +107,10 @@ public final class AppOperator {
 //        mExecutor.execute(runnable);
         submit(runnable);
     }
-
+    public static void runOnThreadNoRemove(Runnable runnable) {
+        initThreadPoolExecutor();
+        mExecutor.execute(runnable);
+    }
     public static void runMainThread(Runnable runnable) {
         BaseApplication.mHandler.post(runnable);
     }

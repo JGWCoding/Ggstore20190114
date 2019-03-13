@@ -19,6 +19,7 @@ public class BrandFragment  extends BaseFragment {//todo 布局xml文件和填�
 
     @Override
     protected void initWidget(View root) {
+        isSingle = true;
         addFragment(R.id.fragment_new_product_fragment,new BrandRecyclerRecyclerFragment());
         final ImageView singleImg = findView(R.id.fragment_new_product_img);
         final ImageView doubleImg = findView(R.id.fragment_new_product_img2);

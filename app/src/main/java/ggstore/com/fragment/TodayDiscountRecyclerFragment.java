@@ -121,7 +121,7 @@ public class TodayDiscountRecyclerFragment extends BaseRecyclerViewFragment {
         Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
         if (getActivity() instanceof MainActivity) {
             String title = ((MainActivity) getActivity()).navigationView.getCheckedItem().getTitle().toString();
-            intent.putExtra("title", title); //携带信息
+            intent.putExtra("orderNumber", title); //携带信息
         }
         startActivity(intent);
     }

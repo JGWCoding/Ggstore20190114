@@ -82,12 +82,20 @@ public class ShopCartItemManagerUtil {
             ShopCartBean shopCartBean = queryBuyNumber(id);
             if (shopCartBean.getBuy_number() >= shopCartBean.getLimit_number()) {
                 limitNumberCheckAndReset(id);
-            }else{
-                shopCartBean.setBuy_number(shopCartBean.getBuy_number()+1);
+            } else {
+                shopCartBean.setBuy_number(shopCartBean.getBuy_number() + 1);
             }
             updateShopCart(shopCartBean);
         } else {
-            insertShopCart(new ShopCartBean(Long.valueOf(item.getProductID()), item.getProductName_cn(), Float.valueOf(item.getUnitPrice()), 1,TextUtils.isEmpty(item.getUnitsInStock())?Integer.MAX_VALUE:Integer.valueOf(item.getUnitsInStock()), item.getPictureL(), item.getProductCode(), item.getRemark_cn(), item.getRemark_cn()));
+            insertShopCart(new ShopCartBean(Long.valueOf(item.getProductID()), item.getProductName_cn(), Float.valueOf(item.getUnitPrice()), 1, TextUtils.isEmpty(item.getUnitsInStock()) ? Integer.MAX_VALUE : Integer.valueOf(item.getUnitsInStock()), item.getPictureL(), item.getProductCode(), item.getRemark_cn(), item.getRemark_cn()));
         }
+    }
+
+    public static void deleteShopCartAll() {
+        BaseApplication.getDaoInstant().getShopCartBeanDao().deleteAll();
+    }
+
+    public static void deleteShopCart(List<ShopCartBean> shopCartList) {
+        BaseApplication.getDaoInstant().getShopCartBeanDao().deleteInTx(shopCartList);
     }
 }

@@ -19,6 +19,7 @@ public class SearchFragment extends BaseFragment {//todo 布局xml文件和填�
 
     @Override
     protected void initWidget(View root) {
+        isSingle = true;
         replaceFragment(R.id.fragment_new_product_fragment,new SearchRecyclerRecyclerFragment());
         final ImageView singleImg = findView(R.id.fragment_new_product_img);
         final ImageView doubleImg = findView(R.id.fragment_new_product_img2);

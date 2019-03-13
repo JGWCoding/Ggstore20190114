@@ -124,10 +124,11 @@ public class NewProductRecyclerFragmentTest extends BaseRecyclerViewFragment {
     public void onItemClick(int position, long itemId) {
         NewProductBean item = (NewProductBean) mAdapter.getItem(position);
         Constent.newProductBean = item;
+        LogUtil.e("item is null :"+item==null?"null":item.toString());
         Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
         if (getActivity() instanceof MainActivity) {
             String title = ((MainActivity) getActivity()).navigationView.getCheckedItem().getTitle().toString();
-            intent.putExtra("title", title); //携带信息
+            intent.putExtra("orderNumber", title); //携带信息
         }
         startActivity(intent);
     }

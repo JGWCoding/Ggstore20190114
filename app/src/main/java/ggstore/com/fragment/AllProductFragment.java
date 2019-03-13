@@ -10,7 +10,7 @@ import ggstore.com.base.BaseFragment;
 public class AllProductFragment   extends BaseFragment {//todo 布局xml文件和填充数据不是本身
 
     private TabLayout tabLayout;
-    public static boolean isSingle = true; //是否为单列
+    public static boolean isSingle; //是否为单列
 
     @Override
     protected int getLayoutId() {
@@ -19,6 +19,7 @@ public class AllProductFragment   extends BaseFragment {//todo 布局xml文件�
 
     @Override
     protected void initWidget(View root) {
+        isSingle = true;
         addFragment(R.id.fragment_new_product_fragment,new AllProductRecyclerRecyclerFragment());
         final ImageView singleImg = findView(R.id.fragment_new_product_img);
         final ImageView doubleImg = findView(R.id.fragment_new_product_img2);

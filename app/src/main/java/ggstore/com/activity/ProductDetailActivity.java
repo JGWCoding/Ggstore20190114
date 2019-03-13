@@ -47,9 +47,9 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         if (getIntent() != null) {
-            getSupportActionBar().setTitle(getIntent().getStringExtra("title"));
+            getSupportActionBar().setTitle(getIntent().getStringExtra("orderNumber"));
         }
-//todo 需要加载newProductBean,因为有的数据过来不完整
+        //todo 需要加载newProductBean,因为有的数据过来不完整
         if (!TextUtils.isEmpty(Constent.newProductBean.getProductName_cn())) {
             ((TextView) findViewById(R.id.activity_product_detail_title)).setText(Constent.newProductBean.getProductName_cn());
         }

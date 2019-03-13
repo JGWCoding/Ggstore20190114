@@ -10,17 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.json.JSONException;
-
 import java.util.ArrayList;
 
 import ggstore.com.R;
 import ggstore.com.activity.MainActivity;
 import ggstore.com.base.BaseRecyclerAdapter;
 import ggstore.com.base.BaseRecyclerViewFragment;
-import ggstore.com.constant.Constent;
-import ggstore.com.bean.CourseBookBean;
 import ggstore.com.bean.ShopCartBean;
+import ggstore.com.constant.Constent;
 import ggstore.com.utils.AppOperator;
 import ggstore.com.utils.ImageLoader;
 import ggstore.com.utils.LogUtil;
@@ -50,7 +47,7 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
 
                         @Override
                         public void requestSuccess(String result) throws Exception {
-//                            ArrayList<CourseBookBean> list = parseData(result);
+//                            ArrayList<OrderNumberBean> list = parseData(result);
                             ArrayList<ShopCartBean> list = (ArrayList<ShopCartBean>) ShopCartItemManagerUtil.queryAll();
                             mAdapter.resetItem(list);
                             onRequestSuccess();
@@ -65,10 +62,7 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
     }
 
 
-    private ArrayList<CourseBookBean> parseData(String result) throws JSONException {
-        ArrayList<CourseBookBean> courseBooList = new ArrayList<>();
-        return courseBooList;
-    }
+
 
     @Override
     protected BaseRecyclerAdapter getRecyclerAdapter() {
