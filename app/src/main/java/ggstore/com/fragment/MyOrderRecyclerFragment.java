@@ -69,7 +69,8 @@ public class MyOrderRecyclerFragment extends BaseRecyclerViewFragment {
 
     @Override
     public void onItemClick(int position, long itemId) {
-        String item = (String) getRecyclerAdapter().getItem(position);
+        OrderNumberBean item = (OrderNumberBean) getRecyclerAdapter().getItem(position);
+        Constent.orderNumber = item;
         Intent intent = new Intent(getActivity(),OrderDetailsActivity.class);
         startActivity(intent);
     }

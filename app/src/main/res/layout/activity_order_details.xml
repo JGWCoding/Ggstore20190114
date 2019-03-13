@@ -14,7 +14,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/order_number"
+        android:id="@+id/activity_order_detail_order_number"
         android:layout_toRightOf="@id/order_number_text"
         android:layout_marginTop="@dimen/lay_30"
         android:layout_marginLeft="@dimen/lay_50"
@@ -35,9 +35,9 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/payment_day"
+        android:id="@+id/activity_order_detail_payment_day"
         android:layout_toRightOf="@id/payment_day_text"
-        android:layout_below="@id/order_number"
+        android:layout_below="@id/activity_order_detail_order_number"
         android:layout_marginTop="@dimen/lay_30"
         android:layout_marginLeft="@dimen/lay_50"
         android:textSize="@dimen/font_20"
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:layout_below="@id/payment_day"
+        android:layout_below="@id/activity_order_detail_payment_day"
         android:layout_marginTop="@dimen/lay_30"
         android:layout_marginLeft="@dimen/lay_30"
         android:textSize="@dimen/font_20"
@@ -56,9 +56,9 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/goods"
+        android:id="@+id/activity_order_detail_name"
         android:layout_toRightOf="@id/payment_day_text"
-        android:layout_below="@id/payment_day"
+        android:layout_below="@id/activity_order_detail_payment_day"
         android:layout_marginTop="@dimen/lay_30"
         android:layout_marginLeft="@dimen/lay_50"
         android:layout_marginRight="@dimen/lay_20"
@@ -67,17 +67,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <ImageView
-        android:id="@+id/production"
+        android:id="@+id/activity_order_detail_production_img"
         android:layout_marginTop="@dimen/lay_10"
         android:layout_toRightOf="@id/order_number_text"
-        android:layout_below="@id/goods"
+        android:layout_below="@id/activity_order_detail_name"
         android:layout_marginLeft="@dimen/lay_50"
         android:src="@drawable/product"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:layout_below="@id/production"
+        android:layout_below="@id/activity_order_detail_production_img"
         android:layout_marginTop="@dimen/lay_30"
         android:layout_marginLeft="@dimen/lay_30"
         android:textSize="@dimen/font_20"
@@ -86,9 +86,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:id="@+id/number"
+        android:id="@+id/activity_order_detail_number"
         android:layout_toRightOf="@id/payment_day_text"
-        android:layout_below="@id/production"
+        android:layout_below="@id/activity_order_detail_production_img"
         android:layout_marginTop="@dimen/lay_30"
         android:layout_marginLeft="@dimen/lay_50"
         android:layout_marginRight="@dimen/lay_20"
@@ -98,7 +98,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:layout_below="@id/number"
+        android:layout_below="@id/activity_order_detail_number"
         android:layout_marginTop="@dimen/lay_30"
         android:layout_marginLeft="@dimen/lay_30"
         android:textSize="@dimen/font_20"
@@ -108,9 +108,9 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/price"
+        android:id="@+id/activity_order_detail_price"
         android:layout_toRightOf="@id/payment_day_text"
-        android:layout_below="@id/number"
+        android:layout_below="@id/activity_order_detail_number"
         android:layout_marginTop="@dimen/lay_30"
         android:layout_marginLeft="@dimen/lay_50"
         android:layout_marginRight="@dimen/lay_20"
@@ -120,7 +120,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:layout_below="@id/price"
+        android:layout_below="@id/activity_order_detail_price"
         android:layout_marginTop="@dimen/lay_30"
         android:layout_marginLeft="@dimen/lay_30"
         android:textSize="@dimen/font_20"
@@ -130,8 +130,8 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/order_state"
-        android:layout_below="@id/price"
+        android:id="@+id/activity_order_detail_state"
+        android:layout_below="@id/activity_order_detail_price"
         android:layout_toRightOf="@id/payment_day_text"
         android:layout_marginTop="@dimen/lay_30"
         android:layout_marginLeft="@dimen/lay_50"

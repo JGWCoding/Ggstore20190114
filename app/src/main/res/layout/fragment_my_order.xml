@@ -34,7 +34,7 @@
     </LinearLayout>
     <FrameLayout
         android:id="@+id/fragment_myorder_content"
-        android:layout_above="@id/price"
+        android:layout_above="@id/activity_order_detail_price"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

@@ -3,6 +3,7 @@ package ggstore.com.constant;
 import java.util.List;
 
 import ggstore.com.bean.NewProductBean;
+import ggstore.com.bean.OrderNumberBean;
 import ggstore.com.bean.ShopCartBean;
 
 public class Constent {
@@ -41,4 +42,5 @@ public class Constent {
 
     public static NewProductBean newProductBean ; //用来保存bean
     public static List<ShopCartBean> shopCartList  ;    //用来保存购物清单的物品
+    public static OrderNumberBean orderNumber;//用来保存订单
 }

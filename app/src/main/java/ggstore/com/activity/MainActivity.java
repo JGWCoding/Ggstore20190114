@@ -158,8 +158,8 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
         LogUtil.e("start gc");
         ToyEduFragment fragment = (ToyEduFragment) getSupportFragmentManager().findFragmentByTag(ToyEduFragment.class.getName().toString());
         if (fragment != null && fragment.isAdded() && !fragment.isVisible()) {  //ToyEduFragment 容易造成内存泄漏,viewpager不释放Fragment
@@ -170,7 +170,7 @@ public class MainActivity extends BaseActivity
             getSupportFragmentManager().beginTransaction().remove(fragment).commitNowAllowingStateLoss();
             LogUtil.e("start gc" + fragment.getClass().getName());
         }
-        System.gc();    //进行内存回收,保障了内存不会太大
+//        System.gc();    //进行内存回收,保障了内存不会太大
     }
 
     @Override

@@ -48,6 +48,9 @@ public class OrderNumberManagerUtil {
      */
     public static ArrayList<OrderNumberBean> queryAll() {
         ArrayList<OrderNumberBean> orderNumberBeans = (ArrayList<OrderNumberBean>) BaseApplication.getDaoInstant().getOrderNumberBeanDao().loadAll();
+        if(orderNumberBeans==null||orderNumberBeans.size()==0){
+            return new ArrayList<>();
+        }
         Collections.sort(orderNumberBeans, new Comparator<OrderNumberBean>() {
             @Override
             public int compare(OrderNumberBean o1, OrderNumberBean o2) {

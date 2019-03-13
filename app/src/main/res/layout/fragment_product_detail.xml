@@ -52,7 +52,7 @@
         </LinearLayout>
     </ScrollView>
     <TextView
-        android:id="@+id/price"
+        android:id="@+id/activity_order_detail_price"
         android:layout_centerHorizontal="true"
         android:layout_above="@id/add_shop_cart"
         android:text="HK$120 HK$108"
