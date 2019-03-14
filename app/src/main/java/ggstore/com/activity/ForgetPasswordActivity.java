@@ -58,7 +58,7 @@ public class ForgetPasswordActivity extends BaseTitleActivity {
                         finish();
                         return;
                     }else{
-                        ToastUtil.showToast( jsonObject.optString("msg","fall"));
+                        ToastUtil.showToast(jsonObject.optString("msg","fall"));
                     }
                 } catch (Exception e) {
                     ToastUtil.showToast("获取密码失败,请再一次输入邮箱");

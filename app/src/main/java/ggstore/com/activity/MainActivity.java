@@ -110,7 +110,6 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -158,15 +157,15 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         LogUtil.e("start gc");
         ToyEduFragment fragment = (ToyEduFragment) getSupportFragmentManager().findFragmentByTag(ToyEduFragment.class.getName().toString());
         if (fragment != null && fragment.isAdded() && !fragment.isVisible()) {  //ToyEduFragment 容易造成内存泄漏,viewpager不释放Fragment
-            ArrayList<Fragment> listfragment = ((ToyEduFragment.MyFragmentPagerAdapter) fragment.viewPager.getAdapter()).listfragment;
-            for (int i = 0; i < listfragment.size(); i++) {
-                fragment.viewPager.getAdapter().destroyItem(fragment.viewPager, i,listfragment.get(i));
-            }
+//            ArrayList<Fragment> listfragment = ((ToyEduFragment.MyFragmentPagerAdapter) fragment.viewPager.getAdapter()).listfragment;
+//            for (int i = 0; i < listfragment.size(); i++) {
+//                fragment.viewPager.getAdapter().destroyItem(fragment.viewPager, i,listfragment.get(i));
+//            }
             getSupportFragmentManager().beginTransaction().remove(fragment).commitNowAllowingStateLoss();
             LogUtil.e("start gc" + fragment.getClass().getName());
         }
@@ -331,7 +330,6 @@ public class MainActivity extends BaseActivity
             myOrderfragment();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

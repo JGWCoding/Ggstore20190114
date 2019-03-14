@@ -136,6 +136,14 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mRecyclerView!=null&&onLayoutChangeListener!=null) {
+            mRecyclerView.removeOnLayoutChangeListener(onLayoutChangeListener);
+        }
+    }
+
     protected void onRequestSuccess() {
         onComplete();
     }

@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="?android:actionBarSize"
         android:layout_gravity="top"
-        app:aTitle="主页"
-        ></ggstore.com.view.TitleBar>
+        app:aTitle="主页"/>
 
     <!--填充这个Fagment剩余内容   ViewStub相当于Fragment,只是不能让视图添加两次到ViewStub-->
     <ViewStub

@@ -40,6 +40,6 @@
         android:id="@+id/fragment_shopcart_content"
         android:layout_above="@id/fragment_shopcart_price"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>

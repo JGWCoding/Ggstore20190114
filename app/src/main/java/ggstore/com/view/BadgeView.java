@@ -63,7 +63,6 @@ public class BadgeView extends View {
                     .setBadgeGravity(Gravity.RIGHT | Gravity.TOP)
                     .setBackgroundShape(BadgeView.SHAPTE_ROUND_RECTANGLE);
         }
-
     }
     protected static final String LOG_TAG = "BadgeView";
     // 该控件的背景图形类型
