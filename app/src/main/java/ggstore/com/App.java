@@ -21,7 +21,7 @@ import ggstore.com.utils.ToastUtil;
  * Created by Administrator on 2016/12/21.
  */
 
-public class BaseApplication extends Application {
+public class App extends Application {
 
     public static Handler mHandler;
     static Context _context;
@@ -73,5 +73,10 @@ public class BaseApplication extends Application {
     }
     public static Handler getHandler() {
         return mHandler;
+    }
+
+    @Override
+    public void onTerminate() { //终止
+        super.onTerminate();
     }
 }

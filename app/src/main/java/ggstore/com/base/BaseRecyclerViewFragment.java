@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 
-import ggstore.com.BaseApplication;
+import ggstore.com.App;
 import ggstore.com.R;
 import ggstore.com.utils.KeyboardUtil;
 import ggstore.com.utils.LogUtil;
@@ -25,13 +25,14 @@ import ggstore.com.view.SpacesItemDecoration;
 public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implements
         RecyclerRefreshLayout.SuperRefreshLayoutListener,
         BaseRecyclerAdapter.OnItemClickListener {
-    private final String TAG = this.getClass().getSimpleName();
+    protected final String TAG = this.getClass().getSimpleName();
     protected BaseRecyclerAdapter<T> mAdapter;
     protected RecyclerView mRecyclerView;
     protected RecyclerRefreshLayout mRefreshLayout;
     protected boolean isRefreshing;
     protected String CACHE_NAME = getClass().getName();
-    private View.OnLayoutChangeListener onLayoutChangeListener;
+    protected View.OnLayoutChangeListener onLayoutChangeListener;
+    protected RecyclerView.OnScrollListener onScrollListener;
 
     @Override
     public int getLayoutId() {
@@ -52,10 +53,9 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
         mRecyclerView.setAdapter(mAdapter);     //准备填充这个内容进去
         mAdapter.setOnItemClickListener(this);  //设置item点击事件
         mRefreshLayout.setSuperRefreshLayoutListener(this);
-        mAdapter.setState(BaseRecyclerAdapter.STATE_HIDE, false);
+        mRecyclerView.addItemDecoration(new SpacesItemDecoration(App.context(), DividerItemDecoration.VERTICAL));//设置分割线
         mRecyclerView.setLayoutManager(getLayoutManager()); //设置线性布局
-        mRecyclerView.addItemDecoration(new SpacesItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));//设置分割线
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() { //滑动监听
+        onScrollListener = new RecyclerView.OnScrollListener() { //滑动监听
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -64,7 +64,8 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
                     KeyboardUtil.hideSoftInput(getActivity());  //拖拉状态直接隐藏键盘
                 }
             }
-        });
+        };
+        mRecyclerView.addOnScrollListener(onScrollListener);
         mRefreshLayout.setRefreshing(true); //设置刷新图标出来
         mRefreshLayout.onRefresh(); //加载数据  ---- onRefreshing
 //        onRefreshing();
@@ -100,7 +101,7 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
     }
 
     private void refreshState(int delayMillis) {
-        BaseApplication.mHandler.postDelayed(new Runnable() {
+        App.mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 LogUtil.e("刷新控件了" + mAdapter.getState());
@@ -120,13 +121,13 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
     protected void onComplete() {
         mRefreshLayout.onComplete();
         isRefreshing = false;
-        if (onLayoutChangeListener==null) {
+        if (onLayoutChangeListener == null) {
             onLayoutChangeListener = new View.OnLayoutChangeListener() { //需要修复第一次刷新填不满页面,需要提示没数据了
                 @Override
                 public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                     LogUtil.e("布局变化了");
-                    if (mRefreshLayout.getLastVisiblePosition() >= mAdapter.getCount() ) {
-                        if (BaseRecyclerAdapter.STATE_HIDE==mAdapter.getState()) {
+                    if (mRefreshLayout.getLastVisiblePosition() >= mAdapter.getCount()) {
+                        if (BaseRecyclerAdapter.STATE_HIDE == mAdapter.getState()) {
                             mAdapter.setState(BaseRecyclerAdapter.STATE_NO_MORE, true); //设置没有更多数据
                         }
                     }
@@ -137,12 +138,40 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mRecyclerView!=null&&onLayoutChangeListener!=null) {
-            mRecyclerView.removeOnLayoutChangeListener(onLayoutChangeListener);
+    public void onResume() {
+        super.onResume();
+        if (isRefreshing) {  //如果还是在刷新的话,把刷新UI页面展示出来
+            mRefreshLayout.setRefreshing(true);
         }
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mRefreshLayout.isRefreshing()) {    //把刷新隐藏
+            mRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (mRecyclerView != null && onLayoutChangeListener != null) {
+            mRecyclerView.removeOnLayoutChangeListener(onLayoutChangeListener);
+        }
+        if (mRecyclerView != null && onScrollListener != null) {
+            mRecyclerView.removeOnScrollListener(onScrollListener);
+        }
+        LogUtil.e(this.getClass().getName()+" onDestroy");
+        if (mRecyclerView!=null){   //内存泄漏
+            mRecyclerView.destroyDrawingCache();
+            LogUtil.e(this.getClass().getName()+"mRecyclerView onDestroy");
+//            mRefreshLayout = null;
+//            mRecyclerView = null;
+        }
+    }
+
+
 
     protected void onRequestSuccess() {
         onComplete();
@@ -165,7 +194,7 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
     }
 
     protected RecyclerView.LayoutManager getLayoutManager() {
-        return new LinearLayoutManager(getActivity());
+        return new LinearLayoutManager(App.context());
     }
 
     protected abstract BaseRecyclerAdapter<T> getRecyclerAdapter();

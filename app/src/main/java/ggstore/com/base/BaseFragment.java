@@ -22,12 +22,14 @@ import ggstore.com.activity.LoginActivity;
 import ggstore.com.utils.AppOperator;
 import ggstore.com.utils.ImageLoader;
 import ggstore.com.utils.KeyboardUtil;
+import ggstore.com.utils.LogUtil;
+import ggstore.com.utils.ToastUtil;
 
 /**
  * Fragment基础类
  */
 
-@SuppressWarnings("WeakerAccess")   //弱引用
+@SuppressWarnings("WeakerAccess")   //禁止“Access can be private”的警告
 public abstract class BaseFragment extends Fragment {
     protected Context mContext;
     protected View mRoot;
@@ -86,6 +88,7 @@ public abstract class BaseFragment extends Fragment {
             //已经有过该fragment(没有带参数的),
             if (fragment.getArguments() == null && getChildFragmentManager().findFragmentByTag(fragment.getClass().getName()) != null) {
                 if (mFragment != null && mFragment.getClass().getName().equals(fragment.getClass().getName())) { //添加的是同一个Fragment(不同对象) 不改变
+                    LogUtil.i("添加了同一个Fragment");
                     return; // hide和add 为同一个Fragment不同对象
                 }
                 if (mFragment != null) {
@@ -160,6 +163,7 @@ public abstract class BaseFragment extends Fragment {
     public void onPause() {
         super.onPause();
         KeyboardUtil.hideSoftInput(getActivity());
+        ToastUtil.closeToast();
     }
 
     @Override

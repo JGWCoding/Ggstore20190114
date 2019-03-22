@@ -1,15 +1,15 @@
 package ggstore.com.fragment;
 
-import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.ImageView;
 
 import ggstore.com.R;
 import ggstore.com.base.BaseFragment;
+import ggstore.com.utils.LogUtil;
 
 public class EducationToyFragment extends BaseFragment {
 
-    private TabLayout tabLayout;
     public static boolean isSingle = true; //是否为单列
 
     @Override
@@ -45,4 +45,16 @@ public class EducationToyFragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ToyEducationRecyclerFragment fragment = (ToyEducationRecyclerFragment) getChildFragmentManager().findFragmentByTag(ToyEducationRecyclerFragment.class.getName());
+        if (fragment!=null) {
+            LogUtil.i("回收Fragment:"+this.getClass().getName());
+            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+            fragmentTransaction.remove(fragment).commitNowAllowingStateLoss();
+        }else{
+            LogUtil.i("已经回收 Fragment:"+this.getClass().getName());
+        }
+    }
 }

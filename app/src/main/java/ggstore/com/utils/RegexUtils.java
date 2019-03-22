@@ -57,7 +57,7 @@ public final class RegexUtils {
          */
         public static final String REGEX_USERNAME      = "^[\\w\\u4e00-\\u9fa5]{6,20}(?<!_)$";
         /**
-         * Regex of date which pattern is "yyyy-MM-dd".
+         * Regex of price which pattern is "yyyy-MM-dd".
          */
         public static final String REGEX_DATE          = "^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$";
         /**
@@ -290,7 +290,7 @@ public final class RegexUtils {
     }
 
     /**
-     * Return whether input matches regex of date which pattern is "yyyy-MM-dd".
+     * Return whether input matches regex of price which pattern is "yyyy-MM-dd".
      *
      * @param input The input.
      * @return {@code true}: yes<br>{@code false}: no

@@ -28,10 +28,12 @@ public class OrderNumberBean {
 
     private String pay_day;   //付款日期    26/11/2018
     private String order_state;   //订单状态
-    @Generated(hash = 523349299)
+    private String images;   //网路图片地址集合
+
+    @Generated(hash = 260787736)
     public OrderNumberBean(Long id, long order_id, String name, float price,
             int buy_number, String image_url, String product_number, String pay_day,
-            String order_state) {
+            String order_state, String images) {
         this.id = id;
         this.order_id = order_id;
         this.name = name;
@@ -41,6 +43,7 @@ public class OrderNumberBean {
         this.product_number = product_number;
         this.pay_day = pay_day;
         this.order_state = order_state;
+        this.images = images;
     }
     @Generated(hash = 866707557)
     public OrderNumberBean() {
@@ -98,6 +101,12 @@ public class OrderNumberBean {
     }
     public void setOrder_state(String order_state) {
         this.order_state = order_state;
+    }
+    public String getImages() {
+        return this.images;
+    }
+    public void setImages(String images) {
+        this.images = images;
     }
 
 }

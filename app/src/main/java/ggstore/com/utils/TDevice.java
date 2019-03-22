@@ -29,7 +29,7 @@ import android.widget.EditText;
 import java.io.File;
 import java.util.List;
 
-import ggstore.com.BaseApplication;
+import ggstore.com.App;
 import ggstore.com.R;
 
 /**
@@ -70,7 +70,7 @@ public class TDevice {
     }
 
     public static DisplayMetrics getDisplayMetrics() {
-        return BaseApplication.context().getResources().getDisplayMetrics();
+        return App.context().getResources().getDisplayMetrics();
     }
 
     public static float getScreenHeight() {
@@ -82,14 +82,14 @@ public class TDevice {
     }
 
     public static boolean hasInternet() {
-        ConnectivityManager cm = (ConnectivityManager) BaseApplication.context()
+        ConnectivityManager cm = (ConnectivityManager) App.context()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = cm.getActiveNetworkInfo();
         return info != null && info.isAvailable() && info.isConnected();
     }
 
     public static boolean isPortrait() {
-        return BaseApplication.context().getResources().getConfiguration()
+        return App.context().getResources().getConfiguration()
                 .orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
@@ -97,7 +97,7 @@ public class TDevice {
      * 打开或关闭键盘
      */
     public static void startOrCloseKeyboard(View view) {    //InputMethodManager 输入管理会一直存在 要使用BaseApplication.context
-        InputMethodManager imm = (InputMethodManager) BaseApplication.context().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) App.context().getSystemService(Context.INPUT_METHOD_SERVICE);
         // 得到InputMethodManager的实例
         if (imm.isActive()) {
             // 如果开启
@@ -108,12 +108,12 @@ public class TDevice {
 
     public static void closeKeyboard(EditText view) {
         view.clearFocus();
-        InputMethodManager imm = (InputMethodManager) BaseApplication.context().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) App.context().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
     }
 
     public static void closeKeyboard(Activity activity) {
-        final InputMethodManager imm = (InputMethodManager) BaseApplication.context().getSystemService(Context.INPUT_METHOD_SERVICE);
+        final InputMethodManager imm = (InputMethodManager) App.context().getSystemService(Context.INPUT_METHOD_SERVICE);
         View view = activity.getCurrentFocus();
         if (view == null) {
             view = new View(activity);
@@ -140,7 +140,7 @@ public class TDevice {
      * @return ??
      */
     public static boolean isTablet() {
-        int s = BaseApplication.context().getResources().getConfiguration().screenLayout;
+        int s = App.context().getResources().getConfiguration().screenLayout;
         s &= Configuration.SCREENLAYOUT_SIZE_MASK;
         return s >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
@@ -156,7 +156,7 @@ public class TDevice {
         }
         if (mFocusView == null) return;
         mFocusView.clearFocus();
-        InputMethodManager manager = (InputMethodManager) BaseApplication.context()
+        InputMethodManager manager = (InputMethodManager) App.context()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(mFocusView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
@@ -199,12 +199,12 @@ public class TDevice {
     }
 
     public static int getVersionCode() {
-        return getVersionCode(BaseApplication.context().getPackageName());
+        return getVersionCode(App.context().getPackageName());
     }
 
     public static int getVersionCode(String packageName) {
         try {
-            return BaseApplication.context()
+            return App.context()
                     .getPackageManager()
                     .getPackageInfo(packageName, 0)
                     .versionCode;
@@ -215,10 +215,10 @@ public class TDevice {
 
     public static String getVersionName() {
         try {
-            return BaseApplication
+            return App
                     .context()
                     .getPackageManager()
-                    .getPackageInfo(BaseApplication.context().getPackageName(), 0)
+                    .getPackageInfo(App.context().getPackageName(), 0)
                     .versionName;
         } catch (PackageManager.NameNotFoundException ex) {
             return "undefined version name";
@@ -252,7 +252,7 @@ public class TDevice {
     }
 
     public static boolean isWifiOpen() {
-        ConnectivityManager cm = (ConnectivityManager) BaseApplication
+        ConnectivityManager cm = (ConnectivityManager) App
                 .context().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = cm.getActiveNetworkInfo();
         if (info == null) return false;
@@ -264,7 +264,7 @@ public class TDevice {
     @SuppressWarnings("deprecation")
     public static void copyTextToBoard(String string) {
         if (TextUtils.isEmpty(string)) return;
-        ClipboardManager clip = (ClipboardManager) BaseApplication.context()
+        ClipboardManager clip = (ClipboardManager) App.context()
                 .getSystemService(Context.CLIPBOARD_SERVICE);
         clip.setText(string);
         ToastUtil.showToast(R.string.copy_success);

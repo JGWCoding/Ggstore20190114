@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 import ggstore.com.R;
 import ggstore.com.base.BaseTitleActivity;
-import ggstore.com.constant.Constent;
+import ggstore.com.constant.Constant;
 import ggstore.com.utils.OkHttpManager;
 import ggstore.com.utils.ToastUtil;
 import okhttp3.Request;
@@ -42,7 +42,7 @@ public class ForgetPasswordActivity extends BaseTitleActivity {
 
 
     private void resetPassword(String email) {
-        OkHttpManager.getAsync(Constent.url_forget_password + email, new OkHttpManager.DataCallBack() {
+        OkHttpManager.getAsync(Constant.url_forget_password + email, new OkHttpManager.DataCallBack() {
             @Override
             public void requestFailure(Request request, Exception e) {
                 ToastUtil.showToast("network is error,please check your network");

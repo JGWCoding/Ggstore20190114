@@ -35,6 +35,10 @@ public class RecyclerRefreshLayout extends SwipeRefreshLayout implements SwipeRe
 
     private int mLastY;
 
+    public boolean ismIsOnLoading() {
+        return mIsOnLoading;
+    }
+
     public RecyclerRefreshLayout(Context context) {
         this(context, null);
     }
@@ -43,7 +47,8 @@ public class RecyclerRefreshLayout extends SwipeRefreshLayout implements SwipeRe
         super(context, attrs);
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         setOnRefreshListener(this);
-        setColorSchemeResources(R.color.colorAccent);
+        setColorSchemeColors(context.getResources().getColor(R.color.colorAccent));
+//        setColorSchemeResources(R.color.colorAccent);
     }
 
 
@@ -70,6 +75,7 @@ public class RecyclerRefreshLayout extends SwipeRefreshLayout implements SwipeRe
      * 获取RecyclerView，后续支持AbsListView
      */
     private void getRecycleView() {
+        if (mRecycleView!=null) return;
         if (getChildCount() > 0) {
             View childView = getChildAt(0);
             if (!(childView instanceof RecyclerView)) {
@@ -80,7 +86,6 @@ public class RecyclerRefreshLayout extends SwipeRefreshLayout implements SwipeRe
                 mRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                     @Override
                     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-
                     }
 
                     @Override

@@ -59,6 +59,7 @@ public class SplashActivity extends Activity {  //TODO 刘海屏需要设配
     }
 
     private void notchAdapter() {
+        LogUtil.d("刘海全屏适配开始");
         //全屏显示
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         //沉浸式状态栏
@@ -68,6 +69,7 @@ public class SplashActivity extends Activity {  //TODO 刘海屏需要设配
         //下面图1
         lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
         getWindow().setAttributes(lp);
+        LogUtil.d("刘海全屏适配结束");
     }
 
     @TargetApi(28)
@@ -135,9 +137,4 @@ public class SplashActivity extends Activity {  //TODO 刘海屏需要设配
         });
     }
 
-    @Override
-    protected void onDestroy() {
-        AppOperator.removeAll();
-        super.onDestroy();
-    }
 }

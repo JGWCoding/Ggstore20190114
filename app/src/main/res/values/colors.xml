@@ -40,4 +40,7 @@
     <color name="bg" >#148BA6</color>
     <color name="yellow">#f2f2f2</color>
     <color name="et_content_bg">#FFF2F2F2</color>
+
+
+    <color name="tab_text">#c2e1e8</color>
 </resources>

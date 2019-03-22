@@ -15,7 +15,7 @@ import android.support.v7.app.AlertDialog;
 import java.util.ArrayList;
 import java.util.List;
 
-import ggstore.com.BaseApplication;
+import ggstore.com.App;
 
 /**
  * 权限工具类
@@ -78,7 +78,7 @@ public class PermissionsUtils {
         List<String> mPermissionList = new ArrayList<>();
         //逐个判断你要的权限是否已经通过
         for (int i = 0; i < permissions.length; i++) {
-            if (ContextCompat.checkSelfPermission(BaseApplication.context(), permissions[i]) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(App.context(), permissions[i]) != PackageManager.PERMISSION_GRANTED) {
                 mPermissionList.add(permissions[i]);//添加还未授予的权限
             }
         }

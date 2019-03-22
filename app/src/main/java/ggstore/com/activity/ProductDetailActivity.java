@@ -19,10 +19,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ggstore.com.App;
 import ggstore.com.R;
 import ggstore.com.base.BaseActivity;
-import ggstore.com.constant.Constent;
 import ggstore.com.bean.NewProductBean;
+import ggstore.com.constant.Constant;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.ShopCartItemManagerUtil;
 import ggstore.com.utils.TDevice;
@@ -34,7 +35,7 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
     //TODO 中英文切换功能
     private Badge badge;
     private ArrayList<ImageView> roundList = new ArrayList<ImageView>();
-
+    public static String product_title = "orderNumber";
     @Override
     protected int getContentView() {
         return R.layout.activity_product_detail;
@@ -47,27 +48,27 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         if (getIntent() != null) {
-            getSupportActionBar().setTitle(getIntent().getStringExtra("orderNumber"));
+            getSupportActionBar().setTitle(getIntent().getStringExtra(product_title));
         }
         //todo 需要加载newProductBean,因为有的数据过来不完整
-        if (!TextUtils.isEmpty(Constent.newProductBean.getProductName_cn())) {
-            ((TextView) findViewById(R.id.activity_product_detail_title)).setText(Constent.newProductBean.getProductName_cn());
+        if (!TextUtils.isEmpty(Constant.newProductBean.getProductName_cn())) {
+            ((TextView) findViewById(R.id.activity_product_detail_title)).setText(Constant.newProductBean.getProductName_cn());
         }
-        if (!TextUtils.isEmpty(Constent.newProductBean.getProductCode())) {
-            ((TextView) findViewById(R.id.activity_product_detail_number)).setText(getString(R.string.product_number, Constent.newProductBean.getProductCode()));
+        if (!TextUtils.isEmpty(Constant.newProductBean.getProductCode())) {
+            ((TextView) findViewById(R.id.activity_product_detail_number)).setText(App.context().getString(R.string.product_number, Constant.newProductBean.getProductCode()));
         }
-        if (!TextUtils.isEmpty(Constent.newProductBean.getProductDescription_cn())) {
-//            ((WebView) findViewById(R.id.activity_product_detail_description)).setText(HtmlCompat.fromHtml(Constent.newProductBean.getProductDescription_cn(), HtmlCompat.FROM_HTML_MODE_COMPACT));
+        if (!TextUtils.isEmpty(Constant.newProductBean.getProductDescription_cn())) {
+//            ((WebView) findViewById(R.id.activity_product_detail_description)).setText(HtmlCompat.fromHtml(Constant.newProductBean.getProductDescription_cn(), HtmlCompat.FROM_HTML_MODE_COMPACT));
             WebView webView = (WebView) findViewById(R.id.activity_product_detail_description);
-            String content = "<head><base href=\"" + Constent.base_url + "\" /><base target=\"_blank\" /></head>";
-            if (Constent.newProductBean.getProductDescription_cn().contains("<img src=\"/shop/images")) {
+            String content = "<head><base href=\"" + Constant.base_url + "\" /><base target=\"_blank\" /></head>";
+            if (Constant.newProductBean.getProductDescription_cn().contains("<img src=\"/shop/images")) {
                 //todo 没有改变图片大小
-                Constent.newProductBean.setProductDescription_cn(Constent.newProductBean.getProductDescription_cn().replace("<img src=\"/shop/images", "<img style=\"max-width:100%;height:auto\" src=\"/images"));
+                Constant.newProductBean.setProductDescription_cn(Constant.newProductBean.getProductDescription_cn().replace("<img src=\"/shop/images", "<img style=\"max-width:100%;height:auto\" src=\"/images"));
             }
-            webView.loadDataWithBaseURL(null, content + Constent.newProductBean.getProductDescription_cn(), "text/html", "utf-8", null);
+            webView.loadDataWithBaseURL(null, content + Constant.newProductBean.getProductDescription_cn(), "text/html", "utf-8", null);
         }
 //        addFragment(R.id.activity_product_detail_content_frame,new ProductDetailFragment());
-        ViewPager viewPager = findViewById(R.id.activity_product_detail_viewpager);
+        ViewPager viewPager = findViewById(R.id.activity_order_detail_product_viewpager);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -86,7 +87,7 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
 
             }
         });
-        LinearLayout tips = findViewById(R.id.activity_product_detail_tips);
+        LinearLayout tips = findViewById(R.id.activity_order_detail_product_tips);
         ArrayList<ImageView> imageViews = new ArrayList<>();
         getImages(imageViews);  //小心imageViews为空
         viewPager.setAdapter(new MyImagePagerAdapter(imageViews, viewPager));
@@ -111,27 +112,27 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
             }
         }
 //        TextView price = findViewById(R.id.price);    //不设配android23以下的机型
-//        String content_price = "&nbsp<myfont size=\"15\" color=\"gray\"><del>HK$" +Constent.newProductBean.getMarketPrice()+
-//                "</del></myfont>&nbsp&nbsp&nbsp&nbsp<myfont color=\"#148BA6\" size=\"25\">HK$" +Constent.newProductBean.getUnitPrice()+
+//        String content_price = "&nbsp<myfont size=\"15\" color=\"gray\"><del>HK$" +Constant.newProductBean.getMarketPrice()+
+//                "</del></myfont>&nbsp&nbsp&nbsp&nbsp<myfont color=\"#148BA6\" size=\"25\">HK$" +Constant.newProductBean.getUnitPrice()+
 //                "</myfont>";
 //        price.setText(Html.fromHtml(content_price, null, new HtmlTagHandler("myfont")));
-        if (TextUtils.isEmpty(Constent.newProductBean.getUnitPrice())) {
+        if (TextUtils.isEmpty(Constant.newProductBean.getUnitPrice())) {
             ((TextView) findViewById(R.id.activity_product_detail_new_price)).setVisibility(View.GONE);
         } else {
-            ((TextView) findViewById(R.id.activity_product_detail_new_price)).setText(getString(R.string.product_price, Constent.newProductBean.getUnitPrice()));
+            ((TextView) findViewById(R.id.activity_product_detail_new_price)).setText(App.context().getString(R.string.product_price, Constant.newProductBean.getUnitPrice()));
         }
         TextView oldPrice = (TextView) findViewById(R.id.activity_product_detail_old_price);
-        if (TextUtils.isEmpty(Constent.newProductBean.getMarketPrice())) {
+        if (TextUtils.isEmpty(Constant.newProductBean.getMarketPrice())) {
             oldPrice.setVisibility(View.GONE);
         } else {
             oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);   //加横线效果
-            oldPrice.setText(getString(R.string.product_price, Constent.newProductBean.getMarketPrice()));
+            oldPrice.setText(App.context().getString(R.string.product_price, Constant.newProductBean.getMarketPrice()));
         }
         findViewById(R.id.activity_product_detail_add_shop_cart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO 应该上传给服务器
-                NewProductBean bean = Constent.newProductBean;
+                NewProductBean bean = Constant.newProductBean;
                 ShopCartItemManagerUtil.addShopCart(bean);
                 badge.setBadgeNumber(ShopCartItemManagerUtil.getSize());
             }
@@ -140,51 +141,54 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
 
 
     private void getImages(ArrayList<ImageView> imageViews) {
-        NewProductBean newProductBean = Constent.newProductBean;
-
+        NewProductBean newProductBean = Constant.newProductBean;
+        if (Constant.newProductBean==null){
+            ToastUtil.showToast("ProductDetailActivity 145 line is null");
+            return;
+        }
         if (!TextUtils.isEmpty(newProductBean.getPictureL())) {
             ImageView imageView = new ImageView(this);
-            setImageFromNet(imageView, Constent.base_images_url + newProductBean.getPictureL());
+            setImageFromNet(imageView, Constant.base_images_product_url + newProductBean.getPictureL());
             imageViews.add(imageView);
         }
         if (!TextUtils.isEmpty((CharSequence) newProductBean.getPictureS1())) {
             ImageView imageView = new ImageView(this);
-            setImageFromNet(imageView, Constent.base_images_url + newProductBean.getPictureS1());
+            setImageFromNet(imageView, Constant.base_images_product_url + newProductBean.getPictureS1());
             imageViews.add(imageView);
         }
         if (!TextUtils.isEmpty((CharSequence) newProductBean.getPictureS2())) {
             ImageView imageView = new ImageView(this);
-            setImageFromNet(imageView, Constent.base_images_url + newProductBean.getPictureS2());
+            setImageFromNet(imageView, Constant.base_images_product_url + newProductBean.getPictureS2());
             imageViews.add(imageView);
         }
         if (!TextUtils.isEmpty((CharSequence) newProductBean.getPictureS3())) {
             ImageView imageView = new ImageView(this);
-            setImageFromNet(imageView, Constent.base_images_url + newProductBean.getPictureS3());
+            setImageFromNet(imageView, Constant.base_images_product_url + newProductBean.getPictureS3());
             imageViews.add(imageView);
         }
         if (!TextUtils.isEmpty((CharSequence) newProductBean.getPictureS4())) {
             ImageView imageView = new ImageView(this);
-            setImageFromNet(imageView, Constent.base_images_url + newProductBean.getPictureS4());
+            setImageFromNet(imageView, Constant.base_images_product_url + newProductBean.getPictureS4());
             imageViews.add(imageView);
         }
         if (!TextUtils.isEmpty((CharSequence) newProductBean.getPictureS5())) {
             ImageView imageView = new ImageView(this);
-            setImageFromNet(imageView, Constent.base_images_url + newProductBean.getPictureS5());
+            setImageFromNet(imageView, Constant.base_images_product_url + newProductBean.getPictureS5());
             imageViews.add(imageView);
         }
         if (!TextUtils.isEmpty((CharSequence) newProductBean.getPictureS6())) {
             ImageView imageView = new ImageView(this);
-            setImageFromNet(imageView, Constent.base_images_url + newProductBean.getPictureS6());
+            setImageFromNet(imageView, Constant.base_images_product_url + newProductBean.getPictureS6());
             imageViews.add(imageView);
         }
         if (!TextUtils.isEmpty((CharSequence) newProductBean.getPictureS7())) {
             ImageView imageView = new ImageView(this);
-            setImageFromNet(imageView, Constent.base_images_url + newProductBean.getPictureS7());
+            setImageFromNet(imageView, Constant.base_images_product_url + newProductBean.getPictureS7());
             imageViews.add(imageView);
         }
         if (!TextUtils.isEmpty((CharSequence) newProductBean.getPictureS8())) {
             ImageView imageView = new ImageView(this);
-            setImageFromNet(imageView, Constent.base_images_url + newProductBean.getPictureS8());
+            setImageFromNet(imageView, Constant.base_images_product_url + newProductBean.getPictureS8());
             imageViews.add(imageView);
         }
     }

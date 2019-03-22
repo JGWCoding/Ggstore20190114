@@ -11,13 +11,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import ggstore.com.BaseApplication;
+import ggstore.com.App;
 import ggstore.com.R;
 import ggstore.com.activity.OrderDetailsActivity;
 import ggstore.com.base.BaseRecyclerAdapter;
 import ggstore.com.base.BaseRecyclerViewFragment;
 import ggstore.com.bean.OrderNumberBean;
-import ggstore.com.constant.Constent;
+import ggstore.com.constant.Constant;
 import ggstore.com.utils.AppOperator;
 import ggstore.com.utils.OkHttpManager;
 import ggstore.com.utils.OrderNumberManagerUtil;
@@ -33,8 +33,8 @@ public class MyOrderRecyclerFragment extends BaseRecyclerViewFragment {
             AppOperator.runOnThread(new Runnable() {
                 @Override
                 public void run() {
-                    String url = Constent.base_url + "api_get_coursebook.php?recordperpage=4&page=" + page +
-                            "&sortby=&token=" + Constent.token + "&username=&lang=" + getString(R.string.api_lang);
+                    String url = Constant.base_url + "api_get_coursebook.php?recordperpage=4&page=" + page +
+                            "&sortby=&token=" + Constant.token + "&username=&lang=" + getString(R.string.api_lang);
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
@@ -45,7 +45,7 @@ public class MyOrderRecyclerFragment extends BaseRecyclerViewFragment {
                         @Override
                         public void requestSuccess(String result) throws Exception {
 //                            ArrayList<OrderNumberBean> list = parseData(result);
-                            ArrayList<OrderNumberBean> list = OrderNumberManagerUtil.queryAll();
+                            ArrayList<OrderNumberBean> list = OrderNumberManagerUtil.queryOrderIdOnlyOne();
                             mAdapter.resetItem(list);
                             onRequestSuccess();
                             mRefreshLayout.setEnabled(false);    //设置不可以刷新
@@ -69,8 +69,8 @@ public class MyOrderRecyclerFragment extends BaseRecyclerViewFragment {
 
     @Override
     public void onItemClick(int position, long itemId) {
-        OrderNumberBean item = (OrderNumberBean) getRecyclerAdapter().getItem(position);
-        Constent.orderNumber = item;
+        OrderNumberBean item = (OrderNumberBean) mAdapter.getItem(position);
+        Constant.orderNumber = item;
         Intent intent = new Intent(getActivity(),OrderDetailsActivity.class);
         startActivity(intent);
     }
@@ -97,8 +97,8 @@ public class MyOrderRecyclerFragment extends BaseRecyclerViewFragment {
         protected void onBindDefaultViewHolder(RecyclerView.ViewHolder holder, final OrderNumberBean item, int position) {
             //TODO 绑定视图--->加上数据
             ((MyViewHolder)holder).orderNumber.setText(item.getOrder_id()+"");
-            ((MyViewHolder)holder).productName.setText(item.getName());
-            ((MyViewHolder)holder).date.setText(BaseApplication.context().getString(R.string.order_state_details,item.getOrder_state(),item.getPay_day()));
+            ((MyViewHolder)holder).productName.setText(item.getPay_day());
+            ((MyViewHolder)holder).date.setText(App.context().getString(R.string.order_state_details,item.getOrder_state(),item.getPay_day()));
 
         }
 

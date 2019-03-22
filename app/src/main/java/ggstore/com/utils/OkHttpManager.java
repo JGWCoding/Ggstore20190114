@@ -19,7 +19,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import ggstore.com.BaseApplication;
+import ggstore.com.App;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Cookie;
@@ -52,9 +52,9 @@ public class OkHttpManager {
      * @return
      */
     public synchronized static OkHttpManager getInstance() {
-            if (sOkHttpManager == null) {
-                sOkHttpManager = new OkHttpManager();
-            }
+        if (sOkHttpManager == null) {
+            sOkHttpManager = new OkHttpManager();
+        }
         return sOkHttpManager;
     }
 
@@ -65,7 +65,9 @@ public class OkHttpManager {
         }
         return sOkHttpManager.mClient;
     }
-    public static int NetWorkTimeOut = 60*2;    //多数服务器请求慢
+
+    public static int NetWorkTimeOut = 60 * 2;    //多数服务器请求慢
+
     /**
      * 构造方法
      */
@@ -186,7 +188,7 @@ public class OkHttpManager {
         return result;
     }
 
-    public static void getAsync(String url, DataCallBack callBack) {
+    public static void getAsync(String url, DataCallBack callBack) {    //TODO 需要加载图标显示出来吗
         LogUtil.e("开始请求,url:" + url);
         getInstance().inner_getAsync(url, callBack);
     }
@@ -225,10 +227,12 @@ public class OkHttpManager {
     public static void postAsync(String url, Map<String, String> params, DataCallBack callBack) {
         getInstance().inner_postAsync(url, params, callBack);
     }
-    public static void postAsync(Activity activity,String url, Map<String, String> params, DataCallBack callBack) {
-        DialogUtil.loading(activity,false);
+
+    public static void postAsync(Activity activity, String url, Map<String, String> params, DataCallBack callBack) {
+        DialogUtil.loading(activity, false);
         getInstance().inner_postAsync(url, params, callBack);
     }
+
     private void inner_postAsync(String url, Map<String, String> params, final DataCallBack callBack) {
 
         RequestBody requestBody = null;
@@ -374,7 +378,7 @@ public class OkHttpManager {
         /**
          * 在这里使用异步处理
          */
-        BaseApplication.getHandler().post(new Runnable() {
+        App.getHandler().post(new Runnable() {
             @Override
             public void run() {
                 DialogUtil.dismiss();
@@ -395,22 +399,26 @@ public class OkHttpManager {
      * @param callBack
      */
     private static void deliverDataSuccess(final String result, final DataCallBack callBack) {
-        LogUtil.e("====result====:"+result);
+        LogUtil.e("====result====:" + result);
         /**
          * 在这里使用异步线程处理
          */
-        BaseApplication.getHandler().post(new Runnable() {
+        App.getHandler().post(new Runnable() {
             @Override
             public void run() {
                 DialogUtil.dismiss();
                 if (callBack != null) {
                     try {
-                        if (TextUtils.isEmpty(result)) { LogUtil.e("请求成功,但没有内容");return;}
+                        if (TextUtils.isEmpty(result)) {
+                            LogUtil.e("请求成功,但没有内容");
+                            callBack.requestFailure(new Request.Builder().build(), null);
+                            return;
+                        }
                         callBack.requestSuccess(result);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        LogUtil.e("请求成功,但出错了:"+e.getMessage());
-                        callBack.requestFailure(new Request.Builder().build(),e);
+                        LogUtil.e("请求成功,但出错了:" + e.getMessage());
+                        callBack.requestFailure(new Request.Builder().build(), e);
                     }
                 }
             }

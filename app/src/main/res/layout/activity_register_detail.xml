@@ -137,16 +137,18 @@
             android:layout_height="@dimen/lay_40"
             android:layout_marginTop="@dimen/lay_5">
 
-            <Spinner
+            <TextView
                 android:id="@+id/activity_register_detail_year"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="@color/tr_gray"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="@dimen/lay_10"
                 android:text="@string/year" />
 
-            <Spinner
+            <TextView
+                android:background="@color/tr_gray"
                 android:id="@+id/activity_register_detail_month"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -156,8 +158,9 @@
                 android:padding="@dimen/lay_10"
                 android:text="@string/month" />
 
-            <Spinner
+            <TextView
                 android:id="@+id/activity_register_detail_day"
+                android:background="@color/tr_gray"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/lay_20"
@@ -203,10 +206,11 @@
             android:textColor="@color/bg" />
 
         <TextView
-            android:text="@string/hongkong"
+            android:id="@+id/activity_register_detail_area"
+            android:text="@string/area"
             android:gravity="center"
-            android:background="@color/gray"
-            android:layout_width="@dimen/lay_40"
+            android:background="@color/tr_gray"
+            android:layout_width="@dimen/lay_80"
             android:layout_height="@dimen/lay_40"
             android:layout_marginTop="@dimen/lay_5" />
 

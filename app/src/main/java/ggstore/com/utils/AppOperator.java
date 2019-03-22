@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import ggstore.com.BaseApplication;
+import ggstore.com.App;
 
 /**
  * Created by JuQiu
@@ -112,7 +112,7 @@ public final class AppOperator {
         mExecutor.execute(runnable);
     }
     public static void runMainThread(Runnable runnable) {
-        BaseApplication.mHandler.post(runnable);
+        App.mHandler.post(runnable);
     }
 
     public static void shutdown() {

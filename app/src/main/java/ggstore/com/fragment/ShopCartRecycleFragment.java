@@ -12,12 +12,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import ggstore.com.App;
 import ggstore.com.R;
 import ggstore.com.activity.MainActivity;
 import ggstore.com.base.BaseRecyclerAdapter;
 import ggstore.com.base.BaseRecyclerViewFragment;
 import ggstore.com.bean.ShopCartBean;
-import ggstore.com.constant.Constent;
+import ggstore.com.constant.Constant;
 import ggstore.com.utils.AppOperator;
 import ggstore.com.utils.ImageLoader;
 import ggstore.com.utils.LogUtil;
@@ -36,8 +37,8 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
             AppOperator.runOnThread(new Runnable() {
                 @Override
                 public void run() {
-                    String url = Constent.base_url + "api_get_coursebook.php?recordperpage=4&page=" + page +
-                            "&sortby=&token=" + Constent.token + "&username=&lang=" + getString(R.string.api_lang);
+                    String url = Constant.base_url + "api_get_coursebook.php?recordperpage=4&page=" + page +
+                            "&sortby=&token=" + Constant.token + "&username=&lang=" + App.context().getString(R.string.api_lang);
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
@@ -53,7 +54,7 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
                             onRequestSuccess();
                             mRefreshLayout.setEnabled(false);//设置不可刷新,因为购物车一般只加载一次
                             mRefreshLayout.setCanLoadMore(false);   //设置不可加载更多
-                            mAdapter.setStateCustom(getString(R.string.shop_cart_discount), Gravity.CENTER);
+                            mAdapter.setStateCustom(App.context().getString(R.string.shop_cart_discount), Gravity.CENTER);
                         }
                     });
                 }
@@ -109,7 +110,7 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
                 }
             });
             ((MyViewHolder) holder).sum.setText(item.getBuy_number() + "");
-            ImageLoader.loadImage(getContext(), ((MyViewHolder) holder).img, Constent.base_images_url + item.getImage_url());
+            ImageLoader.loadImage(App.context(), ((MyViewHolder) holder).img, Constant.base_images_product_url + item.getImage_url());
             ((MyViewHolder) holder).add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -145,7 +146,7 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
                     ((ShopCartFragment) getParentFragment()).setPriceSum();
                 }
             });
-            ((MyViewHolder) holder).price.setText(getString(R.string.product_price, (int) item.getPrice() + ""));
+            ((MyViewHolder) holder).price.setText(App.context().getString(R.string.product_price, (int) item.getPrice() + ""));
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {

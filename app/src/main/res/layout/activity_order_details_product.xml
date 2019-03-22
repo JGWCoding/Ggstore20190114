@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@id/price_ll"
+    android:padding="@dimen/lay_10">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/activity_order_detail_product_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="嬰兒動物玩具車 - 象"
+            android:textColor="@color/bg"
+            android:textSize="@dimen/font_20" />
+
+        <TextView
+            android:id="@+id/activity_order_detail_product_product_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_5"
+            android:text="產品編號 : TEIT11-00342" />
+        <!--图片指示器-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/activity_order_detail_product_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/lay_200"
+                android:layout_marginTop="@dimen/lay_10" />
+
+            <LinearLayout
+                android:id="@+id/activity_order_detail_product_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/lay_20"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/lay_180"
+                android:orientation="horizontal" />
+            <TextView
+                android:id="@+id/activity_order_detail_product_text_price"
+                style="@style/title_style"
+                android:layout_below="@id/activity_order_detail_product_viewpager"
+                android:layout_margin="@dimen/lay_10"
+                android:text="@string/unit_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/activity_order_detail_product_price"
+                style="@style/title_style"
+                android:textColor="@color/black"
+                android:layout_below="@id/activity_order_detail_product_viewpager"
+                android:layout_marginTop="@dimen/lay_10"
+                android:layout_marginLeft="@dimen/lay_100"
+                android:text="@string/product_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                style="@style/title_style"
+                android:layout_below="@id/activity_order_detail_product_price"
+                android:layout_margin="@dimen/lay_10"
+                android:text="@string/number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/activity_order_detail_product_number"
+                style="@style/title_style"
+                android:textColor="@color/black"
+                android:layout_below="@id/activity_order_detail_product_price"
+                android:layout_marginTop="@dimen/lay_10"
+                android:layout_marginLeft="@dimen/lay_100"
+                android:text="@string/product_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/title_style"
+                android:layout_below="@id/activity_order_detail_product_number"
+                android:layout_margin="@dimen/lay_10"
+                android:text="@string/subtotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/activity_order_detail_product_total"
+                style="@style/title_style"
+                android:textColor="@color/black"
+                android:layout_below="@id/activity_order_detail_product_number"
+                android:layout_marginTop="@dimen/lay_10"
+                android:layout_marginLeft="@dimen/lay_100"
+                android:text="@string/product_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</ScrollView>

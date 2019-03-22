@@ -20,13 +20,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import ggstore.com.App;
 import ggstore.com.R;
 import ggstore.com.activity.MainActivity;
 import ggstore.com.activity.ProductDetailActivity;
 import ggstore.com.base.BaseRecyclerAdapter;
 import ggstore.com.base.BaseRecyclerViewFragment;
-import ggstore.com.constant.Constent;
 import ggstore.com.bean.NewProductBean;
+import ggstore.com.constant.Constant;
 import ggstore.com.utils.AppOperator;
 import ggstore.com.utils.ImageLoader;
 import ggstore.com.utils.LogUtil;
@@ -45,7 +46,7 @@ public class SearchRecyclerRecyclerFragment extends BaseRecyclerViewFragment {
             AppOperator.runOnThread(new Runnable() {
                 @Override
                 public void run() {
-                    String url = Constent.url_search_product + ((MainActivity) getActivity()).toolbar.getTitle() + "&p=" + page;
+                    String url = Constant.url_search_product + ((MainActivity) getActivity()).toolbar.getTitle() + "&p=" + page;
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
@@ -61,9 +62,9 @@ public class SearchRecyclerRecyclerFragment extends BaseRecyclerViewFragment {
                             }
                             String productCount = new JSONObject(result).optJSONObject("data").optString("productCount");
                             maxPage = (int) Math.ceil(Float.valueOf(productCount) / 20);
-                            LogUtil.e(maxPage + "");
                             ArrayList<NewProductBean> list = parseData(result);
                             mAdapter.resetItem(list);
+                            LogUtil.e(maxPage + "list:"+ list+" list.size:"+(list==null?"null":list.size()));
                             onRequestSuccess();
                         }
                     });
@@ -79,7 +80,7 @@ public class SearchRecyclerRecyclerFragment extends BaseRecyclerViewFragment {
             AppOperator.runOnThread(new Runnable() {
                 @Override
                 public void run() {
-                    String url = Constent.url_search_product + ((MainActivity) getActivity()).toolbar.getTitle() + "&p=" + page;
+                    String url = Constant.url_search_product + ((MainActivity) getActivity()).toolbar.getTitle() + "&p=" + page;
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
@@ -104,7 +105,7 @@ public class SearchRecyclerRecyclerFragment extends BaseRecyclerViewFragment {
     int maxPage = 10;
 
     private ArrayList<NewProductBean> parseData(String result) throws JSONException {
-        JSONArray jsonArray = new JSONObject(result).getJSONObject("data").getJSONArray("productList");
+        JSONArray jsonArray = new JSONObject(result).optJSONObject("data").optJSONArray("productList");
         ArrayList<NewProductBean> newProductBeans = (ArrayList<NewProductBean>) JSON.parseArray(jsonArray.toString(), NewProductBean.class);
         return newProductBeans;
     }
@@ -118,11 +119,11 @@ public class SearchRecyclerRecyclerFragment extends BaseRecyclerViewFragment {
     @Override
     public void onItemClick(int position, long itemId) {
         NewProductBean item = (NewProductBean) mAdapter.getItem(position);
-        Constent.newProductBean = item;
+        Constant.newProductBean = item;
         Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
         if (getActivity() instanceof MainActivity) {
             String title = ((MainActivity) getActivity()).navigationView.getCheckedItem().getTitle().toString();
-            intent.putExtra("orderNumber", title); //携带信息
+            intent.putExtra(ProductDetailActivity.product_title, title); //携带信息
         }
         startActivity(intent);
     }
@@ -172,15 +173,14 @@ public class SearchRecyclerRecyclerFragment extends BaseRecyclerViewFragment {
             if (TextUtils.isEmpty(item.getMarketPrice())) {
                 ((MyViewHolder) holder).oldPrice.setText(null);
             } else {
-                ((MyViewHolder) holder).oldPrice.setText(getString(R.string.product_price, item.getMarketPrice()));
+                ((MyViewHolder) holder).oldPrice.setText(App.context().getString(R.string.product_price, item.getMarketPrice()));
             }
             if (TextUtils.isEmpty(item.getUnitPrice())) {
                 ((MyViewHolder) holder).newPrice.setText(null);
             } else {
-                ((MyViewHolder) holder).newPrice.setText(getString(R.string.product_price,item.getUnitPrice()));
+                ((MyViewHolder) holder).newPrice.setText(App.context().getString(R.string.product_price,item.getUnitPrice()));
             }
-            ImageLoader.loadImage(SearchRecyclerRecyclerFragment.this.getContext(), ((MyViewHolder) holder).imgDetail, Constent.base_images_url + item.getPictureL());
-//            ((MyViewHolder)holder).imgDetail.setImageURI(Uri.parse(Constent.base_images_url+item.getPictureL()));//只能进行文件的
+            ImageLoader.loadImage(App.context(), ((MyViewHolder) holder).imgDetail, Constant.base_images_product_url + item.getPictureL());
             ((MyViewHolder) holder).addShop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

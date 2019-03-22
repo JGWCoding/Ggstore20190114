@@ -11,7 +11,6 @@ import ggstore.com.activity.MainActivity;
 import ggstore.com.activity.ReceiveAddressActivity;
 import ggstore.com.base.BaseFragment;
 import ggstore.com.bean.ShopCartBean;
-import ggstore.com.constant.Constent;
 import ggstore.com.utils.ShopCartItemManagerUtil;
 
 public class ShopCartListFragment extends BaseFragment {
@@ -46,7 +45,6 @@ public class ShopCartListFragment extends BaseFragment {
     }
     public void setPriceSum(){
         List<ShopCartBean> shopCartBeans = ShopCartItemManagerUtil.queryAll();
-        Constent.shopCartList = shopCartBeans;
         int priceSum = 50;
         for (ShopCartBean bean:shopCartBeans){
             priceSum += bean.getPrice()*bean.getBuy_number();

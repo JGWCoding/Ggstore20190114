@@ -1,12 +1,9 @@
 package ggstore.com.constant;
 
-import java.util.List;
-
 import ggstore.com.bean.NewProductBean;
 import ggstore.com.bean.OrderNumberBean;
-import ggstore.com.bean.ShopCartBean;
 
-public class Constent {
+public class Constant {
     //sp里面的字段
     public static final String is_remeber = "is_remeber";
     public static final String username_passwrod = "username_passwrod";
@@ -21,7 +18,9 @@ public class Constent {
     public static  String user_name = "";   //登录后的具体账号取得名字
     public static  String token = "";
     public static final String base_url = "http://shop.googoogaga.com.hk/";
-    public static final String base_images_url = "http://shop.googoogaga.com.hk/images/product/";
+//    public static final String base_images_product_url = "http://shop.googoogaga.com.hk/images/product/";
+    public static final String base_images_product_url = base_url+ "images/product/";
+    public static final String base_images_brand_url = base_url+ "images/brand/";
 
 
 
@@ -37,10 +36,11 @@ public class Constent {
     public static final String url_register = base_url +"api/register.php";
     public static final String url_login = base_url +"api/login.php";
     public static final String url_forget_password = base_url +"api/resetPassword.php?email=";
+    public static final String url_brand_image = base_url +"api/getBrands.php";
+    public static final String url_brand_cate = base_url +"api/getBrandCate.php?bid=";
 
     public static final String testUrl = "https://www.ziweiyang.com/api_get_news.php?recordperpage=8&page=1&sortby=data";
 
     public static NewProductBean newProductBean ; //用来保存bean
-    public static List<ShopCartBean> shopCartList  ;    //用来保存购物清单的物品
     public static OrderNumberBean orderNumber;//用来保存订单
 }

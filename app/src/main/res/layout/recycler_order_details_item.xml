@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:paddingTop="@dimen/lay_10"
+    android:paddingBottom="@dimen/lay_10"
+    android:layout_height="@dimen/lay_60">
+    <ImageView
+        android:id="@+id/recycler_order_details_item_img"
+        android:src="@drawable/product"
+        android:layout_weight="162"
+        android:paddingLeft="@dimen/lay_5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/recycler_order_details_item_title"
+        android:layout_weight="462"
+        android:paddingLeft="@dimen/lay_5"
+        android:text="嬰兒動物玩具車 - 象 (編號:TEIT11-00342)"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/recycler_order_details_item_number"
+        android:layout_weight="129"
+        android:paddingLeft="@dimen/lay_5"
+        android:text="12"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/recycler_order_details_item_price"
+        android:layout_weight="200"
+        android:text="@string/product_price"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:src="@drawable/right_arrow"
+        android:layout_weight="127"
+        android:paddingRight="@dimen/lay_10"
+        android:paddingLeft="@dimen/lay_10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+</LinearLayout>

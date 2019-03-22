@@ -9,7 +9,6 @@ import ggstore.com.base.BaseFragment;
 
 public class NewProductFragment extends BaseFragment {
 
-    private TabLayout tabLayout;
     public static boolean isSingle = true; //是否为单列
 
     @Override

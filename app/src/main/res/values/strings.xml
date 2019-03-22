@@ -174,7 +174,7 @@
     <string name="first_name">姓氏</string>
     <string name="last_name">名字</string>
     <string name="phone">電話</string>
-    <string name="area">地區</string>
+    <string name="area">區域</string>
     <string name="back">返回</string>
     <string name="submit">提交</string>
     <string name="shop_terms">購物條款</string>
@@ -208,6 +208,12 @@
     <string name="phone_empty">請填寫電話</string>
     <string name="area_empty">請填寫地區</string>
     <string name="phone_error">填寫的電話格式不對</string>
+    <string name="product_details">貨品詳情</string>
+    <string name="product">貨品</string>
+    <string name="number">數量</string>
+    <string name="subtotal">小計</string>
+    <string name="pay_date">付款日期</string>
+    <string name="unit_price">單價</string>
 
 
 </resources>

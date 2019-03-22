@@ -44,6 +44,7 @@ public class PaypalActivity extends BaseActivity {
                 Intent intent = new Intent(PaypalActivity.this, MainActivity.class);
                 intent.putExtra("paypal","success");
                 startActivity(intent);
+                finish();
             }
 
             @Override

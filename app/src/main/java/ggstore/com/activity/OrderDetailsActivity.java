@@ -1,23 +1,19 @@
 package ggstore.com.activity;
 
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import ggstore.com.BaseApplication;
+import java.util.ArrayList;
+
 import ggstore.com.R;
 import ggstore.com.base.BaseTitleActivity;
-import ggstore.com.constant.Constent;
+import ggstore.com.bean.OrderNumberBean;
+import ggstore.com.constant.Constant;
+import ggstore.com.fragment.OrderDetailsRecyclerFragment;
+import ggstore.com.utils.AppOperator;
+import ggstore.com.utils.OrderNumberManagerUtil;
 import ggstore.com.utils.ToastUtil;
 
 public class OrderDetailsActivity extends BaseTitleActivity {
-
-    private TextView orderNumber;
-    private TextView paymentDay;
-    private TextView name;
-    private ImageView productImg;
-    private TextView number;
-    private TextView price;
-    private TextView state;
 
     @Override
     protected CharSequence getContentTitle() {
@@ -32,28 +28,34 @@ public class OrderDetailsActivity extends BaseTitleActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        orderNumber = findViewById(R.id.activity_order_detail_order_number);
-        paymentDay = findViewById(R.id.activity_order_detail_payment_day);
-        name = findViewById(R.id.activity_order_detail_name);
-        productImg = findViewById(R.id.activity_order_detail_production_img);
-        number = findViewById(R.id.activity_order_detail_number);
-        price = findViewById(R.id.activity_order_detail_price);
-        state = findViewById(R.id.activity_order_detail_state);
+        if (Constant.orderNumber == null) {
+            ToastUtil.showToast("ordernumber is null");
+            return;
+        }
+        TextView orderNumber = findViewById(R.id.activity_order_detail_number);
+        orderNumber.setText(Constant.orderNumber.getOrder_id()+"");
+        AppOperator.runOnThread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<OrderNumberBean> orderNumberBeans = OrderNumberManagerUtil.queryOrderId(Constant.orderNumber.getOrder_id());
+                float total = 0;
+                for (OrderNumberBean bean:orderNumberBeans){
+                    total+=(bean.getBuy_number()*bean.getPrice());
+                }
+                final int finalTotal = (int) total;
+                AppOperator.runMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((TextView)findViewById(R.id.activity_order_detail_total)).setText(getString(R.string.total_price, finalTotal));
+                    }
+                });
+            }
+        });
+        addFragment(R.id.activity_order_detail_fragment,new OrderDetailsRecyclerFragment());
     }
 
     @Override
     protected void initData() {
-        if (Constent.orderNumber == null) {
-            ToastUtil.showToast("ordernumber is null");
-            return;
-        }
 
-        orderNumber.setText(Constent.orderNumber.getOrder_id() + "");
-        paymentDay.setText(Constent.orderNumber.getPay_day());
-        name.setText(Constent.orderNumber.getName());
-        mImageLoader.load(Constent.orderNumber.getImage_url()).into(productImg);
-        number.setText(Constent.orderNumber.getBuy_number());
-        price.setText(BaseApplication.context().getString(R.string.product_price,Constent.orderNumber.getPrice()+""));
-        state.setText(Constent.orderNumber.getOrder_state());
     }
 }

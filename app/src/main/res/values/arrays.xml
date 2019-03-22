@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="city">
+        <item>香港</item>
+        　　
+        <item>九龍</item>
+        　　
+        <item>新界</item>
+        　　
+        <item>離島</item>
+        　　
+        <item>其他</item>
+        　　
+    </string-array>
+    　　
+</resources>

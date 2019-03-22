@@ -31,7 +31,7 @@ import java.util.Map;
 import ggstore.com.BuildConfig;
 import ggstore.com.R;
 import ggstore.com.base.BaseActivity;
-import ggstore.com.constant.Constent;
+import ggstore.com.constant.Constant;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.OkHttpManager;
 import ggstore.com.utils.PermissionsUtils;
@@ -150,7 +150,7 @@ public class LoginActivity extends BaseActivity {
             Map<String, String> map = new HashMap<>();
             map.put("email", etName.getText().toString());
             map.put("pwd", etPassword.getText().toString());
-            OkHttpManager.postAsync(this, Constent.url_login, map, new OkHttpManager.DataCallBack() {
+            OkHttpManager.postAsync(this, Constant.url_login, map, new OkHttpManager.DataCallBack() {
                 @Override
                 public void requestFailure(Request request, Exception e) {
                     ToastUtil.showToast("network is error" + ": password = " + etPassword.getText());

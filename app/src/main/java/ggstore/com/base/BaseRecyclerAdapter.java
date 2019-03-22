@@ -17,6 +17,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ggstore.com.App;
 import ggstore.com.R;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.TDevice;
@@ -70,7 +71,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
 
     public BaseRecyclerAdapter(Context context, int mode) { //mode  NEITHER ONLY_HEADER ONLY_FOOTER  BOTH_HEADER_FOOTER
         mItems = new ArrayList<>();
-        this.mContext = context;
+        this.mContext = App.context();
         this.mInflater = LayoutInflater.from(context);
         BEHAVIOR_MODE = mode;      //控制是否有加载视图和刷新视图
         mState = STATE_HIDE;    //一开始初始化页面为刷新页面
@@ -175,11 +176,11 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
                             if (custom_gravity == Gravity.RIGHT) {
                                 fvh.tv_footer.setWidth((int) (fvh.itemView.getWidth()));
                                 fvh.tv_footer.setGravity(Gravity.RIGHT);
-                                fvh.tv_footer.setPadding(0,0, (int) TDevice.dp2px(20),0);
+                                fvh.tv_footer.setPadding(0, 0, (int) TDevice.dp2px(20), 0);
                             } else if (custom_gravity == Gravity.LEFT) {
                                 fvh.tv_footer.setWidth((int) (fvh.itemView.getWidth()));
                                 fvh.tv_footer.setGravity(Gravity.LEFT);
-                                fvh.tv_footer.setPadding((int) TDevice.dp2px(20),0, 0,0);
+                                fvh.tv_footer.setPadding((int) TDevice.dp2px(20), 0, 0, 0);
                             }
                         }
                         break;
@@ -324,6 +325,10 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
     }
 
     public void updateItem(int position) {
+        if (position < 0) { //修复没有数据的时候 position=-1 更新视图
+            notifyDataSetChanged();
+            return;
+        }
         if (getItemCount() > position) {
             notifyItemChanged(position);
         }
@@ -356,6 +361,8 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
         if (items != null) {
             clear();
             addAll(items);
+        } else {
+            setState(BaseRecyclerAdapter.STATE_NO_MORE, true);
         }
     }
 
@@ -367,7 +374,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
 
     public void setState(int mState, boolean isUpdate) {
         this.mState = mState;
-        LogUtil.e("刷新了"+mState);
+        LogUtil.e("刷新状态为:" + mState + " 更新状态为:" + isUpdate);
         if (isUpdate)
             updateItem(getItemCount() - 1);
     }

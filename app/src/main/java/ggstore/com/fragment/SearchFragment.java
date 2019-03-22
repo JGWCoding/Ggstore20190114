@@ -1,6 +1,5 @@
 package ggstore.com.fragment;
 
-import android.support.design.widget.TabLayout;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -9,7 +8,6 @@ import ggstore.com.base.BaseFragment;
 
 public class SearchFragment extends BaseFragment {//todo 布局xml文件和填充数据不是本身
 
-    private TabLayout tabLayout;
     public static boolean isSingle = true; //是否为单列
 
     @Override

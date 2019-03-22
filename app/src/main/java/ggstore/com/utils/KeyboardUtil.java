@@ -13,9 +13,11 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
+import com.blankj.utilcode.util.KeyboardUtils;
+
 import java.lang.reflect.Field;
 
-import ggstore.com.BaseApplication;
+import ggstore.com.App;
 
 /**
  * <pre>
@@ -86,12 +88,7 @@ public final class KeyboardUtil {
      * @param activity The activity.
      */
     public static void hideSoftInput(final Activity activity) {
-        InputMethodManager imm =
-                (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        if (imm == null) return;
-        View view = activity.getCurrentFocus();
-        if (view == null) view = new View(activity);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        KeyboardUtils.hideSoftInput(activity);
     }
 
     /**
@@ -100,10 +97,7 @@ public final class KeyboardUtil {
      * @param view The view.
      */
     public static void hideSoftInput(final View view) {
-        InputMethodManager imm =
-                (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        //noinspection ConstantConditions
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        KeyboardUtils.hideSoftInput(view);
     }
 
     /**
@@ -121,7 +115,7 @@ public final class KeyboardUtil {
      */
     public static void toggleSoftInput() {
         InputMethodManager imm =
-                (InputMethodManager) BaseApplication.context().getSystemService(Context.INPUT_METHOD_SERVICE);
+                (InputMethodManager) App.context().getSystemService(Context.INPUT_METHOD_SERVICE);
         //noinspection ConstantConditions
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }

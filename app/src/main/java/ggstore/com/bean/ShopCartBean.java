@@ -29,11 +29,12 @@ public class ShopCartBean {
 
     private String shop_detail1;   //商品介绍详情
     private String shop_detail2;   //商品介绍详情
+    private String images;  //详情介绍的所有图片网络地址存储
 
-    @Generated(hash = 326178930)
+    @Generated(hash = 1306071000)
     public ShopCartBean(Long id, String name, float price, int buy_number,
             int limit_number, String image_url, String productNumber,
-            String shop_detail1, String shop_detail2) {
+            String shop_detail1, String shop_detail2, String images) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -43,6 +44,7 @@ public class ShopCartBean {
         this.productNumber = productNumber;
         this.shop_detail1 = shop_detail1;
         this.shop_detail2 = shop_detail2;
+        this.images = images;
     }
     @Generated(hash = 656791369)
     public ShopCartBean() {
@@ -100,6 +102,12 @@ public class ShopCartBean {
     }
     public void setShop_detail2(String shop_detail2) {
         this.shop_detail2 = shop_detail2;
+    }
+    public String getImages() {
+        return this.images;
+    }
+    public void setImages(String images) {
+        this.images = images;
     }
 
 }

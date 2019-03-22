@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import ggstore.com.App;
 import ggstore.com.BuildConfig;
 import ggstore.com.R;
 import ggstore.com.base.BaseActivity;
@@ -81,14 +82,15 @@ public class MainActivity extends BaseActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        navigationView.getViewTreeObserver().addOnDrawListener(new ViewTreeObserver.OnDrawListener() {
+        navigationView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
-            public void onDraw() {
+            public void onGlobalLayout() {
                 ((TextView) findViewById(R.id.activity_main_header_name)).setText(BuildConfig.date);
+                ((TextView) findViewById(R.id.activity_main_header_email)).setText(BuildConfig.DEBUG?"Debug":"Release");
+                navigationView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
-        badge = new QBadgeView(this);
+        badge = new QBadgeView(App.context());
     }
 
 
@@ -104,7 +106,6 @@ public class MainActivity extends BaseActivity
             shopCartFragment();
         } else {
             newProductFragment();
-
         }
     }
 
@@ -160,15 +161,16 @@ public class MainActivity extends BaseActivity
     protected void onPause() {
         super.onPause();
         LogUtil.e("start gc");
-        ToyEduFragment fragment = (ToyEduFragment) getSupportFragmentManager().findFragmentByTag(ToyEduFragment.class.getName().toString());
-        if (fragment != null && fragment.isAdded() && !fragment.isVisible()) {  //ToyEduFragment 容易造成内存泄漏,viewpager不释放Fragment
-//            ArrayList<Fragment> listfragment = ((ToyEduFragment.MyFragmentPagerAdapter) fragment.viewPager.getAdapter()).listfragment;
+//        ToyEduFragment fragment = (ToyEduFragment) getSupportFragmentManager().findFragmentByTag(ToyEduFragment.class.getName().toString());
+//        if (fragment != null && fragment.isAdded() && !fragment.isVisible()) {  //ToyEduFragment 容易造成内存泄漏,viewpager不释放Fragment
+//            ArrayList<Fragment> listfragment = ((ToyEducationFragmentStatePagerAdapter) fragment.viewPager.getAdapter()).listfragment;
 //            for (int i = 0; i < listfragment.size(); i++) {
 //                fragment.viewPager.getAdapter().destroyItem(fragment.viewPager, i,listfragment.get(i));
+//                fragment.viewPager.getAdapter().finishUpdate(fragment.viewPager);
 //            }
-            getSupportFragmentManager().beginTransaction().remove(fragment).commitNowAllowingStateLoss();
-            LogUtil.e("start gc" + fragment.getClass().getName());
-        }
+//            getSupportFragmentManager().beginTransaction().remove(fragment).commitNowAllowingStateLoss();
+//            LogUtil.e("start gc" + fragment.getClass().getName());
+//        }
 //        System.gc();    //进行内存回收,保障了内存不会太大
     }
 
@@ -190,7 +192,7 @@ public class MainActivity extends BaseActivity
         Drawable icon = ReflectUtils.reflect(searchView).field("mSearchHintIcon").get();
         icon = getResources().getDrawable(R.drawable.search);   //设置icon没用
         searchView.setIconifiedByDefault(true);
-        searchView.setQueryHint(getString(R.string.search_hint));
+        searchView.setQueryHint(App.context().getString(R.string.search_hint));
         //改变默认的搜索图标
         ((ImageView) searchView.findViewById(R.id.search_button)).setImageResource(R.drawable.search);
         //搜索监听
@@ -198,7 +200,7 @@ public class MainActivity extends BaseActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //在输入法按下搜索或者回车时，会调用次方法，在这里可以作保存历史记录的操作，我这里用了 sharepreference 保存
-                SPUtils.getSP(MainActivity.this, "knowledgeHistory").edit()
+                SPUtils.getSP(App.context(), "knowledgeHistory").edit()
                         .putString(query, query).commit();
                 searchView.onActionViewCollapsed();
                 searchFragment(query);
@@ -221,8 +223,8 @@ public class MainActivity extends BaseActivity
         //根据id-search_src_text获取TextView
         searchViewOfKnowledge = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
         //改变输入文字的颜色
-        searchViewOfKnowledge.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
-        searchViewOfKnowledge.setCompoundDrawables(this.getResources().getDrawable(R.drawable.search), null, null, null);
+        searchViewOfKnowledge.setTextColor(ContextCompat.getColor(App.context(), R.color.black));
+        searchViewOfKnowledge.setCompoundDrawables(App.context().getResources().getDrawable(R.drawable.search), null, null, null);
         showHistory();
         //searchview 的关闭监听
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
@@ -250,14 +252,14 @@ public class MainActivity extends BaseActivity
         try {
             //取出历史数据，你可以利用其他方式
             final List<String> arr = new ArrayList<>();
-            Map<String, ?> map = SPUtils.getSP(MainActivity.this, "knowledgeHistory").getAll();
+            Map<String, ?> map = SPUtils.getSP(App.context(), "knowledgeHistory").getAll();
             for (String key : map.keySet()) {
                 arr.add(map.get(key).toString());
             }
             //显示历史数据列表
             searchViewOfKnowledge.setThreshold(0);
             //历史数据列表的 adapter,必须继承 ArrayAdater 或实现 filterable接口
-            HistoryAdapter adapter = new HistoryAdapter(MainActivity.this, R.layout.item_history, arr, searchView);
+            HistoryAdapter adapter = new HistoryAdapter(App.context(), R.layout.item_history, arr, searchView);
             //设置 adapter
             searchViewOfKnowledge.setAdapter(adapter);
             //如果重写了 Adapter 的 getView 方法，可以不用实现 item 监听（实现了也没用），否则必须实现监听，不然会报错  --  这个实现没用
@@ -278,7 +280,7 @@ public class MainActivity extends BaseActivity
         icon = toolbar.getNavigationIcon();
         toolbar.setTitle(null);// this.removeView(this.mTitleTextView);  this.mHiddenViews.remove(this.mTitleTextView);
         toolbar.setNavigationIcon(null);
-        searchViewOfKnowledge.setCompoundDrawables(this.getResources().getDrawable(R.drawable.search), null, null, null);
+        searchViewOfKnowledge.setCompoundDrawables(App.context().getResources().getDrawable(R.drawable.search), null, null, null);
         searchViewOfKnowledge.invalidate();
     }
 
@@ -416,7 +418,7 @@ public class MainActivity extends BaseActivity
 
     public void myOrderfragment() {
         addFragment(R.id.activity_main_content_frame, new MyOrderFragment());
-        toolbar.setTitle(getString(R.string.my_order));
+        toolbar.setTitle(App.context().getString(R.string.my_order));
         hideSearchAndShopCart();
     }
 
@@ -435,7 +437,7 @@ public class MainActivity extends BaseActivity
         toolbar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                toolbar.setTitle(getString(R.string.shop_cart));    // 不显示购物车,显示最新产品
+                toolbar.setTitle(App.context().getString(R.string.shop_cart));    // 不显示购物车,显示最新产品
                 toolbar.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
@@ -475,7 +477,7 @@ public class MainActivity extends BaseActivity
             convertView.findViewById(R.id.imageButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SPUtils.getSP(MainActivity.this, "knowledgeHistory").edit().remove(titles.get(position)).commit();
+                    SPUtils.getSP(App.context(), "knowledgeHistory").edit().remove(titles.get(position)).commit();
                     titles.remove(position);
                     notifyDataSetChanged();
                 }

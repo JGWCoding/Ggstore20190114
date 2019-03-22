@@ -99,13 +99,13 @@
                     android:layout_height="wrap_content">
 
                     <android.support.v4.view.ViewPager
-                        android:id="@+id/activity_product_detail_viewpager"
+                        android:id="@+id/activity_order_detail_product_viewpager"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/lay_200"
                         android:layout_marginTop="@dimen/lay_10"/>
 
                     <LinearLayout
-                        android:id="@+id/activity_product_detail_tips"
+                        android:id="@+id/activity_order_detail_product_tips"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/lay_20"
                         android:layout_alignParentBottom="true"

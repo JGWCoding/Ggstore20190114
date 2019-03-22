@@ -9,6 +9,8 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
+import ggstore.com.App;
+import ggstore.com.R;
 
 /**
  * Glide 图片加载辅助类
@@ -18,7 +20,6 @@ import com.bumptech.glide.request.RequestOptions;
 public class ImageLoader {
     private ImageLoader() {
     }
-
     public static void loadImage(Context context, ImageView view, String url) {
         loadImage(Glide.with(context), view, url, 0);
     }
@@ -54,10 +55,10 @@ public class ImageLoader {
             view.setImageResource(placeholder);
         } else {
             RequestOptions options = new RequestOptions()
-                    .placeholder(placeholder)
+                    .placeholder(placeholder==0? R.drawable.loading:placeholder)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .fitCenter()
-                    .error(error);
+                    .error(error==0?R.drawable.load_error:error);
             if (isCircleImageView) {
                 options.centerCrop().circleCrop();
             }

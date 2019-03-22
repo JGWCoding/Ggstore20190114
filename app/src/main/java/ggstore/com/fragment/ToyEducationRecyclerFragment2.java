@@ -20,13 +20,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import ggstore.com.App;
 import ggstore.com.R;
 import ggstore.com.activity.MainActivity;
 import ggstore.com.activity.ProductDetailActivity;
+import ggstore.com.base.BaseMyRecyclerViewFragment;
 import ggstore.com.base.BaseRecyclerAdapter;
-import ggstore.com.base.BaseRecyclerViewFragment;
-import ggstore.com.constant.Constent;
 import ggstore.com.bean.NewProductBean;
+import ggstore.com.constant.Constant;
 import ggstore.com.utils.AppOperator;
 import ggstore.com.utils.ImageLoader;
 import ggstore.com.utils.LogUtil;
@@ -35,7 +36,7 @@ import ggstore.com.utils.ShopCartItemManagerUtil;
 import ggstore.com.utils.ToastUtil;
 import okhttp3.Request;
 
-public class ToyEducationRecyclerFragment2 extends BaseRecyclerViewFragment {
+public class ToyEducationRecyclerFragment2 extends BaseMyRecyclerViewFragment {
 
     @Override
     protected void requestData(final boolean isRefreshing) { //true 为刷新 false 为加载更多
@@ -45,7 +46,7 @@ public class ToyEducationRecyclerFragment2 extends BaseRecyclerViewFragment {
             AppOperator.runOnThread(new Runnable() {
                 @Override
                 public void run() {
-                    String url = Constent.url_baby_education + "&p=" + page;
+                    String url = Constant.url_baby_education + "&p=" + page;
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
@@ -82,7 +83,7 @@ public class ToyEducationRecyclerFragment2 extends BaseRecyclerViewFragment {
             AppOperator.runOnThread(new Runnable() {
                 @Override
                 public void run() {
-                    String url = Constent.url_baby_education + "&p=" + page;
+                    String url = Constant.url_baby_education + "&p=" + page;
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
@@ -114,27 +115,27 @@ public class ToyEducationRecyclerFragment2 extends BaseRecyclerViewFragment {
 
     @Override
     protected BaseRecyclerAdapter getRecyclerAdapter() {
-        final CourseAdapter courseAdapter = new CourseAdapter(getActivity(), BaseRecyclerAdapter.ONLY_FOOTER);
+        final CourseAdapter courseAdapter = new CourseAdapter(getContext(), BaseRecyclerAdapter.ONLY_FOOTER);
         return courseAdapter;
     }
 
     @Override
     public void onItemClick(int position, long itemId) {
         NewProductBean item = (NewProductBean) mAdapter.getItem(position);
-        Constent.newProductBean = item;
+        Constant.newProductBean = item;
         Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
         if (getActivity() instanceof MainActivity) {
             String title = ((MainActivity) getActivity()).navigationView.getCheckedItem().getTitle().toString();
-            intent.putExtra("orderNumber", title); //携带信息
+            intent.putExtra(ProductDetailActivity.product_title, title); //携带信息
         }
         startActivity(intent);
     }
 
     protected RecyclerView.LayoutManager getLayoutManager() {
-        if (BabyToyFragment.isSingle) {
-            return new GridLayoutManager(getActivity(), 1);
+        if (isSingle) {
+            return new GridLayoutManager(getContext(), 1);
         } else {
-            return new GridLayoutManager(getActivity(), 2);
+            return new GridLayoutManager(getContext(), 2);
         }
     }
 
@@ -147,7 +148,7 @@ public class ToyEducationRecyclerFragment2 extends BaseRecyclerViewFragment {
         @Override
         protected RecyclerView.ViewHolder onCreateDefaultViewHolder(ViewGroup parent, int type) {
             CourseAdapter.MyViewHolder myViewHolder;
-            if (BabyToyFragment.isSingle) {
+            if (isSingle) {
                 myViewHolder = new CourseAdapter.MyViewHolder(LayoutInflater.from(parent.getContext()).
                         inflate(R.layout.recycler_new_product_item, parent, false));
             } else {
@@ -161,25 +162,23 @@ public class ToyEducationRecyclerFragment2 extends BaseRecyclerViewFragment {
         @Override
         protected void onBindDefaultViewHolder(RecyclerView.ViewHolder holder, final NewProductBean item, int position) {
             //TODO 绑定视图--->加上数据
-            if (BabyToyFragment.isSingle) {
-
+            if (isSingle) {
             } else {
-
             }
             ((CourseAdapter.MyViewHolder) holder).title.setText(item.getProductName_cn());
             ((CourseAdapter.MyViewHolder) holder).oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);   //加横线效果
             if (TextUtils.isEmpty(item.getMarketPrice())) {
                 ((MyViewHolder) holder).oldPrice.setText(null);
             } else {
-                ((MyViewHolder) holder).oldPrice.setText(getString(R.string.product_price, item.getMarketPrice()));
+                ((MyViewHolder) holder).oldPrice.setText(App.context().getString(R.string.product_price, item.getMarketPrice()));
             }
             if (TextUtils.isEmpty(item.getUnitPrice())) {
                 ((MyViewHolder) holder).newPrice.setText(null);
             } else {
-                ((MyViewHolder) holder).newPrice.setText(getString(R.string.product_price,item.getUnitPrice()));
+                ((MyViewHolder) holder).newPrice.setText(App.context().getString(R.string.product_price,item.getUnitPrice()));
             }
-            ImageLoader.loadImage(ToyEducationRecyclerFragment2.this.getContext(), ((CourseAdapter.MyViewHolder) holder).imgDetail, Constent.base_images_url + item.getPictureL());
-//            ((MyViewHolder)holder).imgDetail.setImageURI(Uri.parse(Constent.base_images_url+item.getPictureL()));//只能进行文件的
+            ImageLoader.loadImage(App.context(), ((CourseAdapter.MyViewHolder) holder).imgDetail, Constant.base_images_product_url + item.getPictureL());
+//            ((MyViewHolder)holder).imgDetail.setImageURI(Uri.parse(Constant.base_images_product_url+item.getPictureL()));//只能进行文件的
             ((CourseAdapter.MyViewHolder) holder).addShop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -198,12 +197,10 @@ public class ToyEducationRecyclerFragment2 extends BaseRecyclerViewFragment {
             public TextView newPrice;
             public TextView detail1;
             public TextView detail2;
-            public View root;
 
             public MyViewHolder(View view) {
                 super(view);
-                root = view;
-                if (BabyToyFragment.isSingle) {
+                if (isSingle) {
                     detail1 = view.findViewById(R.id.detail1);
                     detail2 = view.findViewById(R.id.detail2);
                 } else {
