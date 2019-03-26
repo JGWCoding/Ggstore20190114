@@ -32,22 +32,24 @@
             android:id="@+id/brand"
             android:icon="@drawable/menu_icon_brand"
             android:title="@string/brand" />
-        <item
-            android:id="@+id/my_order"
-            android:icon="@drawable/menu_icon_my_order"
-            android:title="@string/my_order" />
+        <group android:id="@+id/group_divider" android:checkableBehavior="single">
+            <item
+                android:id="@+id/my_order"
+                android:icon="@drawable/menu_icon_my_order"
+                android:title="@string/my_order" />
+        </group>
     </group>
     <!--<item android:titleBar="Communicate" android:visible="false">-->
-        <!--<menu>-->
-            <!--<item-->
-                <!--android:id="@+id/nav_share"-->
-                <!--android:icon="@drawable/ic_menu_share"-->
-                <!--android:titleBar="Share" />-->
-            <!--<item-->
-                <!--android:id="@+id/nav_send"-->
-                <!--android:icon="@drawable/ic_menu_send"-->
-                <!--android:titleBar="Send" />-->
-        <!--</menu>-->
+    <!--<menu>-->
+    <!--<item-->
+    <!--android:id="@+id/nav_share"-->
+    <!--android:icon="@drawable/ic_menu_share"-->
+    <!--android:titleBar="Share" />-->
+    <!--<item-->
+    <!--android:id="@+id/nav_send"-->
+    <!--android:icon="@drawable/ic_menu_send"-->
+    <!--android:titleBar="Send" />-->
+    <!--</menu>-->
     <!--</item>-->
 
 </menu>

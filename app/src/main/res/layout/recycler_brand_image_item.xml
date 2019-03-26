@@ -4,16 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/lay_100"
     android:layout_margin="@dimen/lay_10"
-    android:padding="@dimen/lay_5"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="@dimen/lay_5"
     app:cardElevation="@dimen/lay_10">
 
     <ImageView
-        android:layout_gravity="center"
         android:id="@+id/recycler_item_brand_image"
-        android:scaleType="centerInside"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:padding="@dimen/lay_5"
+        android:scaleType="center"
         android:src="@drawable/product" />
 </android.support.v7.widget.CardView>

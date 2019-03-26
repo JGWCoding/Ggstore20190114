@@ -86,11 +86,20 @@ public class MainActivity extends BaseActivity
             @Override
             public void onGlobalLayout() {
                 ((TextView) findViewById(R.id.activity_main_header_name)).setText(BuildConfig.date);
-                ((TextView) findViewById(R.id.activity_main_header_email)).setText(BuildConfig.DEBUG?"Debug":"Release");
+                ((TextView) findViewById(R.id.activity_main_header_email)).setText(BuildConfig.DEBUG ? "Debug" : "Release");
+                findViewById(R.id.activity_main_header_logout).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //todo 登出
+                        startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                        finish();
+                    }
+                });
                 navigationView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
         badge = new QBadgeView(App.context());
+
     }
 
 
@@ -114,8 +123,11 @@ public class MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            moveTaskToBack(true);
-//            super.onBackPressed();
+            if (isTaskRoot()) {
+                moveTaskToBack(true);
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 

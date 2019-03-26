@@ -325,7 +325,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
     }
 
     public void updateItem(int position) {
-        if (position < 0) { //修复没有数据的时候 position=-1 更新视图
+        if (mItems.size() <= 0) { //修复没有数据的时候 position=-1 更新视图
             notifyDataSetChanged();
             return;
         }
