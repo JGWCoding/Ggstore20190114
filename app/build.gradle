@@ -106,5 +106,6 @@ dependencies {
 
     implementation 'com.blankj:utilcode:1.23.6' //工具类
     implementation 'com.github.razerdp:BasePopup:2.1.9'//popupWindow
+//    implementation 'io.github.meetsl:SCardView:1.0' //cardview 阴影设置方向
 
 }

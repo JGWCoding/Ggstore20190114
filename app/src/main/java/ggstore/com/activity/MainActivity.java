@@ -52,6 +52,7 @@ import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.ReflectUtils;
 import ggstore.com.utils.SPUtils;
 import ggstore.com.utils.ShopCartItemManagerUtil;
+import ggstore.com.utils.ToastUtil;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
 
@@ -93,6 +94,7 @@ public class MainActivity extends BaseActivity
                         //todo 登出
                         startActivity(new Intent(MainActivity.this,LoginActivity.class));
                         finish();
+                        ToastUtil.showToast("己登出");
                     }
                 });
                 navigationView.getViewTreeObserver().removeOnGlobalLayoutListener(this);

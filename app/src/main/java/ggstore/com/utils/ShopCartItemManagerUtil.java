@@ -28,6 +28,7 @@ public class ShopCartItemManagerUtil {
      * @param id
      */
     public static void deleteShopCart(long id) {
+        ToastUtil.showToast("貨品已被除去");
         App.getDaoInstant().getShopCartBeanDao().deleteByKey(id);
     }
 
@@ -81,6 +82,7 @@ public class ShopCartItemManagerUtil {
             ToastUtil.showToast("ShopCartItemManagerUtil item is null");
             return;
         }
+        ToastUtil.showToast("貨品已被添加到購物車");
         long id = Long.valueOf(item.getProductID());
         if (queryBuyNumber(id) != null) {
             ShopCartBean shopCartBean = queryBuyNumber(id);

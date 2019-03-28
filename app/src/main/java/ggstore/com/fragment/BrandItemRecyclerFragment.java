@@ -3,6 +3,7 @@ package ggstore.com.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -153,7 +154,7 @@ public class BrandItemRecyclerFragment extends BaseMyRecyclerViewFragment {
             if (isSingle) {
             } else {
             }
-            ((CourseAdapter.MyViewHolder) holder).title.setText(item.getProductName_cn());
+            ((MyViewHolder) holder).title.setText(item.getProductName_cn());
             ((CourseAdapter.MyViewHolder) holder).oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);   //加横线效果
             if (TextUtils.isEmpty(item.getMarketPrice())) {
                 ((MyViewHolder) holder).oldPrice.setText(null);
@@ -175,6 +176,14 @@ public class BrandItemRecyclerFragment extends BaseMyRecyclerViewFragment {
                 }
             });
 
+        }
+
+        @Override
+        public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
+            if (holder instanceof MyViewHolder) {
+                ImageLoader.clear(App.context(), ((MyViewHolder) holder).imgDetail);
+            }
+            super.onViewRecycled(holder);
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {

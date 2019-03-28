@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
-import ggstore.com.App;
 import ggstore.com.utils.AppOperator;
 import ggstore.com.utils.ImageLoader;
 import ggstore.com.utils.KeyboardUtil;
@@ -108,7 +107,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private synchronized RequestManager getImageLoader() {
         if (mImageLoader == null)
-            mImageLoader = Glide.with(App.context());
+            mImageLoader = Glide.with(this);
         return mImageLoader;
     }
 

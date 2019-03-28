@@ -1,6 +1,5 @@
 package ggstore.com.activity;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -34,7 +33,6 @@ import ggstore.com.base.BaseActivity;
 import ggstore.com.constant.Constant;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.OkHttpManager;
-import ggstore.com.utils.PermissionsUtils;
 import ggstore.com.utils.ToastUtil;
 import okhttp3.Request;
 
@@ -106,28 +104,31 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void requestStorage() {
-        PermissionUtils.permission(PermissionConstants.STORAGE).rationale(
-                new PermissionUtils.OnRationaleListener() {
-                    @Override
-                    public void rationale(ShouldRequest shouldRequest) {
+        if (!PermissionUtils.isGranted(PermissionConstants.STORAGE)){
+            LogUtil.e("权限没有授予 ");
+             PermissionUtils.permission(PermissionConstants.STORAGE).rationale(
+                    new PermissionUtils.OnRationaleListener() {
+                        @Override
+                        public void rationale(ShouldRequest shouldRequest) {
 
-                    }
-                }).callback(new PermissionUtils.FullCallback() {
-            @Override
-            public void onGranted(List<String> permissionsGranted) {
-                ToastUtil.showToast(R.string.permission_pass);
-            }
+                        }
+                    }).callback(new PermissionUtils.FullCallback() {
+                @Override
+                public void onGranted(List<String> permissionsGranted) {
+//                    ToastUtil.showToast(R.string.permission_pass);
+                }
 
-            @Override
-            public void onDenied(List<String> permissionsDeniedForever, List<String> permissionsDenied) {
-                ToastUtil.showToast(R.string.permission_no_pass);
-            }
-        }).theme(new PermissionUtils.ThemeCallback() {
-            @Override
-            public void onActivityCreate(Activity activity) {
-                ScreenUtils.setFullScreen(activity);
-            }
-        }).request();
+                @Override
+                public void onDenied(List<String> permissionsDeniedForever, List<String> permissionsDenied) {
+                    ToastUtil.showToast(R.string.permission_no_pass);
+                }
+            }).theme(new PermissionUtils.ThemeCallback() {
+                @Override
+                public void onActivityCreate(Activity activity) {
+                    ScreenUtils.setFullScreen(activity);
+                }
+            }).request();
+        }
     }
 
 
@@ -209,7 +210,6 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-//        requestPermissions();
         requestStorage();
         // App code
         profileTracker = new ProfileTracker() { //公共资料跟踪
@@ -230,32 +230,13 @@ public class LoginActivity extends BaseActivity {
         };
     }
 
-    protected void requestPermissions() {   //这里会造成内存泄漏
-        //两个日历权限和一个数据读写权限
-        String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        PermissionsUtils.showSystemSetting = false;//是否支持显示系统设置权限设置窗口跳转
-        //这里的this不是上下文，是Activity对象！
-        PermissionsUtils.getInstance().chekPermissions(this, permissions, permissionsResult);
-    }
 
-    PermissionsUtils.IPermissionsResult permissionsResult = new PermissionsUtils.IPermissionsResult() {
-        @Override
-        public void passPermissons() {
-            ToastUtil.showToast(R.string.permission_pass);
-        }
-
-        @Override
-        public void forbitPermissons() {
-            ToastUtil.showToast(R.string.permission_no_pass);
-        }
-    };
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         //就多一个参数this
-        PermissionsUtils.getInstance().onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 
     @Override

@@ -210,7 +210,7 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
                 Intent intent = new Intent(ProductDetailActivity.this, MainActivity.class);
                 intent.putExtra("startActivity", "shopCart");
                 startActivity(intent);
-                ToastUtil.showToast("点击购物车了");
+//                ToastUtil.showToast("点击购物车了");
             }
         });
         badge = new QBadgeView(this).bindTarget(img).setBadgeNumber(ShopCartItemManagerUtil.getSize()).setBadgeGravity(Gravity.END | Gravity.TOP)

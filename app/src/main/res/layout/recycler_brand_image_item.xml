@@ -1,19 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/lay_100"
-    android:layout_margin="@dimen/lay_10"
-    app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="@dimen/lay_5"
-    app:cardElevation="@dimen/lay_10">
+<?xml version="1.0" encoding="utf-8"?><!--<com.meetsl.scardview.SCardView xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--android:layout_width="match_parent"--><!--android:layout_height="@dimen/lay_100"--><!--android:layout_margin="-5dp"--><!--android:padding="@dimen/lay_5"--><!--app:cardBackgroundColor="@color/white"--><!--app:cardElevation="@dimen/lay_2"--><!--app:cardLightDirection="LT">--><!--&lt;!&ndash;app:cardCornerRadius="@dimen/lay_5"&ndash;&gt;-->
 
-    <ImageView
+<!--<ImageView--><!--android:id="@+id/recycler_item_brand_image"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:layout_gravity="center"--><!--android:scaleType="center"--><!--android:src="@drawable/product" />--><!--</com.meetsl.scardview.SCardView>-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="@dimen/lay_100"
+    android:background="@color/white"
+    android:layout_width="match_parent">
+
+    <ggstore.com.view.MyImageView
         android:id="@+id/recycler_item_brand_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:padding="@dimen/lay_5"
+        android:layout_margin="@dimen/lay_5"
         android:scaleType="center"
         android:src="@drawable/product" />
-</android.support.v7.widget.CardView>
+</FrameLayout>
