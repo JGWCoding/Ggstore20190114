@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.RadialGradient;
+import android.graphics.RectF;
 import android.graphics.Shader;
 import android.util.AttributeSet;
 
@@ -14,16 +16,16 @@ public class MyImageView extends android.support.v7.widget.AppCompatImageView {
 
     private Paint paint;
     private float width = TDevice.dp2px(3);
-    int[] colors={Color.GRAY,Color.WHITE};
-    float[] position = {0.1f,1};
+    int[] colors = {Color.GRAY, Color.WHITE};
+    float[] position = {0.3f,0.2f};
     private LinearGradient shader;
 
     public MyImageView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
-    public MyImageView(Context context,  AttributeSet attrs) {
-        this(context, attrs,0);
+    public MyImageView(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
     }
 
     public MyImageView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -38,14 +40,19 @@ public class MyImageView extends android.support.v7.widget.AppCompatImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        shader = new LinearGradient(getMeasuredWidth()-width,0,getMeasuredWidth(),0,colors,position,Shader.TileMode.CLAMP);
+        shader = new LinearGradient(getMeasuredWidth() - width, 0, getMeasuredWidth(), 0, colors, position, Shader.TileMode.CLAMP);
         paint.setShader(shader);
-        canvas.drawRect(getMeasuredWidth()-width,0,getMeasuredWidth(),getMeasuredHeight()-width/2,paint);
-        shader = new LinearGradient(0,getMeasuredHeight()-width,0,getMeasuredHeight(),colors,position, Shader.TileMode.CLAMP);
+        canvas.drawRect(getMeasuredWidth() - width, 0, getMeasuredWidth(), getMeasuredHeight() - width, paint);
+        shader = new LinearGradient(0, getMeasuredHeight() - width, 0, getMeasuredHeight(), colors, position, Shader.TileMode.CLAMP);
         paint.setShader(shader);
-        canvas.drawRect(0,getMeasuredHeight()-width,getMeasuredWidth()-width/2,getMeasuredHeight(),paint);
-//        canvas.drawCircle(getMeasuredWidth()/2, getMeasuredHeight()/2, 200, paint);
-//        canvas.drawRect(getWidth()-TDevice.dp2px(width),0,getWidth(),getHeight(),paint);
-//        canvas.save();
+        canvas.drawRect(0, getMeasuredHeight() - width, getMeasuredWidth() - width, getMeasuredHeight(), paint);
+        RectF mRectF = new RectF(getMeasuredWidth() - width*2, getMeasuredHeight() - width*2, getMeasuredWidth(), getMeasuredHeight());
+        RadialGradient radialGradient = new RadialGradient(mRectF.centerX(), mRectF.centerY(),width,
+              colors, position,
+                Shader.TileMode.CLAMP
+        );
+        paint.setShader(radialGradient);
+        canvas.drawArc(mRectF, 0, 90, true, paint);
+//        canvas.drawCircle(mRectF.centerX(),mRectF.centerY(),width,paint);
     }
 }
