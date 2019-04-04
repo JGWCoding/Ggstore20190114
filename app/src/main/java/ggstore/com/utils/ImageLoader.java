@@ -10,7 +10,6 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
-import ggstore.com.App;
 import ggstore.com.R;
 
 /**
@@ -63,20 +62,21 @@ public class ImageLoader {
                     .placeholder(placeholder == 0 ? R.drawable.loading : placeholder)
                     .skipMemoryCache(false)  //用内存缓存
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .fitCenter()
+                    .fitCenter()   //fitCenter 缩放图片充满ImageView CenterInside大缩小原(图) CenterCrop大裁小扩充满ImageView  Center大裁(中间)小原
                     .error(error == 0 ? R.drawable.load_error : error);
             if (isCircleImageView) {
                 options.centerCrop().circleCrop();
             }
             loader.asBitmap().load(url).apply(options).into(view);
         }
-        if ((count++)/30==0){
-            clearAll(App.context());
-        }
+//        if ((count++)%100==0){
+//            clearAll(App.context());
+//        }
     }
 
-    public static void clear(Context context, View view) {
-        Glide.with(view).clear(view);
+    public static void clear(View view) {
+        LogUtil.i(view+" :view is recycler");
+        Glide.with(view).clear(view);   //会判断是否是自己缓存的view,不是就不作处理
     }
 
     public static void clearAll(final Context context) {

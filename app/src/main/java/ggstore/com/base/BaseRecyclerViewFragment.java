@@ -1,6 +1,7 @@
 package ggstore.com.base;
 
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -53,7 +54,7 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
         mRecyclerView.setAdapter(mAdapter);     //准备填充这个内容进去
         mAdapter.setOnItemClickListener(this);  //设置item点击事件
         mRefreshLayout.setSuperRefreshLayoutListener(this);
-        mRecyclerView.addItemDecoration(new SpacesItemDecoration(App.context(), DividerItemDecoration.VERTICAL));//设置分割线
+        mRecyclerView.addItemDecoration(new SpacesItemDecoration(getContext(), DividerItemDecoration.VERTICAL));//设置分割线
         mRecyclerView.setLayoutManager(getLayoutManager()); //设置线性布局
         onScrollListener = new RecyclerView.OnScrollListener() { //滑动监听
             @Override
@@ -76,6 +77,16 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
             mRecyclerView.setLayoutManager(getLayoutManager());
         } else {
             mRecyclerView.setLayoutManager(layoutManager);
+        }
+        if (layoutManager instanceof LinearLayoutManager){
+            if (mRecyclerView.getItemDecorationCount()<1) {
+                mRecyclerView.addItemDecoration(new SpacesItemDecoration(getContext(), DividerItemDecoration.VERTICAL));//设置分割线
+            }
+        }
+        if (layoutManager instanceof GridLayoutManager){
+            if (((GridLayoutManager)layoutManager).getSpanCount()==2&&mRecyclerView.getItemDecorationCount()>0) {
+                mRecyclerView.removeItemDecorationAt(0);
+            }
         }
         mRecyclerView.setAdapter(mAdapter); //必须重新设置Adapter,不然会有有时可以有时设置不了问题
     }

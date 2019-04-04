@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import java.util.List;
 
 import ggstore.com.App;
 import ggstore.com.R;
+import ggstore.com.utils.ImageLoader;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.TDevice;
 
@@ -243,6 +245,30 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
         }
     }
 
+    @Override
+    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewRecycled(holder);
+        if (holder.getItemViewType() == VIEW_TYPE_NORMAL) {
+            if (holder.itemView instanceof ViewGroup) {
+                ViewGroup vg = (ViewGroup) holder.itemView;
+                recycledImageview(vg);
+            } else if (holder.itemView instanceof ImageView) {
+                ImageLoader.clear(holder.itemView);
+            }
+        }
+    }
+
+    private void recycledImageview(ViewGroup vg) {
+        int childCount = vg.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View child = vg.getChildAt(i);
+            if (child instanceof ViewGroup) {
+                recycledImageview((ViewGroup) child);
+            } else if (child instanceof ImageView) {
+                ImageLoader.clear(child);
+            }
+        }
+    }
 
     @Override
     public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {

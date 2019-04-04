@@ -3,7 +3,6 @@ package ggstore.com.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -178,13 +177,6 @@ public class BrandItemRecyclerFragment extends BaseMyRecyclerViewFragment {
 
         }
 
-        @Override
-        public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
-            if (holder instanceof MyViewHolder) {
-                ImageLoader.clear(App.context(), ((MyViewHolder) holder).imgDetail);
-            }
-            super.onViewRecycled(holder);
-        }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
             public ImageView addShop;

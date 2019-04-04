@@ -8,37 +8,37 @@ import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.util.AttributeSet;
+import android.widget.LinearLayout;
 
 import ggstore.com.utils.TDevice;
 
-public class MyImageView extends android.support.v7.widget.AppCompatImageView {
+public class MyViewGroup extends LinearLayout {
 
     private Paint paint;
     private float width = TDevice.dp2px(3);
-    int[] colors = { 0xFFFFFFFF,0xFFe6e6e6,0xFFFFFFFF};  //不要用R.colors.xxx
-    float[] position = {0.0f,0.2f,1f};
+    int[] colors = {0xFFFFFFFF, 0xFFe6e6e6, 0xFFFFFFFF};  //不要用R.colors.xxx
+    float[] position = {0.0f, 0.2f, 1f};
     private LinearGradient shader;
 
-    public MyImageView(Context context) {
-        this(context, null);
+    public MyViewGroup(Context context) {
+        super(context);
+        setWillNotDraw(false);
     }
 
-    public MyImageView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+    public MyViewGroup(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setWillNotDraw(false);
     }
 
-    public MyImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MyViewGroup(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    private void init() {
-        paint = new Paint();
+        setWillNotDraw(false);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        paint = new Paint();
         //draw Right gradient
         shader = new LinearGradient(getMeasuredWidth() - width, 0, getMeasuredWidth(), 0, colors, position, Shader.TileMode.CLAMP);
         paint.setShader(shader);
@@ -48,8 +48,8 @@ public class MyImageView extends android.support.v7.widget.AppCompatImageView {
         paint.setShader(shader);
         canvas.drawRect(0, getMeasuredHeight() - width, getMeasuredWidth() - width, getMeasuredHeight(), paint);
         //draw bottom|right 交接处 gradient 1/4的圆
-        RectF mRectF = new RectF(getMeasuredWidth() - width*2, getMeasuredHeight() - width*2, getMeasuredWidth(), getMeasuredHeight());
-        RadialGradient radialGradient = new RadialGradient(mRectF.centerX(), mRectF.centerY(),width, colors, position,
+        RectF mRectF = new RectF(getMeasuredWidth() - width * 2, getMeasuredHeight() - width * 2, getMeasuredWidth(), getMeasuredHeight());
+        RadialGradient radialGradient = new RadialGradient(mRectF.centerX(), mRectF.centerY(), width, colors, position,
                 Shader.TileMode.CLAMP);
         paint.setShader(radialGradient);
         canvas.drawArc(mRectF, 0, 90, true, paint);

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ggstore.com.view.MyViewGroup xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:layout_margin="@dimen/lay_5"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="@dimen/lay_250">
     <ImageView
@@ -48,8 +50,8 @@
             android:layout_margin="@dimen/lay_10"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:src="@drawable/add_shop_cart"
+            android:src="@drawable/add_shop_cart_round"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
-</LinearLayout>
+</ggstore.com.view.MyViewGroup>
