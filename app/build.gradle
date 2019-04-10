@@ -16,6 +16,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildToolsVersion '28.0.3'
+        aaptOptions.cruncherEnabled = false //去除掉PNG合法性检测
+        aaptOptions.useNewCruncher = false  //去除掉PNG合法性检测
     }
     greendao {
         //版本号，升级时可配置
@@ -53,59 +56,83 @@ android {
 //            shrinkResources true    //超过res限制
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            applicationVariants.all { variant ->
-                variant.outputs.all { output ->
-                    def outputFile = output.outputFile
-                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        def fileName = "Ggstore_${defaultConfig.versionName}_${defaultConfig.versionCode}_${releaseTime()}.apk"
-                        outputFileName = fileName
-                    }
+//            applicationVariants.all { variant ->
+//                variant.outputs.all { output ->
+//                    def outputFile = output.outputFile
+//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+//                        def fileName = "Ggstore_${defaultConfig.versionName}_${defaultConfig.versionCode}_${releaseTime()}.apk"
+//                        outputFileName = fileName
+//                    }
+//                }
+//            }
+            android.applicationVariants.all { variant ->
+                // 更新至Android Studio 3.3 gradle 4.10.1   
+                variant.outputs.all {
+                    outputFileName = "Ggstore_${defaultConfig.versionName}_${defaultConfig.versionCode}_${releaseTime()}.apk"
                 }
             }
         }
 
     }
 }
-//configurations{
+configurations {
 //    all*.exclude group:'com.squareup.okio'
-//}
+//    all*.exclude group: 'com.android.support:design:27.0.2'
+//    all {
+//        resolutionStrategy {
+//            force 'com.android.support:support-v4:27.0.2'
+//        }
+//    }
+}
+configurations.all {
+    resolutionStrategy {
+//        force 'com.android.support:support-v4:27.0.2'
+//        force   'com.android.support:design:27.0.2'
+//        force 'com.android.support:support-v4:28.0.0'
+    }
+
+}
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
-//     exclude group:  'com.android.support:design:27.0.2'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    //     exclude group:  'com.android.support:design:27.0.2'
+//        implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.android.support:support-v4:28.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
-    implementation 'com.squareup.okhttp3:okhttp-ws:3.4.2'   //网络框架
-    implementation 'com.github.bumptech.glide:glide:4.8.0'  //gilde图片展示处理
-    implementation 'q.rorbin:badgeview:1.1.3'   //https://github.com/qstumn/BadgeView
-    implementation 'com.facebook.android:facebook-login:[4,5)'  //
-
+    implementation 'com.squareup.okhttp3:okhttp-ws:3.4.2'
+    //网络框架
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    //gilde图片展示处理
+    implementation 'q.rorbin:badgeview:1.1.3'
+    //https://github.com/qstumn/BadgeView
+    implementation 'com.facebook.android:facebook-login:[4,5)'
+    //
     implementation('com.paypal.sdk:paypal-android-sdk:2.16.0') {
         exclude group: 'io.card'//禁止通过信用卡直接支付，如果不禁止可以直接去掉这一句
         exclude group: 'com.squareup.okhttp3'
     }
-//    implementation 'com.braintreepayments.api:braintree:2.20.1' //paypal和信用卡本地支付方式等
-//    implementation 'com.braintreepayments.api:drop-in:3.+'     //paypal支付和信用卡支付方式
-
-    implementation 'com.github.jarryleo:MagicScreenAdapter:v1.5'    //屏幕适配
-    implementation 'com.tencent.bugly:crashreport:latest.release'   //bugly bug上传
-
-    implementation 'org.greenrobot:greendao:3.2.0'  //greendao数据库
-    implementation 'com.alibaba:fastjson:1.1.70.android'   //json解析
-//   implementation "com.github.vondear.RxTool:RxUI:v2.2.7"  //UI库
-
-
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'  //leakcanary内存泄漏
+    //    implementation 'com.braintreepayments.api:braintree:2.20.1' //paypal和信用卡本地支付方式等
+    //    implementation 'com.braintreepayments.api:drop-in:3.+'     //paypal支付和信用卡支付方式
+    implementation 'com.github.jarryleo:MagicScreenAdapter:v1.5'
+    //屏幕适配
+    implementation 'com.tencent.bugly:crashreport:latest.release'
+    //bugly bug上传
+    implementation 'org.greenrobot:greendao:3.2.0'
+    //greendao数据库
+    implementation 'com.alibaba:fastjson:1.1.70.android'
+    //json解析
+    //   implementation "com.github.vondear.RxTool:RxUI:v2.2.7"  //UI库
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+    //leakcanary内存泄漏
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     // Optional, if you use support library fragments:
     debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
-
-    implementation 'com.blankj:utilcode:1.23.6' //工具类
-    implementation 'com.github.razerdp:BasePopup:2.1.9'//popupWindow
-//    implementation 'io.github.meetsl:SCardView:1.0' //cardview 阴影设置方向
+    implementation 'com.blankj:utilcode:1.23.6'
+    //工具类
+    implementation 'com.github.razerdp:BasePopup:2.1.9'
+    //popupWindow
+    //    implementation 'io.github.meetsl:SCardView:1.0' //cardview 阴影设置方向
 }

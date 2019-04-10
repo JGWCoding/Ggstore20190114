@@ -1,2 +1,2 @@
-include ':paypal'
 include ":app"
+include ':paypal'

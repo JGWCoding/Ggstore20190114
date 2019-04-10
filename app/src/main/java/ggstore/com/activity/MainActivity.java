@@ -407,6 +407,7 @@ public class MainActivity extends BaseActivity
     }
 
     public void setNavigationViewCheckedFalse() {
+
         MenuItem checkedItem = navigationView.getCheckedItem();
         if (checkedItem != null) {
             checkedItem.setChecked(false);
