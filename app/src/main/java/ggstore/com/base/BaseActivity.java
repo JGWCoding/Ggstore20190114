@@ -87,7 +87,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 //                return;
 //            }
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(frameLayoutId, fragment);
+            if (getSupportFragmentManager().getFragments()!=null&&getSupportFragmentManager().getFragments().size()>1){
+                transaction.add(frameLayoutId,fragment );
+            }else {
+                transaction.replace(frameLayoutId, fragment);
+            }
             transaction.commit();
             mFragment = fragment;
         }

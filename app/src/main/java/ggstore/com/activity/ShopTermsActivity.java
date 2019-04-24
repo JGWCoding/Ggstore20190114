@@ -1,7 +1,9 @@
 package ggstore.com.activity;
 
 import android.content.Intent;
+import android.support.v4.widget.NestedScrollView;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import ggstore.com.BuildConfig;
@@ -42,9 +44,41 @@ public class ShopTermsActivity extends BaseTitleActivity {
                 "10. 本網站庫存數量非即時數據，因此訂單在出貨時有可能會出現缺貨情況，敬請留意。\n" +
                 "11. 如因個人問題或本網站系統故障、伺服器問題導致Googoogaga會員未能購買貨品，受影響之Googoogaga會員將不獲補償，不便之處，敬請原諒。\n" +
                 "12. Googoogaga保留最終決定權。\n\n\n";
-        ((TextView) findViewById(R.id.shop_terms_details)).setText(text);
-        PayPalHelper.getInstance().startPayPalService(this);//todo  old paypal
-        findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
+//        text += text;
+        final TextView textView = (TextView) findViewById(R.id.activity_shop_terms_details);
+        final NestedScrollView scrollView = (NestedScrollView) findViewById(R.id.activity_shop_terms_scroll);
+        final TextView submit = findViewById(R.id.activity_shop_terms_submit);
+        textView.setText(text);
+        textView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+//                textView.setHeight(textView.getHeight()+findViewById(R.id.activity_shop_terms_bottom).getHeight());
+                if (scrollView.getChildAt(0).getHeight()<=scrollView.getHeight()+10){
+                    submit.setTextColor(getResources().getColor(R.color.white));
+                    submit.setEnabled(true);
+                }
+                textView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+
+        scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                View onlyChild = v.getChildAt(0);
+                LogUtil.e(onlyChild.getHeight()+" "+scrollView.getHeight()+" scrollX: "+scrollX+" scrollY: "+scrollY+" oldScrollX: "+oldScrollX+" oldScrollY "+oldScrollY);
+                if (onlyChild.getHeight() <= scrollY + v.getHeight() + 10) {   // 如果满足就是到底部了
+                    submit.setTextColor(getResources().getColor(R.color.white));
+                    submit.setEnabled(true);
+                }else{
+                    submit.setEnabled(false);
+                    submit.setTextColor(getResources().getColor(R.color.gray));
+                }
+            }
+        });
+        if (!BuildConfig.DEBUG) {
+            PayPalHelper.getInstance().startPayPalService(this);//todo  old paypal
+        }
+        submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                AsyncHttpClient client = new AsyncHttpClient();
@@ -90,6 +124,7 @@ public class ShopTermsActivity extends BaseTitleActivity {
     }
 
     private String token;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {//todo  old paypal
         PayPalHelper.getInstance().confirmPayResult(this, requestCode, resultCode, data, new PayPalHelper.DoResult() {
@@ -98,7 +133,7 @@ public class ShopTermsActivity extends BaseTitleActivity {
                 ToastUtil.showToast("paypal is success");
                 LogUtil.e("支付成功" + id);
                 Intent intent = new Intent(ShopTermsActivity.this, MainActivity.class);
-                intent.putExtra("paypal","success");
+                intent.putExtra("paypal", "success");
                 startActivity(intent);
             }
 
@@ -114,12 +149,10 @@ public class ShopTermsActivity extends BaseTitleActivity {
 
             @Override
             public void confirmFuturePayment() {
-
             }
 
             @Override
             public void invalidPaymentConfiguration() {
-
             }
         });
     }

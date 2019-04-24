@@ -28,14 +28,16 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.ScreenUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import ggstore.com.App;
-import ggstore.com.BuildConfig;
 import ggstore.com.R;
 import ggstore.com.base.BaseActivity;
+import ggstore.com.constant.Constant;
 import ggstore.com.fragment.AllProductFragment;
 import ggstore.com.fragment.BabyChildrenFragment;
 import ggstore.com.fragment.BrandFragment;
@@ -48,10 +50,12 @@ import ggstore.com.fragment.ShopCartFragment;
 import ggstore.com.fragment.ShopCartListFragment;
 import ggstore.com.fragment.TodayDiscountFragment;
 import ggstore.com.fragment.ToyEduFragment;
+import ggstore.com.utils.KeyboardUtil;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.ReflectUtils;
 import ggstore.com.utils.SPUtils;
 import ggstore.com.utils.ShopCartItemManagerUtil;
+import ggstore.com.utils.TDevice;
 import ggstore.com.utils.ToastUtil;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
@@ -59,10 +63,12 @@ import q.rorbin.badgeview.QBadgeView;
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     //TODO 添加购物车功能  badge应该进行BaseActivity封装
+    public static String start_activity_search_fragment = "start_activity_search_fragment";
+    public static String start_activity_shop_cart = "start_activity_shop_cart";
     public Toolbar toolbar;
     private SearchView searchView;
-    public Badge badge;
     private SearchView.SearchAutoComplete searchViewOfKnowledge;
+    public Badge badge;
     private DrawerLayout drawer;
     public NavigationView navigationView;
 
@@ -73,6 +79,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     protected void initWidget() {
+        LogUtil.i((ScreenUtils.getScreenWidth() + " dpi " + ScreenUtils.getScreenDensityDpi() + "density" + ScreenUtils.getScreenDensity()));
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);       // {@# onCreateOptionsMenu
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -86,38 +93,54 @@ public class MainActivity extends BaseActivity
         navigationView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                ((TextView) findViewById(R.id.activity_main_header_name)).setText(BuildConfig.date);
-                ((TextView) findViewById(R.id.activity_main_header_email)).setText(BuildConfig.DEBUG ? "Debug" : "Release");
+                ((TextView) findViewById(R.id.activity_main_header_name)).setText(Constant.user_name);
+                ((TextView) findViewById(R.id.activity_main_header_email)).setText(Constant.user_name);
                 findViewById(R.id.activity_main_header_logout).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //todo 登出
-                        startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
                         finish();
                         ToastUtil.showToast("己登出");
                     }
                 });
                 navigationView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                View headerView = navigationView.getHeaderView(0);//修复navigationView里headerview高度(navigationView高度有时屏高,有时状态栏以下高度)
+                headerView.setPadding(0, BarUtils.getStatusBarHeight() - ScreenUtils.getScreenHeight() + navigationView.getHeight(), 0, 0);
             }
         });
-        badge = new QBadgeView(App.context());
-
+        navigationView.setItemIconPadding((int) TDevice.dp2px(18));  //设置icon与文字的边距
+        badge = new QBadgeView(this);
+        toolbar.post(new Runnable() {
+            @Override
+            public void run() {
+                LogUtil.e("toolbar.getTitle() : " + toolbar.getTitle()+" title = "+ title);
+                toolbar.setTitle(title);   //修复从别的页面跳转MainActivity toolbar显示title错误
+            }
+        });
     }
 
 
     @Override
     protected void initData() {
-        String paypal = getIntent().getStringExtra("paypal");
         Intent intent = getIntent();
-        String startActivity = intent.getStringExtra("startActivity");
-
+        if (intent == null) {
+            newProductFragment();
+            return;
+        }
+        String paypal = intent.getStringExtra("paypal");
+        String startActivity = intent.getStringExtra(start_activity_shop_cart);
         if (paypal != null && paypal.equals("success")) {
             orderNumberfragment();
         } else if (startActivity != null && startActivity.equals("shopCart")) {
             shopCartFragment();
+        } else if (!TextUtils.isEmpty(intent.getStringExtra(MainActivity.start_activity_search_fragment))) {
+            LogUtil.i(intent.getStringExtra(MainActivity.start_activity_search_fragment));
+            searchFragment(intent.getStringExtra(MainActivity.start_activity_search_fragment));
         } else {
             newProductFragment();
         }
+        title = toolbar.getTitle().toString();
     }
 
     @Override
@@ -151,7 +174,7 @@ public class MainActivity extends BaseActivity
             }
         });
         badge = badge.bindTarget(img).setBadgeNumber(ShopCartItemManagerUtil.getSize()).setBadgeGravity(Gravity.END | Gravity.TOP)
-                .setBadgeTextSize(7, true).setBadgePadding(0, true);
+                .setBadgeTextSize(12, true).setBadgePadding(0, true);
         initSearchView(menu.findItem(R.id.action_search));
         return true;
     }
@@ -200,13 +223,12 @@ public class MainActivity extends BaseActivity
     @SuppressLint("RestrictedApi")
     private void initSearchView(final MenuItem item) {  //开始换
 
-
         searchView = (SearchView) item.getActionView();
 
         Drawable icon = ReflectUtils.reflect(searchView).field("mSearchHintIcon").get();
         icon = getResources().getDrawable(R.drawable.search);   //设置icon没用
         searchView.setIconifiedByDefault(true);
-        searchView.setQueryHint(App.context().getString(R.string.search_hint));
+        searchView.setQueryHint(getString(R.string.search_hint));
         //改变默认的搜索图标
         ((ImageView) searchView.findViewById(R.id.search_button)).setImageResource(R.drawable.search);
         //搜索监听
@@ -214,11 +236,10 @@ public class MainActivity extends BaseActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //在输入法按下搜索或者回车时，会调用次方法，在这里可以作保存历史记录的操作，我这里用了 sharepreference 保存
-                SPUtils.getSP(App.context(), "knowledgeHistory").edit()
-                        .putString(query, query).commit();
-                searchView.onActionViewCollapsed();
-                searchFragment(query);
+                SPUtils.getSP(MainActivity.this, "knowledgeHistory").edit().putString(query, query).commit();
+                KeyboardUtil.hideSoftInput(MainActivity.this);
                 showToolbar();
+                searchFragment(query);
                 return true;   //false 代表关闭键盘
             }
 
@@ -237,8 +258,9 @@ public class MainActivity extends BaseActivity
         //根据id-search_src_text获取TextView
         searchViewOfKnowledge = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
         //改变输入文字的颜色
-        searchViewOfKnowledge.setTextColor(ContextCompat.getColor(App.context(), R.color.black));
-        searchViewOfKnowledge.setCompoundDrawables(App.context().getResources().getDrawable(R.drawable.search), null, null, null);
+        searchViewOfKnowledge.setTextColor(ContextCompat.getColor(this, R.color.white));
+        searchViewOfKnowledge.setEllipsize(TextUtils.TruncateAt.END);
+        searchViewOfKnowledge.setCompoundDrawables(this.getResources().getDrawable(R.drawable.search), null, null, null);
         showHistory();
         //searchview 的关闭监听
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
@@ -254,26 +276,26 @@ public class MainActivity extends BaseActivity
                 if (hasFocus) {
                     hiddenToolbar();
                 } else {
-                    searchView.onActionViewCollapsed();
                     showToolbar();
                 }
-                LogUtil.e(hasFocus + "");
+                LogUtil.d(hasFocus + "");
             }
         });
     }
 
+    @SuppressLint("RestrictedApi")
     private void showHistory() {
         try {
             //取出历史数据，你可以利用其他方式
             final List<String> arr = new ArrayList<>();
-            Map<String, ?> map = SPUtils.getSP(App.context(), "knowledgeHistory").getAll();
+            Map<String, ?> map = SPUtils.getSP(this, "knowledgeHistory").getAll();
             for (String key : map.keySet()) {
                 arr.add(map.get(key).toString());
             }
             //显示历史数据列表
             searchViewOfKnowledge.setThreshold(0);
             //历史数据列表的 adapter,必须继承 ArrayAdater 或实现 filterable接口
-            HistoryAdapter adapter = new HistoryAdapter(App.context(), R.layout.item_history, arr, searchView);
+            HistoryAdapter adapter = new HistoryAdapter(this, R.layout.item_history, arr, searchView);
             //设置 adapter
             searchViewOfKnowledge.setAdapter(adapter);
             //如果重写了 Adapter 的 getView 方法，可以不用实现 item 监听（实现了也没用），否则必须实现监听，不然会报错  --  这个实现没用
@@ -289,19 +311,20 @@ public class MainActivity extends BaseActivity
     }
 
     private void hiddenToolbar() {
-        LogUtil.e("隐藏toolbar里面的title和icon");
+        LogUtil.i("隐藏toolbar里面的title和icon");
         title = toolbar.getTitle() == null ? "" : toolbar.getTitle().toString();  //android5.0不会隐藏此title
         icon = toolbar.getNavigationIcon();
         toolbar.setTitle(null);// this.removeView(this.mTitleTextView);  this.mHiddenViews.remove(this.mTitleTextView);
         toolbar.setNavigationIcon(null);
-        searchViewOfKnowledge.setCompoundDrawables(App.context().getResources().getDrawable(R.drawable.search), null, null, null);
+        searchViewOfKnowledge.setCompoundDrawables(this.getResources().getDrawable(R.drawable.search), null, null, null);
         searchViewOfKnowledge.invalidate();
     }
 
 
     private void showToolbar() {
+        searchView.onActionViewCollapsed();
         if (TextUtils.isEmpty(toolbar.getTitle())) {
-            LogUtil.e("title和icon显示");
+            LogUtil.i("title和icon显示");
             toolbar.setTitle(title);
         } else {
             toolbar.setTitle(toolbar.getTitle());
@@ -354,8 +377,8 @@ public class MainActivity extends BaseActivity
         if (TextUtils.isEmpty(searchKeyword)) {
             return;
         }
-        title = searchKeyword;
-        toolbar.setTitle(searchKeyword);
+        title = "\"" + searchKeyword + "\"";
+        toolbar.setTitle(title);
         replaceFragment(R.id.activity_main_content_frame, new SearchFragment());
     }
 
@@ -404,6 +427,7 @@ public class MainActivity extends BaseActivity
         shopCartFragment.setArguments(bundle);
         addFragment(R.id.activity_main_content_frame, shopCartFragment);
         setNavigationViewCheckedFalse();
+        LogUtil.e(toolbar.getTitle()+" title");
     }
 
     public void setNavigationViewCheckedFalse() {
@@ -433,7 +457,7 @@ public class MainActivity extends BaseActivity
 
     public void myOrderfragment() {
         addFragment(R.id.activity_main_content_frame, new MyOrderFragment());
-        toolbar.setTitle(App.context().getString(R.string.my_order));
+        toolbar.setTitle(getString(R.string.my_order));
         hideSearchAndShopCart();
     }
 
@@ -452,7 +476,7 @@ public class MainActivity extends BaseActivity
         toolbar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                toolbar.setTitle(App.context().getString(R.string.shop_cart));    // 不显示购物车,显示最新产品
+                toolbar.setTitle(getString(R.string.shop_cart));    // 不显示购物车,显示最新产品
                 toolbar.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
@@ -484,15 +508,16 @@ public class MainActivity extends BaseActivity
         }
 
         @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, final ViewGroup parent) {
             if (convertView == null) {
-                convertView = LayoutInflater.from(context).inflate(resourceId, parent, false);
+                convertView = LayoutInflater.from(parent.getContext()).inflate(resourceId, parent, false);
             }
             ((TextView) convertView.findViewById(R.id.titleTv)).setText(titles.get(position));
+            ((TextView) convertView.findViewById(R.id.titleTv)).setTextColor(getResources().getColor(R.color.gray));
             convertView.findViewById(R.id.imageButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SPUtils.getSP(App.context(), "knowledgeHistory").edit().remove(titles.get(position)).commit();
+                    SPUtils.getSP(parent.getContext(), "knowledgeHistory").edit().remove(titles.get(position)).commit();
                     titles.remove(position);
                     notifyDataSetChanged();
                 }

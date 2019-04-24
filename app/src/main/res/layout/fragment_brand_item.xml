@@ -2,31 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:padding="@dimen/lay_1"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/lay_40"
         android:layout_marginTop="@dimen/lay_10"
         android:layout_marginBottom="@dimen/lay_10"
-        android:background="@drawable/round_rectangle"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="@dimen/lay_1">
+        <!--android:background="@drawable/selector_single_double_bg"-->
 
         <ImageView
             android:id="@+id/fragment_brand_item_img"
             android:layout_width="@dimen/lay_40"
             android:layout_height="@dimen/lay_30"
-            android:background="@drawable/round_rectangle_bg"
-            android:src="@drawable/single" />
+            android:background="@drawable/single_icon_bule" />
 
         <ImageView
             android:id="@+id/fragment_brand_item_img2"
             android:layout_width="@dimen/lay_40"
             android:layout_height="@dimen/lay_30"
-            android:src="@drawable/double_icon" />
+            android:background="@drawable/double_icon_white" />
     </LinearLayout>
 
     <FrameLayout

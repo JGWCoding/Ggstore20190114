@@ -29,7 +29,7 @@ public class AllProductFragment   extends BaseFragment {//todo 布局xml文件�
                 isSingle=true;
                 AllProductRecyclerRecyclerFragment fragment = (AllProductRecyclerRecyclerFragment) getChildFragmentManager().findFragmentByTag(AllProductRecyclerRecyclerFragment.class.getName());
                 fragment.setLayoutManager(fragment.getLayoutManager());
-                singleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg));
+                singleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg_5));
                 doubleImg.setBackgroundDrawable(null);
             }
         });
@@ -38,7 +38,7 @@ public class AllProductFragment   extends BaseFragment {//todo 布局xml文件�
             public void onClick(View v) {
                 isSingle=false;
                 singleImg.setBackgroundDrawable(null);
-                doubleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg));
+                doubleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg_5));
                 AllProductRecyclerRecyclerFragment fragment = (AllProductRecyclerRecyclerFragment) getChildFragmentManager().findFragmentByTag(AllProductRecyclerRecyclerFragment.class.getName());
                 fragment.setLayoutManager(fragment.getLayoutManager());
             }

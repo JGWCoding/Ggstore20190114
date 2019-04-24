@@ -29,16 +29,16 @@ public class GravidaMotherFragment extends BaseFragment {
                 isSingle=true;
                 GravidaMotherRecyclerFragment fragment = (GravidaMotherRecyclerFragment) getChildFragmentManager().findFragmentByTag(GravidaMotherRecyclerFragment.class.getName());
                 fragment.setLayoutManager(fragment.getLayoutManager());
-                singleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg));
-                doubleImg.setBackgroundDrawable(null);
+                singleImg.setBackgroundResource(R.drawable.single_icon_bule);
+                doubleImg.setBackgroundResource(R.drawable.double_icon_white);
             }
         });
         doubleImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isSingle=false;
-                singleImg.setBackgroundDrawable(null);
-                doubleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg));
+                singleImg.setBackgroundResource(R.drawable.single_icon_white);
+                doubleImg.setBackgroundResource(R.drawable.double_icon_blue);
                 GravidaMotherRecyclerFragment fragment = (GravidaMotherRecyclerFragment) getChildFragmentManager().findFragmentByTag(GravidaMotherRecyclerFragment.class.getName());
                 fragment.setLayoutManager(fragment.getLayoutManager());
             }

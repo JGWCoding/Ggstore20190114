@@ -120,12 +120,14 @@
     <string name="state_refreshing">刷新中</string>
     <string name="state_load_error">加載錯誤</string>
     <string name="login">登錄</string>
-
+    <!--&#160;代表为空格-->
+    <string name="login_xml">登&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;入</string>
     <!-- 代表api返回的是中文还是英文  1中文 2英文 -->
     <string name="api_lang">1</string>
     <string name="forget_password_details">請輸入資料重設密碼</string>
     <string name="email">電郵地址</string>
     <string name="register">註冊</string>
+    <string name="register_xml">註&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;冊</string>
     <string name="register_title">使用條例及免責聲明</string>
 
 
@@ -169,7 +171,7 @@
     <string name="go">繼續</string>
     <string name="cargo_data">送貨資料</string>
     <string name="delivery_way">送貨方式</string>
-    <string name="delivery_way_detail">快遞 (暫時只提供香港運送服務)  運費 HK$50, 購物滿HK$300(優惠後)即可以享有免費 送貨服務</string>
+    <string name="delivery_way_detail">快遞 (暫時只提供香港運送服務) \n運費 HK$50, 購物滿HK$300(優惠後)即可以享有免費 送貨服務</string>
     <string name="receiver_data">收貨人資料</string>
     <string name="first_name">姓氏</string>
     <string name="last_name">名字</string>
@@ -196,7 +198,7 @@
     <string name="product_price_detail">價錢 : HK$%d</string>
     <string name="product_price_sum">小計 : HK$%d</string>
     <string name="freight">運費 : HK$%d</string>
-    <string name="total_price">總計:HK$%d</string>
+    <string name="total_price">總計 : HK$%d</string>
     <string name="set_password">設置密碼</string>
     <string name="confirm_password">確認密碼</string>
     <string name="name">姓名</string>
@@ -214,6 +216,7 @@
     <string name="subtotal">小計</string>
     <string name="pay_date">付款日期</string>
     <string name="unit_price">單價</string>
+    <string name="reset_password">重 設 密 碼</string>
 
 
 </resources>

@@ -125,7 +125,7 @@ public class NewProductRecyclerFragmentTest extends BaseRecyclerViewFragment {
     public void onItemClick(int position, long itemId) {
         NewProductBean item = (NewProductBean) mAdapter.getItem(position);
         Constant.newProductBean = item;
-        LogUtil.e("item is null :"+item==null?"null":item.toString());
+        LogUtil.e("item is null :" + item == null ? "null" : item.toString());
         Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
         if (getActivity() instanceof MainActivity) {
             String title = ((MainActivity) getActivity()).navigationView.getCheckedItem().getTitle().toString();
@@ -157,8 +157,8 @@ public class NewProductRecyclerFragmentTest extends BaseRecyclerViewFragment {
                 myViewHolder = new CourseAdapter.MyViewHolder(LayoutInflater.from(parent.getContext()).
                         inflate(R.layout.recycler_new_product_item, parent, false));
             } else {
-                myViewHolder = new CourseAdapter.MyViewHolder(LayoutInflater.from(parent.getContext()).
-                        inflate(R.layout.recycler_new_product_item_double, parent, false));
+                myViewHolder = new CourseAdapter.MyViewHolder(LayoutInflater.from(parent.getContext()).inflate
+                        (R.layout.recycler_new_product_item_double, parent, false));
             }
             return myViewHolder;
         }
@@ -170,6 +170,15 @@ public class NewProductRecyclerFragmentTest extends BaseRecyclerViewFragment {
             NewProductFragment fragment = (NewProductFragment) getParentFragment();
             if (fragment.isSingle) {
             } else {
+                if (getIndex(position) % 2 == 0) {
+                    GridLayoutManager.LayoutParams layoutParams = (GridLayoutManager.LayoutParams) ((MyViewHolder) holder).root.getLayoutParams();
+                    layoutParams.setMargins(72, 22, 22, 22);
+                    ((MyViewHolder) holder).root.setLayoutParams(layoutParams);
+                } else {
+                    GridLayoutManager.LayoutParams layoutParams = (GridLayoutManager.LayoutParams) ((MyViewHolder) holder).root.getLayoutParams();
+                    layoutParams.setMargins(22, 22, 72, 22);
+                    ((MyViewHolder) holder).root.setLayoutParams(layoutParams);
+                }
             }
             ((MyViewHolder) holder).title.setText(item.getProductName_cn());
             ((MyViewHolder) holder).oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);   //加横线效果
@@ -181,14 +190,15 @@ public class NewProductRecyclerFragmentTest extends BaseRecyclerViewFragment {
             if (TextUtils.isEmpty(item.getUnitPrice())) {
                 ((MyViewHolder) holder).newPrice.setText(null);
             } else {
-                ((MyViewHolder) holder).newPrice.setText(App.context().getString(R.string.product_price,item.getUnitPrice()));
+                ((MyViewHolder) holder).newPrice.setText(App.context().getString(R.string.product_price, item.getUnitPrice()));
             }
             ImageLoader.loadImage(App.context(), ((MyViewHolder) holder).imgDetail, Constant.base_images_product_url + item.getPictureL());
             ((MyViewHolder) holder).addShop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //TODO 应该上传给服务器
-                    ShopCartItemManagerUtil.addShopCart(item);((MainActivity) getActivity()).badge.setBadgeNumber(ShopCartItemManagerUtil.getSize());
+                    ShopCartItemManagerUtil.addShopCart(item);
+                    ((MainActivity) getActivity()).badge.setBadgeNumber(ShopCartItemManagerUtil.getSize());
                 }
             });
 

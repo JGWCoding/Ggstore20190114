@@ -36,7 +36,7 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
             page = 1;
             AppOperator.runOnThread(new Runnable() {
                 @Override
-                public void run() {
+                public void run() { //todo 以后向服务器请求购物车数据
                     String url = Constant.base_url + "api_get_coursebook.php?recordperpage=4&page=" + page +
                             "&sortby=&token=" + Constant.token + "&username=&lang=" + App.context().getString(R.string.api_lang);
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
@@ -76,7 +76,6 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
     }
 
     class CourseAdapter extends BaseRecyclerAdapter<ShopCartBean> {
-
         public CourseAdapter(Context context, int mode) {
             super(context, mode);
         }

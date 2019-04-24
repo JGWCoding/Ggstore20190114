@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import ggstore.com.BuildConfig;
 import ggstore.com.R;
@@ -28,7 +29,7 @@ public class ReceiveAddressActivity extends BaseTitleActivity {
         final EditText fristName = findViewById(R.id.activity_address_frist_name);
         final   EditText lastName = findViewById(R.id.activity_address_last_name);
         final   EditText phone = findViewById(R.id.activity_address_phone);
-        final   EditText area = findViewById(R.id.activity_address_area);
+        final TextView area = findViewById(R.id.activity_address_area);
         findViewById(R.id.activity_address_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -66,8 +66,10 @@ public class ToyEducationRecyclerFragment2 extends BaseMyRecyclerViewFragment {
                             ArrayList<NewProductBean> list = parseData(result);
                             mAdapter.resetItem(list);
                             onRequestSuccess();
-                            if (maxPage<2){
+                            if (maxPage < 2) {
                                 onNoRequest();
+                                mAdapter.notifyDataSetChanged();
+                                LogUtil.e("state" + mAdapter.getState());
                             }
                         }
                     });
@@ -175,7 +177,7 @@ public class ToyEducationRecyclerFragment2 extends BaseMyRecyclerViewFragment {
             if (TextUtils.isEmpty(item.getUnitPrice())) {
                 ((MyViewHolder) holder).newPrice.setText(null);
             } else {
-                ((MyViewHolder) holder).newPrice.setText(App.context().getString(R.string.product_price,item.getUnitPrice()));
+                ((MyViewHolder) holder).newPrice.setText(App.context().getString(R.string.product_price, item.getUnitPrice()));
             }
             ImageLoader.loadImage(App.context(), ((CourseAdapter.MyViewHolder) holder).imgDetail, Constant.base_images_product_url + item.getPictureL());
 //            ((MyViewHolder)holder).imgDetail.setImageURI(Uri.parse(Constant.base_images_product_url+item.getPictureL()));//只能进行文件的
@@ -183,7 +185,8 @@ public class ToyEducationRecyclerFragment2 extends BaseMyRecyclerViewFragment {
                 @Override
                 public void onClick(View v) {
                     //TODO 应该上传给服务器
-                    ShopCartItemManagerUtil.addShopCart(item);((MainActivity) getActivity()).badge.setBadgeNumber(ShopCartItemManagerUtil.getSize());
+                    ShopCartItemManagerUtil.addShopCart(item);
+                    ((MainActivity) getActivity()).badge.setBadgeNumber(ShopCartItemManagerUtil.getSize());
                 }
             });
 

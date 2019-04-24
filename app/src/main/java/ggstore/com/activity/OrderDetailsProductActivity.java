@@ -21,7 +21,7 @@ import ggstore.com.utils.ToastUtil;
 
 public class OrderDetailsProductActivity extends BaseTitleActivity {
     private ArrayList<ImageView> roundList = new ArrayList<ImageView>();
-
+    private int lastPosition;
     @Override
     protected CharSequence getContentTitle() {
         return getString(R.string.product_details);
@@ -53,9 +53,8 @@ public class OrderDetailsProductActivity extends BaseTitleActivity {
 
             @Override
             public void onPageSelected(int i) {
-                for (int j = 0; j < roundList.size(); j++) {
-                    roundList.get(j).setImageResource(i == j ? R.drawable.red_round : R.drawable.black_round);
-                }
+                selectorRound(i);
+                lastPosition = i;
             }
 
             @Override
@@ -74,20 +73,52 @@ public class OrderDetailsProductActivity extends BaseTitleActivity {
         } else if (imageViews.size() == 1) {
             tips.setVisibility(View.GONE);
         } else {
-            for (int i = 0; i < imageViews.size(); i++) {
-                ImageView imageView = new ImageView(this);
-                imageView.setPadding(((int) TDevice.dp2px(5f)), ((int) TDevice.dp2px(5f)), ((int) TDevice.dp2px(5f)), ((int) TDevice.dp2px(5f)));
-                roundList.add(imageView);
-                if (i == 0) {
-                    imageView.setImageResource(R.drawable.red_round);
-                } else {
-                    imageView.setImageResource(R.drawable.black_round);
-                }
-                tips.addView(imageView);
-            }
+//            for (int i = 0; i < imageViews.size(); i++) {
+//                ImageView imageView = new ImageView(this);
+//                imageView.setPadding(((int) TDevice.dp2px(5f)), ((int) TDevice.dp2px(5f)), ((int) TDevice.dp2px(5f)), ((int) TDevice.dp2px(5f)));
+//                roundList.add(imageView);
+//                if (i == 0) {
+//                    imageView.setImageResource(R.drawable.red_round);
+//                } else {
+//                    imageView.setImageResource(R.drawable.black_round);
+//                }
+//                tips.addView(imageView);
+//            }
+            addRound(tips,imageViews);
         }
     }
-
+    private void addRound(LinearLayout tips, ArrayList<ImageView> imageViews) {
+        for (int i = 0; i < imageViews.size(); i++) {
+            ImageView imageView = new ImageView(this);
+            LinearLayout.LayoutParams layoutParams;
+            if (i == 0) {
+                layoutParams = new LinearLayout.LayoutParams((int) TDevice.dp2px(8f), (int) TDevice.dp2px(8f));
+                imageView.setImageResource(R.drawable.selector_round);
+            } else {
+                layoutParams = new LinearLayout.LayoutParams((int) TDevice.dp2px(5f), (int) TDevice.dp2px(5f));
+                imageView.setImageResource(R.drawable.black_round);
+            }
+            layoutParams.setMargins(((int) TDevice.dp2px(5f)), ((int) TDevice.dp2px(5f)), ((int) TDevice.dp2px(5f)), ((int) TDevice.dp2px(5f)));
+            imageView.setLayoutParams(layoutParams);
+            roundList.add(imageView);
+            tips.addView(imageView);
+        }
+    }
+    private void selectorRound(int selector) {
+        ImageView imageView = roundList.get(lastPosition);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();
+        layoutParams.width = (int) TDevice.dp2px(5f);
+        layoutParams.height = (int) TDevice.dp2px(5f);
+        imageView.setLayoutParams(layoutParams);
+        imageView.setImageResource(R.drawable.black_round);
+        imageView = roundList.get(selector);
+        LogUtil.i(layoutParams.width + "=width:height=" + layoutParams.height);
+        layoutParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();
+        layoutParams.width = (int) TDevice.dp2px(8f);
+        layoutParams.height = (int) TDevice.dp2px(8f);
+        imageView.setLayoutParams(layoutParams);
+        imageView.setImageResource(R.drawable.selector_round);
+    }
     private void getImages(ArrayList<ImageView> imageViews) {
         String[] split = Constant.orderNumber.getImages().split(";");
         if (split != null && split.length >= 1) {

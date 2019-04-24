@@ -27,7 +27,7 @@ public class BookFragment extends BaseFragment {
                 isSingle=true;
                 ToyEducationRecyclerFragment3 fragment = (ToyEducationRecyclerFragment3) getChildFragmentManager().findFragmentByTag(ToyEducationRecyclerFragment3.class.getName());
                 fragment.setLayoutManager(fragment.getLayoutManager());
-                singleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg));
+                singleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg_5));
                 doubleImg.setBackgroundDrawable(null);
             }
         });
@@ -36,7 +36,7 @@ public class BookFragment extends BaseFragment {
             public void onClick(View v) {
                 isSingle=false;
                 singleImg.setBackgroundDrawable(null);
-                doubleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg));
+                doubleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg_5));
                 ToyEducationRecyclerFragment3 fragment = (ToyEducationRecyclerFragment3) getChildFragmentManager().findFragmentByTag(ToyEducationRecyclerFragment3.class.getName());
                 fragment.setLayoutManager(fragment.getLayoutManager());
             }

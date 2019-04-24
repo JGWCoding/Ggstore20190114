@@ -11,15 +11,15 @@
         android:layout_weight="4"
         android:paddingLeft="@dimen/lay_5"
         android:text="PO12345678"
-        android:gravity="center"
+        android:gravity="start"
         android:maxLines="1"
         android:ellipsize="end"
         android:layout_width="0dp"
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/item_my_order_product_name"
-        android:gravity="center"
-        android:layout_weight="4"
+        android:gravity="start"
+        android:layout_weight="3"
         android:paddingLeft="@dimen/lay_10"
         android:text="嬰兒動物玩具車 - 象 (編號:TEIT11-00342)"
         android:maxLines="1"
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/item_my_order_date"
-        android:gravity="center"
+        android:gravity="start"
         android:maxLines="2"
         android:ellipsize="end"
         android:drawableRight="@drawable/right_arrow"

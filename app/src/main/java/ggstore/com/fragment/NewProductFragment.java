@@ -1,6 +1,5 @@
 package ggstore.com.fragment;
 
-import android.support.design.widget.TabLayout;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -28,16 +27,20 @@ public class NewProductFragment extends BaseFragment {
                 isSingle=true;
                 NewProductRecyclerFragmentTest fragment = (NewProductRecyclerFragmentTest) getChildFragmentManager().findFragmentByTag(NewProductRecyclerFragmentTest.class.getName());
                 fragment.setLayoutManager(fragment.getLayoutManager());
-                singleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg));
-                doubleImg.setBackgroundDrawable(null);
+//                singleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg_5));
+//                doubleImg.setBackgroundDrawable(null);
+                singleImg.setBackgroundResource(R.drawable.single_icon_bule);
+                doubleImg.setBackgroundResource(R.drawable.double_icon_white);
             }
         });
         doubleImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isSingle=false;
-                singleImg.setBackgroundDrawable(null);
-                doubleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg));
+                singleImg.setBackgroundResource(R.drawable.single_icon_white);
+                doubleImg.setBackgroundResource(R.drawable.double_icon_blue);
+//                singleImg.setBackgroundDrawable(null);
+//                doubleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg_5));
                 NewProductRecyclerFragmentTest fragment = (NewProductRecyclerFragmentTest) getChildFragmentManager().findFragmentByTag(NewProductRecyclerFragmentTest.class.getName());
                 fragment.setLayoutManager(fragment.getLayoutManager());
             }

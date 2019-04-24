@@ -24,6 +24,7 @@ import ggstore.com.utils.AppOperator;
 import ggstore.com.utils.ImageLoader;
 import ggstore.com.utils.OkHttpManager;
 import ggstore.com.utils.OrderNumberManagerUtil;
+import ggstore.com.utils.TDevice;
 import ggstore.com.utils.ToastUtil;
 import okhttp3.Request;
 
@@ -31,6 +32,8 @@ public class OrderDetailsRecyclerFragment extends BaseRecyclerViewFragment {
 
     @Override
     protected void requestData(final boolean isRefreshing) { //true 为刷新 false 为加载更多
+        mRecyclerView.setVerticalFadingEdgeEnabled(true);
+        mRecyclerView.setFadingEdgeLength((int) TDevice.dp2px(50));
         if (isRefreshing) {
             AppOperator.runOnThread(new Runnable() {
                 @Override

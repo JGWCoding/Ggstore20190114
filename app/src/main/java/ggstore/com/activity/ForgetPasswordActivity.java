@@ -1,9 +1,11 @@
 package ggstore.com.activity;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import org.json.JSONObject;
 
@@ -17,16 +19,35 @@ import okhttp3.Request;
 public class ForgetPasswordActivity extends BaseTitleActivity {
 
 
-    private ImageView submit;
+    private Button submit;
     private EditText email;
     private EditText name;
 
     @Override
     protected void initData() {
-        submit = (ImageView) findViewById(R.id.submit);
+        submit = findViewById(R.id.submit);
         email = (EditText) findViewById(R.id.et_email);
         name = (EditText) findViewById(R.id.et_name);
+        TextWatcher textChangedListener = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (TextUtils.isEmpty(name.getText()) || TextUtils.isEmpty(email.getText())) {
+                    submit.setEnabled(false);
+                } else {
+                    submit.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
+        email.addTextChangedListener(textChangedListener);
+        name.addTextChangedListener(textChangedListener);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,7 +59,6 @@ public class ForgetPasswordActivity extends BaseTitleActivity {
             }
         });
     }
-
 
 
     private void resetPassword(String email) {
@@ -53,12 +73,12 @@ public class ForgetPasswordActivity extends BaseTitleActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     int code = jsonObject.optInt("code");
-                    if(code==200) {
-                        ToastUtil.showToast(jsonObject.optString("msg","mailbox look in new password"));
+                    if (code == 200) {
+                        ToastUtil.showToast(jsonObject.optString("msg", "mailbox look in new password"));
                         finish();
                         return;
-                    }else{
-                        ToastUtil.showToast(jsonObject.optString("msg","fall"));
+                    } else {
+                        ToastUtil.showToast(jsonObject.optString("msg", "fall"));
                     }
                 } catch (Exception e) {
                     ToastUtil.showToast("获取密码失败,请再一次输入邮箱");

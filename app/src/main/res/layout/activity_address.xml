@@ -4,117 +4,144 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="vertical"
-    android:padding="@dimen/lay_20"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/lay_20">
 
         <TextView
-            android:textSize="@dimen/font_18"
-            android:textColor="@color/bg"
-            android:layout_marginTop="@dimen/lay_10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/delivery_way" />
+            android:layout_marginTop="@dimen/lay_15"
+            android:text="@string/delivery_way"
+            android:textColor="@color/bg"
+            android:textSize="@dimen/font_18" />
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/lay_5"
             android:text="@string/delivery_way_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:layout_marginTop="@dimen/lay_10"
-            android:textSize="@dimen/font_18"
-            android:textColor="@color/bg"
-            android:text="@string/receiver_data"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:layout_marginTop="@dimen/lay_10"
-            android:textColor="@color/bg"
-            android:text="@string/first_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:layout_marginTop="@dimen/lay_5"
-            android:id="@+id/activity_address_frist_name"
-            android:background="@color/yellow"
-            android:layout_width="match_parent"
-            android:textColorHint="@color/gray"
-            android:padding="@dimen/lay_10"
-            android:layout_height="@dimen/lay_40" />
-        <TextView
-            android:layout_marginTop="@dimen/lay_10"
-            android:textColor="@color/bg"
-            android:text="@string/last_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:layout_marginTop="@dimen/lay_5"
-            android:id="@+id/activity_address_last_name"
-            android:background="@color/yellow"
-            android:layout_width="match_parent"
-            android:textColorHint="@color/gray"
-            android:padding="@dimen/lay_10"
-            android:layout_height="@dimen/lay_40" />
+            android:textSize="@dimen/font_13" />
 
         <TextView
-            android:layout_marginTop="@dimen/lay_10"
-            android:textColor="@color/bg"
-            android:text="@string/phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:layout_marginTop="@dimen/lay_5"
-            android:id="@+id/activity_address_phone"
-            android:background="@color/yellow"
             android:layout_width="match_parent"
-            android:textColorHint="@color/gray"
-            android:padding="@dimen/lay_10"
-            android:layout_height="@dimen/lay_40" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_10"
+            android:text="@string/receiver_data"
+            android:textColor="@color/bg"
+            android:textSize="@dimen/font_18" />
+
         <TextView
-            android:layout_marginTop="@dimen/lay_10"
-            android:textColor="@color/bg"
-            android:text="@string/area"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_15"
+            android:text="@string/first_name"
+            android:textColor="@color/bg" />
+
         <EditText
-            android:layout_marginTop="@dimen/lay_5"
-            android:id="@+id/activity_address_area"
-            android:background="@color/yellow"
+            android:id="@+id/activity_address_frist_name"
             android:layout_width="match_parent"
-            android:textColorHint="@color/gray"
-            android:padding="@dimen/lay_10"
-            android:layout_height="@dimen/lay_40" />
+            android:layout_height="@dimen/lay_40"
+            android:layout_marginTop="@dimen/lay_5"
+            android:background="@drawable/selector_edittext_bg_5"
+            android:padding="@dimen/lay_15"
+            android:textColorHint="@color/gray" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_15"
+            android:text="@string/last_name"
+            android:textColor="@color/bg" />
+
+        <EditText
+            android:id="@+id/activity_address_last_name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lay_40"
+            android:layout_marginTop="@dimen/lay_5"
+            android:background="@drawable/selector_edittext_bg_5"
+            android:padding="@dimen/lay_15"
+            android:textColorHint="@color/gray" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_15"
+            android:text="@string/phone"
+            android:textColor="@color/bg" />
+
+        <EditText
+            android:id="@+id/activity_address_phone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lay_40"
+            android:layout_marginTop="@dimen/lay_5"
+            android:background="@drawable/selector_edittext_bg_5"
+            android:padding="@dimen/lay_15"
+            android:textColorHint="@color/gray" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_15"
+            android:text="@string/area"
+            android:textColor="@color/bg" />
+
+        <TextView
+            android:id="@+id/activity_address_area"
+            android:layout_width="@dimen/lay_80"
+            android:layout_height="@dimen/lay_40"
+            android:layout_marginTop="@dimen/lay_5"
+            android:background="@color/tr_gray"
+            android:gravity="center"
+            android:text="@string/hongkong" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_15"
+            android:text="@string/postal_address"
+            android:textColor="@color/bg" />
+
+        <EditText
+            android:id="@+id/activity_address_address"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lay_40"
+            android:layout_marginTop="@dimen/lay_5"
+            android:background="@drawable/selector_edittext_bg_5"
+            android:padding="@dimen/lay_15"
+            android:textColorHint="@color/gray" />
 
         <LinearLayout
-            android:layout_marginTop="@dimen/lay_20"
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lay_20"
+            android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/activity_address_back"
-                android:textSize="@dimen/font_25"
-                android:text="@string/back"
-                android:padding="@dimen/lay_5"
-                android:textColor="@color/white"
+                android:layout_width="@dimen/lay_140"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/lay_15"
                 android:layout_weight="1"
+                android:background="@drawable/button_bg_10"
                 android:gravity="center"
-                android:background="@drawable/button_bg"
-                android:layout_margin="@dimen/lay_20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
                 android:padding="@dimen/lay_5"
-                android:textSize="@dimen/font_25"
-                android:gravity="center"
+                android:text="@string/back"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_25" />
+
+            <TextView
                 android:id="@+id/activity_address_submit"
+                android:layout_width="@dimen/lay_140"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/lay_15"
                 android:layout_weight="1"
                 android:background="@drawable/gray_bg"
-                android:layout_margin="@dimen/lay_20"
+                android:gravity="center"
+                android:padding="@dimen/lay_5"
                 android:text="@string/submit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/font_25" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

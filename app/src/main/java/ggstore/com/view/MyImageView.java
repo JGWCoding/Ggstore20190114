@@ -14,8 +14,8 @@ import ggstore.com.utils.TDevice;
 public class MyImageView extends android.support.v7.widget.AppCompatImageView {
 
     private Paint paint;
-    private float width = TDevice.dp2px(3);
-    int[] colors = { 0xFFFFFFFF,0xFFe6e6e6,0xFFFFFFFF};  //不要用R.colors.xxx
+    private float width = TDevice.dp2px(4);
+    int[] colors = { 0xFFe6e6e6,0xFFe6e6e6,0xFFFFFFFF};  //不要用R.colors.xxx
     float[] position = {0.0f,0.2f,1f};
     private LinearGradient shader;
 

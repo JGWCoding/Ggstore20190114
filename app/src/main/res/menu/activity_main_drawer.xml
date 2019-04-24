@@ -2,43 +2,83 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/new_product"
-            android:icon="@drawable/menu_icon_new_product"
+            android:icon="@drawable/menu_icon_1"
             android:title="@string/new_product" />
         <item
             android:id="@+id/today_discount"
-            android:icon="@drawable/menu_icon_today_discount"
+            android:icon="@drawable/menu_icon_2"
             android:title="@string/today_discount" />
         <item
             android:id="@+id/gravida_mother"
-            android:icon="@drawable/menu_icon_gravida_mother"
+            android:icon="@drawable/menu_icon_3"
             android:title="@string/gravida_mother" />
         <item
             android:id="@+id/bady_children"
-            android:icon="@drawable/menu_icon_bady_children"
+            android:icon="@drawable/menu_icon_4"
             android:title="@string/bady_children" />
         <item
             android:id="@+id/toy_education"
-            android:icon="@drawable/menu_icon_toy_education"
+            android:icon="@drawable/menu_icon_5"
             android:title="@string/toy_education" />
         <item
             android:id="@+id/all_product"
-            android:icon="@drawable/menu_icon_all_product"
+            android:icon="@drawable/menu_icon_6"
             android:title="@string/all_product" />
         <item
             android:id="@+id/brand"
-            android:icon="@drawable/menu_icon_brand"
+            android:icon="@drawable/menu_icon_7"
             android:title="@string/brand" />
-        <group android:id="@+id/group_divider" android:checkableBehavior="single">
+        <group
+            android:id="@+id/group_divider"
+            android:checkableBehavior="single">
             <item
                 android:id="@+id/my_order"
-                android:icon="@drawable/menu_icon_my_order"
+                android:icon="@drawable/menu_icon_8"
                 android:title="@string/my_order" />
         </group>
     </group>
+
+    <!--<group android:checkableBehavior="single">-->
+    <!--<item-->
+    <!--android:id="@+id/new_product"-->
+    <!--android:icon="@drawable/menu_icon_new_product"-->
+    <!--android:title="@string/new_product" />-->
+    <!--<item-->
+    <!--android:id="@+id/today_discount"-->
+    <!--android:icon="@drawable/menu_icon_today_discount"-->
+    <!--android:title="@string/today_discount" />-->
+    <!--<item-->
+    <!--android:id="@+id/gravida_mother"-->
+    <!--android:icon="@drawable/menu_icon_gravida_mother"-->
+    <!--android:title="@string/gravida_mother" />-->
+    <!--<item-->
+    <!--android:id="@+id/bady_children"-->
+    <!--android:icon="@drawable/menu_icon_bady_children"-->
+    <!--android:title="@string/bady_children" />-->
+    <!--<item-->
+    <!--android:id="@+id/toy_education"-->
+    <!--android:icon="@drawable/menu_icon_toy_education"-->
+    <!--android:title="@string/toy_education" />-->
+    <!--<item-->
+    <!--android:id="@+id/all_product"-->
+    <!--android:icon="@drawable/menu_icon_all_product"-->
+    <!--android:title="@string/all_product" />-->
+    <!--<item-->
+    <!--android:id="@+id/brand"-->
+    <!--android:icon="@drawable/menu_icon_brand"-->
+    <!--android:title="@string/brand" />-->
+    <!--<group android:id="@+id/group_divider" android:checkableBehavior="single">-->
+    <!--<item-->
+    <!--android:id="@+id/my_order"-->
+    <!--android:icon="@drawable/menu_icon_my_order"-->
+    <!--android:title="@string/my_order" />-->
+    <!--</group>-->
+    <!--</group>-->
+
+
     <!--<item android:titleBar="Communicate" android:visible="false">-->
     <!--<menu>-->
     <!--<item-->

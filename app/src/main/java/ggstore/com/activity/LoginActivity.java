@@ -3,10 +3,11 @@ package ggstore.com.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.PermissionUtils;
@@ -52,8 +53,32 @@ public class LoginActivity extends BaseActivity {
     protected void initWidget() {
         etName = findViewById(R.id.activity_login_name);
         etPassword = findViewById(R.id.activity_login_password);
-        ImageView im_login = findViewById(R.id.login);
-        im_login.setOnClickListener(new View.OnClickListener() {
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(etName.getText()) || TextUtils.isEmpty(etPassword.getText())) {
+                    findViewById(R.id.login).setEnabled(false);
+                } else {
+                    findViewById(R.id.login).setEnabled(true);
+                }
+            }
+        };
+        etPassword.addTextChangedListener(textWatcher);
+        etName.addTextChangedListener(textWatcher);
+        if (BuildConfig.DEBUG){
+            findViewById(R.id.login).setEnabled(true);
+        }
+        findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 login();
@@ -104,9 +129,9 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void requestStorage() {
-        if (!PermissionUtils.isGranted(PermissionConstants.STORAGE)){
+        if (!PermissionUtils.isGranted(PermissionConstants.STORAGE)) {
             LogUtil.e("权限没有授予 ");
-             PermissionUtils.permission(PermissionConstants.STORAGE).rationale(
+            PermissionUtils.permission(PermissionConstants.STORAGE).rationale(
                     new PermissionUtils.OnRationaleListener() {
                         @Override
                         public void rationale(ShouldRequest shouldRequest) {
@@ -134,6 +159,7 @@ public class LoginActivity extends BaseActivity {
 
     private void login() {
         if (BuildConfig.DEBUG) {
+            Constant.user_name = "I_am_debug@qq.com";
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -162,6 +188,7 @@ public class LoginActivity extends BaseActivity {
                     int code = new JSONObject(result).optInt("code");
                     LogUtil.e(result);
                     if (code == 200) {  //TODO 这里需要获取登录人的信息
+                        Constant.user_name = etName.getText().toString();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -229,7 +256,6 @@ public class LoginActivity extends BaseActivity {
             }
         };
     }
-
 
 
     @Override

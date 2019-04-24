@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
@@ -68,11 +69,17 @@
             android:layout_margin="@dimen/lay_10"
             android:background="@drawable/add_shop_cart" />
 
-        <ScrollView
+        <ggstore.com.view.MyNestedScrollView
+            android:id="@+id/activity_product_detail_scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/price_ll"
-            android:padding="@dimen/lay_10">
+            android:fadingEdge="vertical"
+            android:fadingEdgeLength="@dimen/lay_50"
+            android:paddingLeft="@dimen/lay_20"
+            android:paddingTop="@dimen/lay_20"
+            android:paddingRight="@dimen/lay_20"
+            android:requiresFadingEdge="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -99,19 +106,21 @@
                     android:layout_height="wrap_content">
 
                     <android.support.v4.view.ViewPager
-                        android:id="@+id/activity_order_detail_product_viewpager"
+                        android:id="@+id/activity_product_detail_viewpager"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/lay_200"
-                        android:layout_marginTop="@dimen/lay_10"/>
+                        android:layout_marginTop="@dimen/lay_10" />
 
                     <LinearLayout
-                        android:id="@+id/activity_order_detail_product_tips"
+                        android:id="@+id/activity_product_detail_tips"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/lay_20"
+                        android:layout_below="@id/activity_order_detail_product_viewpager"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_margin="@dimen/lay_5"
-                        android:orientation="horizontal"/>
+                        android:gravity="center"
+                        android:orientation="horizontal" />
                 </RelativeLayout>
 
                 <View
@@ -123,6 +132,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/lay_5"
                     android:layout_marginTop="@dimen/lay_10"
                     android:text="產品描述"
                     android:textColor="@color/bg"
@@ -131,10 +141,10 @@
                 <WebView
                     android:id="@+id/activity_product_detail_description"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/lay_5"
-                   />
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/lay_5"
+                    android:layout_marginTop="@dimen/lay_5"/>
             </LinearLayout>
-        </ScrollView>
+        </ggstore.com.view.MyNestedScrollView>
     </RelativeLayout>
 </LinearLayout>

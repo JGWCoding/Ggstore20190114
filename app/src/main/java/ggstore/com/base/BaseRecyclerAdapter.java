@@ -356,6 +356,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
             notifyDataSetChanged();
             return;
         }
+        LogUtil.e("isUpdate:"+(getItemCount()>position)+" count:"+getItemCount()+" position:"+position+ " state:"+getState());
         if (getItemCount() > position) {
             notifyItemChanged(position);
         }
@@ -401,7 +402,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
 
     public void setState(int mState, boolean isUpdate) {
         this.mState = mState;
-        LogUtil.e("刷新状态为:" + mState + " 更新状态为:" + isUpdate);
+        LogUtil.e("刷新状态为:" + mState + " 更新状态为:" + isUpdate +"  update_position:"+(getItemCount()-1));
         if (isUpdate)
             updateItem(getItemCount() - 1);
     }

@@ -29,7 +29,7 @@ public class BabyToyFragment extends BaseFragment {
                 isSingle=true;
                 ToyEducationRecyclerFragment2 fragment = (ToyEducationRecyclerFragment2) getChildFragmentManager().findFragmentByTag(ToyEducationRecyclerFragment2.class.getName());
                 fragment.setLayoutManager(fragment.getLayoutManager());
-                singleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg));
+                singleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg_5));
                 doubleImg.setBackgroundDrawable(null);
             }
         });
@@ -38,7 +38,7 @@ public class BabyToyFragment extends BaseFragment {
             public void onClick(View v) {
                 isSingle=false;
                 singleImg.setBackgroundDrawable(null);
-                doubleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg));
+                doubleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg_5));
                 ToyEducationRecyclerFragment2 fragment = (ToyEducationRecyclerFragment2) getChildFragmentManager().findFragmentByTag(ToyEducationRecyclerFragment2.class.getName());
                 fragment.setLayoutManager(fragment.getLayoutManager());
             }

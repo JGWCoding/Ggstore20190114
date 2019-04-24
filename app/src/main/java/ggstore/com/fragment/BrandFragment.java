@@ -31,6 +31,7 @@ import okhttp3.Request;
 public class BrandFragment extends BaseRecyclerViewFragment {
     @Override
     protected void requestData(boolean isRefreshing) {
+//        mRecyclerView.setPadding(75 - 30 / 2, 30 / 2, 75 - 30 / 2, 30 / 2);
         if (isRefreshing) {
             AppOperator.runOnThread(new Runnable() {
                 @Override
@@ -58,6 +59,7 @@ public class BrandFragment extends BaseRecyclerViewFragment {
             });
         }
     }
+
     private ArrayList<BrandImageBean> parseData(String result) throws JSONException {
         JSONArray jsonArray = new JSONObject(result).optJSONArray("data");
         ArrayList<BrandImageBean> beans = (ArrayList<BrandImageBean>) JSON.parseArray(jsonArray.toString(), BrandImageBean.class);
@@ -66,21 +68,22 @@ public class BrandFragment extends BaseRecyclerViewFragment {
 
     @Override
     public void onItemClick(int position, long itemId) {
-        BrandActivity.startActivity(getActivity(),mAdapter.getItems(),position);
+        BrandActivity.startActivity(getActivity(), mAdapter.getItems(), position);
     }
 
     @Override
     protected RecyclerView.LayoutManager getLayoutManager() {
-        if (mRecyclerView.getItemDecorationCount()>0) {
+        if (mRecyclerView.getItemDecorationCount() > 0) {
             mRecyclerView.removeItemDecoration(mRecyclerView.getItemDecorationAt(0));
         }
-        return new GridLayoutManager(getActivity(),3);
+        return new GridLayoutManager(getActivity(), 3);
     }
 
     @Override
     protected BaseRecyclerAdapter getRecyclerAdapter() {
-        return new CourseAdapter(getActivity(),BaseRecyclerAdapter.NEITHER);
+        return new CourseAdapter(getActivity(), BaseRecyclerAdapter.NEITHER);
     }
+
     class CourseAdapter extends BaseRecyclerAdapter<BrandImageBean> {
 
         public CourseAdapter(Context context, int mode) {
@@ -89,30 +92,43 @@ public class BrandFragment extends BaseRecyclerViewFragment {
 
         @Override
         protected RecyclerView.ViewHolder onCreateDefaultViewHolder(ViewGroup parent, int type) {
-            CourseAdapter.MyViewHolder myViewHolder;
-                myViewHolder = new CourseAdapter.MyViewHolder(LayoutInflater.from(parent.getContext()).
-                        inflate(R.layout.recycler_brand_image_item, parent, false));
-            return myViewHolder;
+            CourseAdapter.MyViewHolder holder;
+            holder = new CourseAdapter.MyViewHolder(LayoutInflater.from(parent.getContext()).
+                    inflate(R.layout.recycler_brand_image_item, parent, false));
+            parent.setPadding(15, 30/2, 15, 30/2);
+            return holder;
         }
 
 
         @Override
         protected void onBindDefaultViewHolder(RecyclerView.ViewHolder holder, final BrandImageBean item, int position) {
             //TODO 绑定视图--->加上数据
-            setImageFromNet(((MyViewHolder)holder).img,Constant.base_images_brand_url +item.getBrandImg());
+            if (position % 3 == 0) {
+                GridLayoutManager.LayoutParams layoutParams = (GridLayoutManager.LayoutParams) (holder).itemView.getLayoutParams();
+                layoutParams.setMargins(60, 30 / 2, 0, 30 / 2);
+                (holder).itemView.setLayoutParams(layoutParams);
+            } else if (position % 3 == 1) {
+                GridLayoutManager.LayoutParams layoutParams = (GridLayoutManager.LayoutParams) (holder).itemView.getLayoutParams();
+                layoutParams.setMargins(30, 30 / 2, 30, 30 / 2);
+                (holder).itemView.setLayoutParams(layoutParams);
+            } else {
+                GridLayoutManager.LayoutParams layoutParams = (GridLayoutManager.LayoutParams) (holder).itemView.getLayoutParams();
+                layoutParams.setMargins(0, 30 / 2, 60 , 30 / 2);
+                (holder).itemView.setLayoutParams(layoutParams);
+            }
+            setImageFromNet(((MyViewHolder) holder).img, Constant.base_images_brand_url + item.getBrandImg());
 //            ((MyViewHolder)holder).img.setImageResource(R.drawable.product);
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
             ImageView img;
+
             public MyViewHolder(View view) {
                 super(view);
-               img = view.findViewById(R.id.recycler_item_brand_image);
+                img = view.findViewById(R.id.recycler_item_brand_image);
             }
         }
     }
-
-
 
 
     public static boolean isSingle = true; //是否为单列
@@ -134,7 +150,7 @@ public class BrandFragment extends BaseRecyclerViewFragment {
 //                isSingle=true;
 //                BrandRecyclerRecyclerFragment fragment = (BrandRecyclerRecyclerFragment) getChildFragmentManager().findFragmentByTag(BrandRecyclerRecyclerFragment.class.getName());
 //                fragment.setLayoutManager(fragment.getLayoutManager());
-//                singleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg));
+//                singleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg_5));
 //                doubleImg.setBackgroundDrawable(null);
 //            }
 //        });
@@ -143,7 +159,7 @@ public class BrandFragment extends BaseRecyclerViewFragment {
 //            public void onClick(View v) {
 //                isSingle=false;
 //                singleImg.setBackgroundDrawable(null);
-//                doubleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg));
+//                doubleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg_5));
 //                BrandRecyclerRecyclerFragment fragment = (BrandRecyclerRecyclerFragment) getChildFragmentManager().findFragmentByTag(BrandRecyclerRecyclerFragment.class.getName());
 //                fragment.setLayoutManager(fragment.getLayoutManager());
 //            }

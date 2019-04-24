@@ -10,11 +10,11 @@
         android:padding="@dimen/lay_5"
         android:textColor="@color/white"
         android:gravity="center"
-        android:layout_marginBottom="@dimen/lay_20"
-        android:layout_marginLeft="@dimen/lay_50"
+        android:layout_marginBottom="@dimen/lay_25"
+        android:layout_marginLeft="@dimen/lay_25"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/button_bg"
-        android:layout_width="wrap_content"
+        android:background="@drawable/button_bg_10"
+        android:layout_width="@dimen/lay_150"
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/fragment_order_number_my_order"
@@ -23,12 +23,12 @@
         android:padding="@dimen/lay_5"
         android:textColor="@color/white"
         android:gravity="center"
-        android:layout_marginBottom="@dimen/lay_20"
-        android:layout_marginRight="@dimen/lay_50"
+        android:layout_marginBottom="@dimen/lay_25"
+        android:layout_marginRight="@dimen/lay_25"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/button_bg"
-        android:layout_width="wrap_content"
+        android:background="@drawable/button_bg_10"
+        android:layout_width="@dimen/lay_150"
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/thinks"

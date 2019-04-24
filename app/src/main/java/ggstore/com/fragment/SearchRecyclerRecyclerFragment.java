@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -46,7 +47,7 @@ public class SearchRecyclerRecyclerFragment extends BaseRecyclerViewFragment {
             AppOperator.runOnThread(new Runnable() {
                 @Override
                 public void run() {
-                    String url = Constant.url_search_product + ((MainActivity) getActivity()).toolbar.getTitle() + "&p=" + page;
+                    String url = Constant.url_search_product + ((MainActivity) getActivity()).toolbar.getTitle().toString().replaceAll("\""," ").trim() + "&p=" + page;
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
@@ -122,7 +123,8 @@ public class SearchRecyclerRecyclerFragment extends BaseRecyclerViewFragment {
         Constant.newProductBean = item;
         Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
         if (getActivity() instanceof MainActivity) {
-            String title = ((MainActivity) getActivity()).navigationView.getCheckedItem().getTitle().toString();
+            MenuItem checkedItem = ((MainActivity) getActivity()).navigationView.getCheckedItem();
+            String title = checkedItem==null?getString(R.string.new_product):checkedItem.getTitle().toString();
             intent.putExtra(ProductDetailActivity.product_title, title); //携带信息
         }
         startActivity(intent);

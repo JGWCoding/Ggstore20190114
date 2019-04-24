@@ -4,37 +4,39 @@
     android:layout_height="match_parent">
     <TextView
         android:id="@+id/go_shopping"
-        android:layout_margin="@dimen/lay_10"
+        android:layout_marginBottom="@dimen/lay_20"
+        android:layout_marginLeft="@dimen/lay_20"
         android:layout_alignParentBottom="true"
         android:textSize="@dimen/font_25"
         android:gravity="center"
         android:textColor="@color/white"
-        android:background="@color/bg"
+        android:background="@drawable/button_bg_10"
         android:text="@string/go_shopping"
         android:layout_width="@dimen/lay_150"
         android:layout_height="@dimen/lay_40" />
     <TextView
         android:id="@+id/fragment_shopcart_pay"
-        android:layout_margin="@dimen/lay_10"
+        android:layout_marginBottom="@dimen/lay_20"
+        android:layout_marginRight="@dimen/lay_20"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:textSize="@dimen/font_25"
         android:gravity="center"
         android:textColor="@color/white"
-        android:background="@color/bg"
+        android:background="@drawable/button_bg_10"
         android:text="@string/pay"
         android:layout_width="@dimen/lay_150"
         android:layout_height="@dimen/lay_40" />
     <TextView
         android:id="@+id/fragment_shopcart_price"
         android:layout_above="@id/fragment_shopcart_pay"
-        android:layout_marginRight="@dimen/lay_10"
+        android:layout_marginRight="@dimen/lay_20"
         android:layout_alignParentRight="true"
         android:textSize="@dimen/font_20"
         android:gravity="center"
         android:textColor="@color/bg"
-        android:text="總計:$287"
-        android:layout_width="@dimen/lay_200"
+        android:text="總計 : $287"
+        android:layout_width="@dimen/lay_150"
         android:layout_height="@dimen/lay_40" />
     <FrameLayout
         android:id="@+id/fragment_shopcart_content"

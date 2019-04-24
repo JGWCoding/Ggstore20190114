@@ -35,8 +35,8 @@ public abstract class BaseMyRecyclerViewFragment<T> extends BaseRecyclerViewFrag
                 }
                 isSingle=true;
                 setLayoutManager(new GridLayoutManager(getContext(), 1));
-                singleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg));
-                doubleImg.setBackgroundDrawable(null);
+                singleImg.setBackgroundResource(R.drawable.single_icon_bule);
+                doubleImg.setBackgroundResource(R.drawable.double_icon_white);
             }
         });
         doubleImg.setOnClickListener(new View.OnClickListener() {
@@ -46,8 +46,8 @@ public abstract class BaseMyRecyclerViewFragment<T> extends BaseRecyclerViewFrag
                     return;
                 }
                 isSingle=false;
-                singleImg.setBackgroundDrawable(null);
-                doubleImg.setBackgroundDrawable(getResources().getDrawable(R.drawable.round_rectangle_bg));
+                singleImg.setBackgroundResource(R.drawable.single_icon_white);
+                doubleImg.setBackgroundResource(R.drawable.double_icon_blue);
                 setLayoutManager(new GridLayoutManager(getContext(), 2));
             }
         });

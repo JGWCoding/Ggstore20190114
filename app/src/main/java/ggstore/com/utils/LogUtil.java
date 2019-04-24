@@ -18,7 +18,7 @@ import android.util.Log;
  */
 public class LogUtil {
 
-    public static String customTagPrefix = "log";
+    public static String customTagPrefix = "my_log_tag";
     public static boolean isDebug;
     private LogUtil() {
     }

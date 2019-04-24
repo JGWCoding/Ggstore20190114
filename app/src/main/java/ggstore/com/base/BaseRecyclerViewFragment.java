@@ -61,7 +61,7 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (RecyclerView.SCROLL_STATE_DRAGGING == newState && getActivity() != null
-                        && getActivity().getCurrentFocus() != null) {
+                        && getActivity().hasWindowFocus() && KeyboardUtil.isSoftInputVisible(getActivity())) {
                     KeyboardUtil.hideSoftInput(getActivity());  //拖拉状态直接隐藏键盘
                 }
             }
@@ -78,13 +78,13 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
         } else {
             mRecyclerView.setLayoutManager(layoutManager);
         }
-        if (layoutManager instanceof LinearLayoutManager){
-            if (mRecyclerView.getItemDecorationCount()<1) {
+        if (layoutManager instanceof LinearLayoutManager) {
+            if (mRecyclerView.getItemDecorationCount() < 1) {
                 mRecyclerView.addItemDecoration(new SpacesItemDecoration(getContext(), DividerItemDecoration.VERTICAL));//设置分割线
             }
         }
-        if (layoutManager instanceof GridLayoutManager){
-            if (((GridLayoutManager)layoutManager).getSpanCount()==2&&mRecyclerView.getItemDecorationCount()>0) {
+        if (layoutManager instanceof GridLayoutManager) {
+            if (((GridLayoutManager) layoutManager).getSpanCount() == 2 && mRecyclerView.getItemDecorationCount() > 0) {
                 mRecyclerView.removeItemDecorationAt(0);
             }
         }
@@ -136,15 +136,21 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
             onLayoutChangeListener = new View.OnLayoutChangeListener() { //需要修复第一次刷新填不满页面,需要提示没数据了
                 @Override
                 public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                    LogUtil.e("布局变化了");
+                    LogUtil.e("布局变化了 adapter.state: " + mAdapter.getState() + " lastPosition:" + mRefreshLayout.getLastVisiblePosition() + " count:" + mAdapter.getCount());
                     if (mRefreshLayout.getLastVisiblePosition() >= mAdapter.getCount()) {
                         if (BaseRecyclerAdapter.STATE_HIDE == mAdapter.getState()) {
                             mAdapter.setState(BaseRecyclerAdapter.STATE_NO_MORE, true); //设置没有更多数据
+                            mAdapter.notifyDataSetChanged();
                         }
                     }
                 }
             };
             mRecyclerView.addOnLayoutChangeListener(onLayoutChangeListener);
+        }
+        if (mRefreshLayout.getLastVisiblePosition() >= mAdapter.getCount()){
+            LogUtil.e("布局变化了 adapter.state: " + mAdapter.getState() + " lastPosition:" + mRefreshLayout.getLastVisiblePosition() + " count:" + mAdapter.getCount());
+            LogUtil.e("notifyDatasetChanged");
+            mAdapter.notifyItemChanged(mRefreshLayout.getLastVisiblePosition()+1);
         }
     }
 
@@ -173,15 +179,14 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
         if (mRecyclerView != null && onScrollListener != null) {
             mRecyclerView.removeOnScrollListener(onScrollListener);
         }
-        LogUtil.e(this.getClass().getName()+" onDestroy");
-        if (mRecyclerView!=null){   //内存泄漏
+        LogUtil.e(this.getClass().getName() + " onDestroy");
+        if (mRecyclerView != null) {   //内存泄漏
             mRecyclerView.destroyDrawingCache();
-            LogUtil.e(this.getClass().getName()+"mRecyclerView onDestroy");
+            LogUtil.e(this.getClass().getName() + "mRecyclerView onDestroy");
 //            mRefreshLayout = null;
 //            mRecyclerView = null;
         }
     }
-
 
 
     protected void onRequestSuccess() {
