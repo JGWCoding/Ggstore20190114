@@ -130,7 +130,7 @@ public class ShopTermsActivity extends BaseTitleActivity {
         PayPalHelper.getInstance().confirmPayResult(this, requestCode, resultCode, data, new PayPalHelper.DoResult() {
             @Override
             public void confirmSuccess(String id) {
-                ToastUtil.showToast("paypal is success");
+                ToastUtil.showToast(R.string.paypal_success);
                 LogUtil.e("支付成功" + id);
                 Intent intent = new Intent(ShopTermsActivity.this, MainActivity.class);
                 intent.putExtra("paypal", "success");

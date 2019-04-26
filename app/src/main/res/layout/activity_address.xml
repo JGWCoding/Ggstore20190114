@@ -45,7 +45,7 @@
             android:layout_height="@dimen/lay_40"
             android:layout_marginTop="@dimen/lay_5"
             android:background="@drawable/selector_edittext_bg_5"
-            android:padding="@dimen/lay_15"
+            android:paddingLeft="@dimen/lay_10"
             android:textColorHint="@color/gray" />
 
         <TextView
@@ -59,9 +59,9 @@
             android:id="@+id/activity_address_last_name"
             android:layout_width="match_parent"
             android:layout_height="@dimen/lay_40"
+            android:paddingLeft="@dimen/lay_10"
             android:layout_marginTop="@dimen/lay_5"
             android:background="@drawable/selector_edittext_bg_5"
-            android:padding="@dimen/lay_15"
             android:textColorHint="@color/gray" />
 
         <TextView
@@ -76,8 +76,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/lay_40"
             android:layout_marginTop="@dimen/lay_5"
+            android:paddingLeft="@dimen/lay_10"
             android:background="@drawable/selector_edittext_bg_5"
-            android:padding="@dimen/lay_15"
             android:textColorHint="@color/gray" />
 
         <TextView
@@ -91,6 +91,7 @@
             android:id="@+id/activity_address_area"
             android:layout_width="@dimen/lay_80"
             android:layout_height="@dimen/lay_40"
+            android:textColor="@color/gray"
             android:layout_marginTop="@dimen/lay_5"
             android:background="@color/tr_gray"
             android:gravity="center"
@@ -107,9 +108,9 @@
             android:id="@+id/activity_address_address"
             android:layout_width="match_parent"
             android:layout_height="@dimen/lay_40"
+            android:paddingLeft="@dimen/lay_10"
             android:layout_marginTop="@dimen/lay_5"
             android:background="@drawable/selector_edittext_bg_5"
-            android:padding="@dimen/lay_15"
             android:textColorHint="@color/gray" />
 
         <LinearLayout

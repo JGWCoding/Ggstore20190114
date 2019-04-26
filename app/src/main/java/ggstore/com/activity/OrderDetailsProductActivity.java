@@ -36,7 +36,7 @@ public class OrderDetailsProductActivity extends BaseTitleActivity {
     protected void initWidget() {
         super.initWidget();
         if (Constant.orderNumber == null) {
-            ToastUtil.showToast("ordernumber is null");
+            ToastUtil.showToast(R.string.order_number_empty);
             return;
         }
         ((TextView) findViewById(R.id.activity_order_detail_product_title)).setText(Constant.orderNumber.getName());

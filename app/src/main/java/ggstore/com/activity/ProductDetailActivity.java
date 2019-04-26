@@ -31,14 +31,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import ggstore.com.App;
 import ggstore.com.R;
 import ggstore.com.base.BaseActivity;
 import ggstore.com.bean.NewProductBean;
 import ggstore.com.constant.Constant;
 import ggstore.com.utils.KeyboardUtil;
 import ggstore.com.utils.LogUtil;
-import ggstore.com.utils.SPUtils;
+import ggstore.com.utils.SpUtil;
 import ggstore.com.utils.ShopCartItemManagerUtil;
 import ggstore.com.utils.TDevice;
 import ggstore.com.utils.ToastUtil;
@@ -83,19 +82,28 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
             ((TextView) findViewById(R.id.activity_product_detail_title)).setText(Constant.newProductBean.getProductName_cn());
         }
         if (!TextUtils.isEmpty(Constant.newProductBean.getProductCode())) {
-            ((TextView) findViewById(R.id.activity_product_detail_number)).setText(App.context().getString(R.string.product_number, Constant.newProductBean.getProductCode()));
+            ((TextView) findViewById(R.id.activity_product_detail_number)).setText(getString(R.string.product_number,
+                    Constant.newProductBean.getProductCode()));
         }
         if (!TextUtils.isEmpty(Constant.newProductBean.getProductDescription_cn())) {
-//            ((WebView) findViewById(R.id.activity_product_detail_description)).setText(HtmlCompat.fromHtml(Constant.newProductBean.getProductDescription_cn(), HtmlCompat.FROM_HTML_MODE_COMPACT));
+//            ((WebView) findViewById(R.id.activity_product_detail_description)).
+// setText(HtmlCompat.fromHtml(Constant.newProductBean.getProductDescription_cn(), HtmlCompat.FROM_HTML_MODE_COMPACT));
+            LogUtil.e(Constant.newProductBean.getProductDescription_cn());
             WebView webView = (WebView) findViewById(R.id.activity_product_detail_description);
-            String content = "<head><base href=\"" + Constant.base_url + "\" /><base target=\"_blank\" /><style>body{color:#808080}</style></head>";
+            String content = "<head><base href=\"" + Constant.base_url +
+                    "\" /><base target=\"_blank\" /><style>body{color:#808080}</style></head>";
             if (Constant.newProductBean.getProductDescription_cn().contains("<img src=\"/shop/images")) {
                 //todo 没有改变图片大小
                 Constant.newProductBean.setProductDescription_cn(Constant.newProductBean.getProductDescription_cn()
                         .replace("<img src=\"/shop/images", "<img style=\"max-width:100%;height:auto\" src=\"/images"));
             }
-            webView.loadDataWithBaseURL(null, content + Constant.newProductBean.getProductDescription_cn(), "text/html", "utf-8", null);
-            LogUtil.i(Constant.newProductBean.getProductDescription_cn());
+            if (Constant.newProductBean.getProductDescription_cn().contains("<img ")) {
+                Constant.newProductBean.setProductDescription_cn(Constant.newProductBean.getProductDescription_cn()
+                        .replace("<img ","<img width=\"100%\" " ));
+            }
+            webView.loadDataWithBaseURL(null, content + Constant.newProductBean.getProductDescription_cn(),
+                    "text/html", "utf-8", null);
+            LogUtil.i(content+Constant.newProductBean.getProductDescription_cn());
         }
         ViewPager viewPager = findViewById(R.id.activity_product_detail_viewpager);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -134,14 +142,14 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
         if (TextUtils.isEmpty(Constant.newProductBean.getUnitPrice())) {
             ((TextView) findViewById(R.id.activity_product_detail_new_price)).setVisibility(View.GONE);
         } else {
-            ((TextView) findViewById(R.id.activity_product_detail_new_price)).setText(App.context().getString(R.string.product_price, Constant.newProductBean.getUnitPrice()));
+            ((TextView) findViewById(R.id.activity_product_detail_new_price)).setText(getString(R.string.product_price, Constant.newProductBean.getUnitPrice()));
         }
         TextView oldPrice = (TextView) findViewById(R.id.activity_product_detail_old_price);
         if (TextUtils.isEmpty(Constant.newProductBean.getMarketPrice())) {
             oldPrice.setVisibility(View.GONE);
         } else {
             oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);   //加横线效果
-            oldPrice.setText(App.context().getString(R.string.product_price, Constant.newProductBean.getMarketPrice()));
+            oldPrice.setText(getString(R.string.product_price, Constant.newProductBean.getMarketPrice()));
         }
         findViewById(R.id.activity_product_detail_add_shop_cart).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,7 +160,8 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
                 badge.setBadgeNumber(ShopCartItemManagerUtil.getSize());
             }
         });
-        ((MyNestedScrollView)findViewById(R.id.activity_product_detail_scroll)).setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+        ((MyNestedScrollView)findViewById(R.id.activity_product_detail_scroll)).setOnScrollChangeListener(
+                new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (searchView.hasFocus()||searchViewOfKnowledge.hasFocus()){
@@ -225,7 +234,7 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
     private void getImages(ArrayList<ImageView> imageViews) {
         NewProductBean newProductBean = Constant.newProductBean;
         if (Constant.newProductBean == null) {
-            ToastUtil.showToast("ProductDetailActivity 145 line is null");
+            ToastUtil.showToast(R.string.product_bean_empty);
             return;
         }
         if (!TextUtils.isEmpty(newProductBean.getPictureL())) {
@@ -294,7 +303,8 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
 //                ToastUtil.showToast("点击购物车了");
             }
         });
-        badge = new QBadgeView(this).bindTarget(img).setBadgeNumber(ShopCartItemManagerUtil.getSize()).setBadgeGravity(Gravity.END | Gravity.TOP)
+        badge = new QBadgeView(this).bindTarget(img).setBadgeNumber(
+                ShopCartItemManagerUtil.getSize()).setBadgeGravity(Gravity.END | Gravity.TOP)
                 .setBadgeTextSize(12, true).setBadgePadding(0, true);
         initSearchView(menu.findItem(R.id.action_search));
 //        menu.findItem(R.id.action_search).setVisible(false);
@@ -305,7 +315,7 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
     private void initSearchView(final MenuItem item) {  //开始换
         searchView = (SearchView) item.getActionView();
         searchView.setIconifiedByDefault(true);
-        searchView.setQueryHint(App.context().getString(R.string.search_hint));
+        searchView.setQueryHint(getString(R.string.search_hint));
         //改变默认的搜索图标
         ((ImageView) searchView.findViewById(R.id.search_button)).setImageResource(R.drawable.search);
         //搜索监听
@@ -316,7 +326,7 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
                     return false;
                 }
                 //在输入法按下搜索或者回车时，会调用次方法，在这里可以作保存历史记录的操作，我这里用了 sharepreference 保存
-                SPUtils.getSP(App.context(), "knowledgeHistory").edit().putString(query, query).commit();
+                SpUtil.getSP(ProductDetailActivity.this, SpUtil.knowledge_history).edit().putString(query, query).commit();
                 showToolbar();
                 searchFragment(query);
                 return true;
@@ -337,9 +347,9 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
         //根据id-search_src_text获取TextView
         searchViewOfKnowledge = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
         //改变输入文字的颜色
-        searchViewOfKnowledge.setTextColor(ContextCompat.getColor(App.context(), R.color.white));
+        searchViewOfKnowledge.setTextColor(ContextCompat.getColor(this, R.color.white));
         searchViewOfKnowledge.setEllipsize(TextUtils.TruncateAt.END);
-        searchViewOfKnowledge.setCompoundDrawables(App.context().getResources().getDrawable(R.drawable.search), null, null, null);
+        searchViewOfKnowledge.setCompoundDrawables(getResources().getDrawable(R.drawable.search), null, null, null);
         showHistory();
         //searchview 的关闭监听
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
@@ -375,7 +385,7 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
         try {
             //取出历史数据，你可以利用其他方式
             final List<String> arr = new ArrayList<>();
-            Map<String, ?> map = SPUtils.getSP(App.context(), "knowledgeHistory").getAll();
+            Map<String, ?> map = SpUtil.getSP(ProductDetailActivity.this, SpUtil.knowledge_history).getAll();
             for (String key : map.keySet()) {
                 arr.add(map.get(key).toString());
             }
@@ -402,7 +412,7 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
         icon = toolbar.getNavigationIcon();
         toolbar.setTitle(null);// this.removeView(this.mTitleTextView);  this.mHiddenViews.remove(this.mTitleTextView);
         toolbar.setNavigationIcon(null);
-        searchViewOfKnowledge.setCompoundDrawables(App.context().getResources().getDrawable(R.drawable.search), null, null, null);
+        searchViewOfKnowledge.setCompoundDrawables(getResources().getDrawable(R.drawable.search), null, null, null);
         searchViewOfKnowledge.invalidate();
     }
 
@@ -467,7 +477,8 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
             convertView.findViewById(R.id.imageButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SPUtils.getSP(App.context(), "knowledgeHistory").edit().remove(titles.get(position)).commit();
+                    SpUtil.getSP(ProductDetailActivity.this, SpUtil.knowledge_history).edit().
+                            remove(titles.get(position)).commit();
                     titles.remove(position);
                     notifyDataSetChanged();
                 }
@@ -503,7 +514,8 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
                         //保存一份未筛选前的完整数据
                         mOriginalValues = new ArrayList<String>(titles);
                     }
-                    if (constraint == null || constraint.length() == 0) {                //如果接收到的文字为空，则不作比较，直接返回未筛选前的完整数据
+                        //如果接收到的文字为空，则不作比较，直接返回未筛选前的完整数据
+                    if (constraint == null || constraint.length() == 0) {
                         results.count = mOriginalValues.size();
                         results.values = mOriginalValues;
                     } else {
@@ -614,10 +626,12 @@ public class ProductDetailActivity extends BaseActivity {   //title应该是传�
 //            LogUtil.e(size + color);
 ////            size = size.split("px")[0];
 //            if (!TextUtils.isEmpty(color)) {// 设置颜色
-//                output.setSpan(new ForegroundColorSpan(Color.parseColor(color)), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                output.setSpan(new ForegroundColorSpan(Color.parseColor(color)), startIndex, endIndex,
+// Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //            } // 设置字体大小
 //            if (!TextUtils.isEmpty(size)) {
-//                output.setSpan(new AbsoluteSizeSpan(Integer.parseInt(size), true), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                output.setSpan(new AbsoluteSizeSpan(Integer.parseInt(size), true), startIndex, endIndex,
+// Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //            }
 //        }
 //

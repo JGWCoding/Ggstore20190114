@@ -17,8 +17,6 @@ import com.blankj.utilcode.util.KeyboardUtils;
 
 import java.lang.reflect.Field;
 
-import ggstore.com.App;
-
 /**
  * <pre>
  *     author: Blankj
@@ -114,10 +112,7 @@ public final class KeyboardUtil {
      * Toggle the soft input display or not.
      */
     public static void toggleSoftInput() {
-        InputMethodManager imm =
-                (InputMethodManager) App.context().getSystemService(Context.INPUT_METHOD_SERVICE);
-        //noinspection ConstantConditions
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        KeyboardUtils.toggleSoftInput();
     }
 
     /**

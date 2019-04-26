@@ -111,17 +111,17 @@ public class LoginActivity extends BaseActivity {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        ToastUtil.showToast("facebook登录成功");
+                        ToastUtil.showToast(R.string.facebook_login_success);
                     }
 
                     @Override
                     public void onCancel() {
-                        ToastUtil.showToast("facebook登录取消");
+                        ToastUtil.showToast(R.string.facebook_login_cancel);
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-                        ToastUtil.showToast("facebook登录错误");
+                        ToastUtil.showToast(R.string.facebook_login_error);
                     }
                 });
 
@@ -158,7 +158,7 @@ public class LoginActivity extends BaseActivity {
 
 
     private void login() {
-        if (BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG&& TextUtils.isEmpty(etName.getText())) {
             Constant.user_name = "I_am_debug@qq.com";
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
@@ -166,9 +166,10 @@ public class LoginActivity extends BaseActivity {
             return;
         }
         if (TextUtils.isEmpty(etName.getText()) || TextUtils.isEmpty(etPassword.getText())) {
-            ToastUtil.showToast("name or password is empty,please input");
+            ToastUtil.showToast(R.string.input_name_or_password_is_empty);
         } else {
             if (etName.getText().toString().equals("123456") && etPassword.getText().toString().equals("123456")) {
+                Constant.user_name = etName.getText().toString();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -180,7 +181,6 @@ public class LoginActivity extends BaseActivity {
             OkHttpManager.postAsync(this, Constant.url_login, map, new OkHttpManager.DataCallBack() {
                 @Override
                 public void requestFailure(Request request, Exception e) {
-                    ToastUtil.showToast("network is error" + ": password = " + etPassword.getText());
                 }
 
                 @Override
@@ -193,7 +193,8 @@ public class LoginActivity extends BaseActivity {
                         startActivity(intent);
                         finish();
                     } else {
-                        ToastUtil.showToast("name or password is error" + ": password = " + etPassword.getText());
+                        ToastUtil.showToast(R.string.input_name_or_password_error);
+//                        ToastUtil.showToast("name or password is error" + ": password = " + etPassword.getText());
                     }
                 }
             });

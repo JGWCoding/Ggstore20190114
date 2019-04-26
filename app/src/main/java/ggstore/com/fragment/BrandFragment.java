@@ -40,7 +40,7 @@ public class BrandFragment extends BaseRecyclerViewFragment {
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
-                            ToastUtil.showToast("网络出错");
+                            ToastUtil.showToast(R.string.network_error);
                             onRequestError();
                         }
 

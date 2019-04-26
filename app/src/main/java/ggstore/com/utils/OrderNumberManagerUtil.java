@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import ggstore.com.App;
+import ggstore.com.R;
 import ggstore.com.bean.OrderNumberBean;
 import ggstore.com.bean.OrderNumberBeanDao;
 import ggstore.com.bean.ShopCartBean;
@@ -82,7 +83,7 @@ public class OrderNumberManagerUtil {
 
     public static void addOrderNumber(List<ShopCartBean> shopCartList, String yyyyMMddHHmmss) {
         if (shopCartList == null) {
-            ToastUtil.showToast("shopCartList is null,please screenshot me");
+            ToastUtil.showToast(R.string.add_order_number_error);
             return;
         }
         String day = com.blankj.utilcode.util.TimeUtils.getNowString(new SimpleDateFormat("dd/MM/yyyy"));

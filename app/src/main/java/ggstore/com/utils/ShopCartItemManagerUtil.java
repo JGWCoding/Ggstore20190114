@@ -7,6 +7,7 @@ import org.greenrobot.greendao.query.QueryBuilder;
 import java.util.List;
 
 import ggstore.com.App;
+import ggstore.com.R;
 import ggstore.com.bean.NewProductBean;
 import ggstore.com.bean.ShopCartBean;
 import ggstore.com.bean.ShopCartBeanDao;
@@ -28,7 +29,7 @@ public class ShopCartItemManagerUtil {
      * @param id
      */
     public static void deleteShopCart(long id) {
-        ToastUtil.showToast("貨品已被除去");
+        ToastUtil.showToast(R.string.delete_product);
         App.getDaoInstant().getShopCartBeanDao().deleteByKey(id);
     }
 
@@ -79,10 +80,10 @@ public class ShopCartItemManagerUtil {
 
     public static void addShopCart(NewProductBean item) {
         if (item == null) {
-            ToastUtil.showToast("ShopCartItemManagerUtil item is null");
+            ToastUtil.showToast(R.string.add_shopcart_error);
             return;
         }
-        ToastUtil.showToast("貨品已被添加到購物車");
+        ToastUtil.showToast(R.string.add_product_to_shopcart);
         long id = Long.valueOf(item.getProductID());
         if (queryBuyNumber(id) != null) {
             ShopCartBean shopCartBean = queryBuyNumber(id);

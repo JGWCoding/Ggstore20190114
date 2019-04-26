@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import ggstore.com.App;
 import ggstore.com.R;
 import ggstore.com.activity.MainActivity;
 import ggstore.com.base.BaseRecyclerAdapter;
@@ -38,11 +37,11 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
                 @Override
                 public void run() { //todo 以后向服务器请求购物车数据
                     String url = Constant.base_url + "api_get_coursebook.php?recordperpage=4&page=" + page +
-                            "&sortby=&token=" + Constant.token + "&username=&lang=" + App.context().getString(R.string.api_lang);
+                            "&sortby=&token=" + Constant.token + "&username=&lang=" + getString(R.string.api_lang);
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
-                            ToastUtil.showToast("网络出错");
+                            ToastUtil.showToast(R.string.network_error);
                             onRequestError();
                         }
 
@@ -54,7 +53,7 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
                             onRequestSuccess();
                             mRefreshLayout.setEnabled(false);//设置不可刷新,因为购物车一般只加载一次
                             mRefreshLayout.setCanLoadMore(false);   //设置不可加载更多
-                            mAdapter.setStateCustom(App.context().getString(R.string.shop_cart_discount), Gravity.CENTER);
+                            mAdapter.setStateCustom(getString(R.string.shop_cart_discount), Gravity.CENTER);
                         }
                     });
                 }
@@ -109,13 +108,13 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
                 }
             });
             ((MyViewHolder) holder).sum.setText(item.getBuy_number() + "");
-            ImageLoader.loadImage(App.context(), ((MyViewHolder) holder).img, Constant.base_images_product_url + item.getImage_url());
+            ImageLoader.loadImage(getContext(), ((MyViewHolder) holder).img, Constant.base_images_product_url + item.getImage_url());
             ((MyViewHolder) holder).add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String s = ((MyViewHolder) holder).sum.getText().toString();
                     if (Integer.valueOf(s) >= item.getLimit_number()) {
-                        ToastUtil.showToast("Exceeding the limit");
+                        ToastUtil.showToast(R.string.product_limit);
                         ((MyViewHolder) holder).sum.setText(item.getLimit_number() + "");
                         item.setBuy_number(item.getLimit_number());
                     } else {
@@ -145,7 +144,7 @@ public class ShopCartRecycleFragment extends BaseRecyclerViewFragment {
                     ((ShopCartFragment) getParentFragment()).setPriceSum();
                 }
             });
-            ((MyViewHolder) holder).price.setText(App.context().getString(R.string.product_price, (int) item.getPrice() + ""));
+            ((MyViewHolder) holder).price.setText(getString(R.string.product_price, (int) item.getPrice() + ""));
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {

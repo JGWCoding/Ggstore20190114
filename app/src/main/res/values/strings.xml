@@ -217,6 +217,42 @@
     <string name="pay_date">付款日期</string>
     <string name="unit_price">單價</string>
     <string name="reset_password">重 設 密 碼</string>
+    <string name="input_email">請輸入妳的郵箱地址</string>
+    <string name="input_email_error">郵箱格式錯誤</string>
+    <string name="input_login_name">請輸入妳的登錄名</string>
+    <string name="input_password">請輸入妳的密碼</string>
+    <string name="input_password_length_error">密碼不能少於8位</string>
+    <string name="input_confirm_password">請輸入確認密碼</string>
+    <string name="input_confirm_password_error">兩次設置密碼不壹致</string>
+    <string name="input_name">請輸入妳的姓名</string>
+    <string name="input_tel">請輸入妳的電話號碼</string>
+    <string name="input_tel_error">電話號碼輸入有誤</string>
+    <string name="input_address">請輸入妳的地址</string>
+    <string name="network_error">網絡出錯</string>
+    <string name="register_fail">註冊失敗</string>
+    <string name="product_limit">數量超出庫存限制</string>
+    <string name="not_install_application_market">妳的手機未安裝應用市場</string>
+    <string name="have_not_webview">Not WebView for you phone</string>
+    <string name="delete_product">貨品已被除去</string>
+    <string name="add_product_to_shopcart">貨品已被添加到購物車</string>
+    <string name="add_shopcart_error">添加到購物車失敗</string>
+    <string name="order_number_empty">訂單號為空</string>
+    <string name="network_fail">網絡請求失敗</string>
+    <string name="add_order_number_error">添加訂單號出錯</string>
+    <string name="login_out">己登出</string>
+    <string name="start_brand_activity_error">打開品牌頁面出錯</string>
+    <string name="product_list_empty">產品清單列表為空</string>
+    <string name="create_order_number_fail">創建訂單號失敗</string>
+    <string name="parser_data_error">數據解析失敗</string>
+    <string name="facebook_login_success">facebook登入成功</string>
+    <string name="facebook_login_cancel">facebook登入取消</string>
+    <string name="facebook_login_error">facebook登入錯誤</string>
+    <string name="input_name_or_password_is_empty">請輸入用戶名或者密碼</string>
+    <string name="input_name_or_password_error">輸入用戶名或者密碼錯誤</string>
+    <string name="product_bean_empty">產品詳情為空</string>
+    <string name="paypal_success">paypal付款成功</string>
+    <string name="mailbox_look_password">新密碼已發送到妳的郵箱,請查看</string>
+    <string name="mailbox_look_password_error">設置失敗</string>
 
 
 </resources>

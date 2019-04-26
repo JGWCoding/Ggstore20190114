@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import ggstore.com.BuildConfig;
 import ggstore.com.R;
 import ggstore.com.base.BaseActivity;
 import ggstore.com.constant.Constant;
@@ -53,7 +54,7 @@ import ggstore.com.fragment.ToyEduFragment;
 import ggstore.com.utils.KeyboardUtil;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.ReflectUtils;
-import ggstore.com.utils.SPUtils;
+import ggstore.com.utils.SpUtil;
 import ggstore.com.utils.ShopCartItemManagerUtil;
 import ggstore.com.utils.TDevice;
 import ggstore.com.utils.ToastUtil;
@@ -94,14 +95,14 @@ public class MainActivity extends BaseActivity
             @Override
             public void onGlobalLayout() {
                 ((TextView) findViewById(R.id.activity_main_header_name)).setText(Constant.user_name);
-                ((TextView) findViewById(R.id.activity_main_header_email)).setText(Constant.user_name);
+                ((TextView) findViewById(R.id.activity_main_header_email)).setText(BuildConfig.date);
                 findViewById(R.id.activity_main_header_logout).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //todo 登出
                         startActivity(new Intent(MainActivity.this, LoginActivity.class));
                         finish();
-                        ToastUtil.showToast("己登出");
+                        ToastUtil.showToast(R.string.login_out);
                     }
                 });
                 navigationView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -236,7 +237,7 @@ public class MainActivity extends BaseActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //在输入法按下搜索或者回车时，会调用次方法，在这里可以作保存历史记录的操作，我这里用了 sharepreference 保存
-                SPUtils.getSP(MainActivity.this, "knowledgeHistory").edit().putString(query, query).commit();
+                SpUtil.getSP(MainActivity.this, SpUtil.knowledge_history).edit().putString(query, query).commit();
                 KeyboardUtil.hideSoftInput(MainActivity.this);
                 showToolbar();
                 searchFragment(query);
@@ -288,7 +289,7 @@ public class MainActivity extends BaseActivity
         try {
             //取出历史数据，你可以利用其他方式
             final List<String> arr = new ArrayList<>();
-            Map<String, ?> map = SPUtils.getSP(this, "knowledgeHistory").getAll();
+            Map<String, ?> map = SpUtil.getSP(this, SpUtil.knowledge_history).getAll();
             for (String key : map.keySet()) {
                 arr.add(map.get(key).toString());
             }
@@ -517,7 +518,7 @@ public class MainActivity extends BaseActivity
             convertView.findViewById(R.id.imageButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SPUtils.getSP(parent.getContext(), "knowledgeHistory").edit().remove(titles.get(position)).commit();
+                    SpUtil.getSP(parent.getContext(), SpUtil.knowledge_history).edit().remove(titles.get(position)).commit();
                     titles.remove(position);
                     notifyDataSetChanged();
                 }

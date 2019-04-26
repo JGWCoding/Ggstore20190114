@@ -25,9 +25,9 @@ public class ForgetPasswordActivity extends BaseTitleActivity {
 
     @Override
     protected void initData() {
-        submit = findViewById(R.id.submit);
-        email = (EditText) findViewById(R.id.et_email);
-        name = (EditText) findViewById(R.id.et_name);
+        submit = findViewById(R.id.activity_forget_password_submit);
+        email = (EditText) findViewById(R.id.activity_forget_password_email);
+        name = (EditText) findViewById(R.id.activity_forget_password_name);
         TextWatcher textChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -36,9 +36,15 @@ public class ForgetPasswordActivity extends BaseTitleActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (TextUtils.isEmpty(name.getText()) || TextUtils.isEmpty(email.getText())) {
-                    submit.setEnabled(false);
+                    if (submit.isEnabled()) {
+                        submit.setEnabled(false);
+                        submit.setTextColor(getResources().getColor(R.color.gray));
+                    }
                 } else {
-                    submit.setEnabled(true);
+                    if (!submit.isEnabled()) {
+                        submit.setEnabled(true);
+                        submit.setTextColor(getResources().getColor(R.color.white));
+                    }
                 }
             }
 
@@ -52,7 +58,7 @@ public class ForgetPasswordActivity extends BaseTitleActivity {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(email.getText())) {
-                    ToastUtil.showToast("请输入正确邮箱");
+                    ToastUtil.showToast(R.string.input_email);
                 } else {
                     resetPassword(email.getText().toString());
                 }
@@ -65,7 +71,6 @@ public class ForgetPasswordActivity extends BaseTitleActivity {
         OkHttpManager.getAsync(Constant.url_forget_password + email, new OkHttpManager.DataCallBack() {
             @Override
             public void requestFailure(Request request, Exception e) {
-                ToastUtil.showToast("network is error,please check your network");
             }
 
             @Override
@@ -74,14 +79,16 @@ public class ForgetPasswordActivity extends BaseTitleActivity {
                     JSONObject jsonObject = new JSONObject(result);
                     int code = jsonObject.optInt("code");
                     if (code == 200) {
-                        ToastUtil.showToast(jsonObject.optString("msg", "mailbox look in new password"));
+//                        ToastUtil.showToast(jsonObject.optString("msg", "mailbox look in new password"));
+                        ToastUtil.showToast(R.string.mailbox_look_password);
                         finish();
                         return;
                     } else {
-                        ToastUtil.showToast(jsonObject.optString("msg", "fall"));
+                        ToastUtil.showToast(R.string.mailbox_look_password_error);
+//                        ToastUtil.showToast(jsonObject.optString("msg", "fall"));
                     }
                 } catch (Exception e) {
-                    ToastUtil.showToast("获取密码失败,请再一次输入邮箱");
+                    ToastUtil.showToast(R.string.parser_data_error);
                 }
             }
         });

@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import ggstore.com.App;
 import ggstore.com.R;
 import ggstore.com.adapter.ToyEducationFragmentStatePagerAdapter;
 import ggstore.com.base.BaseFragment;
@@ -35,7 +34,7 @@ public class ToyEduFragment extends BaseFragment {
         list.add(new WeakReference<Fragment>(new ToyEducationRecyclerFragment3()));
         ArrayList<String> titles = new ArrayList<>();
         for (int i = 0; i < this.titles.length; i++) {
-            titles.add(App.context().getString(this.titles[i]));
+            titles.add(getString(this.titles[i]));
         }
         viewPager.setAdapter(new ToyEducationFragmentStatePagerAdapter(getChildFragmentManager(), list,titles));//要使用getChild,不然会出现Fragment空白
         tabLayout.setupWithViewPager(viewPager);//这行代码会removeAllTabs,使用Adapter的getPageTitle方法设置tab

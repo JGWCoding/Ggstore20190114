@@ -18,7 +18,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ggstore.com.App;
 import ggstore.com.R;
 import ggstore.com.utils.ImageLoader;
 import ggstore.com.utils.LogUtil;
@@ -73,7 +72,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
 
     public BaseRecyclerAdapter(Context context, int mode) { //mode  NEITHER ONLY_HEADER ONLY_FOOTER  BOTH_HEADER_FOOTER
         mItems = new ArrayList<>();
-        this.mContext = App.context();
+        this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         BEHAVIOR_MODE = mode;      //控制是否有加载视图和刷新视图
         mState = STATE_HIDE;    //一开始初始化页面为刷新页面
@@ -356,7 +355,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
             notifyDataSetChanged();
             return;
         }
-        LogUtil.e("isUpdate:"+(getItemCount()>position)+" count:"+getItemCount()+" position:"+position+ " state:"+getState());
+        LogUtil.e("isUpdate:" + (getItemCount() > position) + " count:" + getItemCount() + " position:" + position + " state:" + getState());
         if (getItemCount() > position) {
             notifyItemChanged(position);
         }
@@ -389,12 +388,16 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
         if (items != null) {
             clear();
             addAll(items);
+//            this.mItems.clear();
+//            setState(STATE_HIDE, false);
+//            this.mItems.addAll(items);
+//            notifyDataSetChanged();
         } else {
             setState(BaseRecyclerAdapter.STATE_NO_MORE, true);
         }
     }
 
-    public final void clear() {
+    private final void clear() {
         this.mItems.clear();
         setState(STATE_HIDE, false);
         notifyDataSetChanged();
@@ -402,9 +405,19 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
 
     public void setState(int mState, boolean isUpdate) {
         this.mState = mState;
-        LogUtil.e("刷新状态为:" + mState + " 更新状态为:" + isUpdate +"  update_position:"+(getItemCount()-1));
-        if (isUpdate)
-            updateItem(getItemCount() - 1);
+        LogUtil.e("刷新状态为:" + mState + " 更新状态为:" + isUpdate + "  update_position:" + (getItemCount() - 1));
+        if (isUpdate) {
+            if (mRecyclerView!=null){
+                mRecyclerView.post(new Runnable() { //修复如果更新频繁item,有可能后面设置没用(例如:数据少于屏幕可显示数量刷新时不更新footerview/没有更多/)
+                    @Override
+                    public void run() {
+                        updateItem(getItemCount() - 1);
+                    }
+                });
+            }else{
+                updateItem(getItemCount() - 1);
+            }
+        }
     }
 
     public void setStateCustom(String text, int gravity) {

@@ -19,7 +19,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import ggstore.com.App;
 import ggstore.com.R;
 import ggstore.com.activity.BrandActivity;
 import ggstore.com.activity.ProductDetailActivity;
@@ -49,7 +48,7 @@ public class BrandItemRecyclerFragment extends BaseMyRecyclerViewFragment {
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
-                            ToastUtil.showToast("网络出错");
+                            ToastUtil.showToast(R.string.network_error);
                             onRequestError();
                         }
 
@@ -83,7 +82,7 @@ public class BrandItemRecyclerFragment extends BaseMyRecyclerViewFragment {
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
-                            ToastUtil.showToast("网络出错");
+                            ToastUtil.showToast(R.string.network_error);
                             onRequestError();
                         }
 
@@ -121,7 +120,7 @@ public class BrandItemRecyclerFragment extends BaseMyRecyclerViewFragment {
         NewProductBean item = (NewProductBean) mAdapter.getItem(position);
         Constant.newProductBean = item;
         Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
-        intent.putExtra(ProductDetailActivity.product_title, App.context().getString(R.string.brand)); //携带信息
+        intent.putExtra(ProductDetailActivity.product_title, getContext().getString(R.string.brand)); //携带信息
         startActivity(intent);
     }
 
@@ -158,14 +157,14 @@ public class BrandItemRecyclerFragment extends BaseMyRecyclerViewFragment {
             if (TextUtils.isEmpty(item.getMarketPrice())) {
                 ((MyViewHolder) holder).oldPrice.setText(null);
             } else {
-                ((MyViewHolder) holder).oldPrice.setText(App.context().getString(R.string.product_price, item.getMarketPrice()));
+                ((MyViewHolder) holder).oldPrice.setText(getContext().getString(R.string.product_price, item.getMarketPrice()));
             }
             if (TextUtils.isEmpty(item.getUnitPrice())) {
                 ((MyViewHolder) holder).newPrice.setText(null);
             } else {
-                ((MyViewHolder) holder).newPrice.setText(App.context().getString(R.string.product_price,item.getUnitPrice()));
+                ((MyViewHolder) holder).newPrice.setText(getContext().getString(R.string.product_price,item.getUnitPrice()));
             }
-            ImageLoader.loadImage(App.context(), ((CourseAdapter.MyViewHolder) holder).imgDetail, Constant.base_images_product_url + item.getPictureL());
+            ImageLoader.loadImage(getContext(), ((CourseAdapter.MyViewHolder) holder).imgDetail, Constant.base_images_product_url + item.getPictureL());
             ((CourseAdapter.MyViewHolder) holder).addShop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

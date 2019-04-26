@@ -32,7 +32,7 @@ public class OrderNumberFragment extends BaseFragment {
         final List<ShopCartBean> shopCartBeans = ShopCartItemManagerUtil.queryAll();
         if (shopCartBeans == null || shopCartBeans.size() == 0) {
             //todo 应该重新获取 --- 这里已经付款了
-            ToastUtil.showToast("product list is null");
+            ToastUtil.showToast(R.string.product_list_empty);
             return ; //相当于出bug了
         } else {
             AppOperator.runOnThreadNoRemove(new Runnable() {    //TODO 这里应该由服务器生成订单
@@ -42,7 +42,7 @@ public class OrderNumberFragment extends BaseFragment {
                         OrderNumberManagerUtil.addOrderNumber(shopCartBeans, yyyyMMddHHmmss);
                         ShopCartItemManagerUtil.deleteShopCart(shopCartBeans);
                     }else {
-                        ToastUtil.showToast("create order number fail");
+                        ToastUtil.showToast(R.string.create_order_number_fail);
                     }
                 }
             });

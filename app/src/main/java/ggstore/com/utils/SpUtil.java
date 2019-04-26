@@ -3,11 +3,12 @@ package ggstore.com.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class SPUtils {
+public class SpUtil {
     /** 
      * 保存在手机里面的文件名 data/data/包名/shared_prefs/你给的名(share_date).xml
      */  
     private static final String FILE_NAME = "shared_data";
+    public static final String knowledge_history = "knowledge_history";
 
 
 

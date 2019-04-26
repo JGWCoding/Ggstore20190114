@@ -16,7 +16,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import ggstore.com.App;
 import ggstore.com.R;
 import ggstore.com.adapter.MyBrandItemFragmentStatePagerAdapter;
 import ggstore.com.base.BaseActivity;
@@ -35,7 +34,7 @@ public class BrandActivity extends BaseActivity {
 
     public static void startActivity(Context context, List<BrandImageBean> items, int position) {
         if (items==null||items.size()==0){
-            ToastUtil.showToast("BrandActivity data is null");
+            ToastUtil.showToast(R.string.start_brand_activity_error);
             return;
         }
         if (brands==null) {
@@ -55,7 +54,7 @@ public class BrandActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         if (brands == null) {  //todo 应该显示错误页面
-            ToastUtil.showToast(this.getClass().getName() + "is error");
+            ToastUtil.showToast(R.string.start_brand_activity_error);
             return;
         }
         Toolbar toolbar = findViewById(R.id.activity_brand_toolbar);
@@ -104,11 +103,11 @@ public class BrandActivity extends BaseActivity {
                 Intent intent = new Intent(BrandActivity.this, MainActivity.class);
                 intent.putExtra("startActivity", "shopCart");
                 startActivity(intent);
-                ToastUtil.showToast("点击购物车了");
+//                ToastUtil.showToast("点击购物车了");
             }
         });
-        badge = new QBadgeView(App.context()).bindTarget(img).setBadgeNumber(ShopCartItemManagerUtil.getSize()).setBadgeGravity(Gravity.END | Gravity.TOP)
-                .setBadgeTextSize(7, true).setBadgePadding(0, true);
+        badge = new QBadgeView(this).bindTarget(img).setBadgeNumber(ShopCartItemManagerUtil.getSize()).setBadgeGravity(Gravity.END | Gravity.TOP)
+                .setBadgeTextSize(12, true).setBadgePadding(0, true);
         menu.findItem(R.id.action_search).setVisible(false);
         return true;
     }

@@ -21,7 +21,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import ggstore.com.App;
 import ggstore.com.R;
 import ggstore.com.activity.MainActivity;
 import ggstore.com.activity.ProductDetailActivity;
@@ -51,7 +50,7 @@ public class SearchRecyclerRecyclerFragment extends BaseRecyclerViewFragment {
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
-                            ToastUtil.showToast("网络出错");
+                            ToastUtil.showToast(R.string.network_error);
                             onRequestError();
                         }
 
@@ -85,7 +84,7 @@ public class SearchRecyclerRecyclerFragment extends BaseRecyclerViewFragment {
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
-                            ToastUtil.showToast("网络出错");
+                            ToastUtil.showToast(R.string.network_error);
                             onRequestError();
                         }
 
@@ -175,14 +174,14 @@ public class SearchRecyclerRecyclerFragment extends BaseRecyclerViewFragment {
             if (TextUtils.isEmpty(item.getMarketPrice())) {
                 ((MyViewHolder) holder).oldPrice.setText(null);
             } else {
-                ((MyViewHolder) holder).oldPrice.setText(App.context().getString(R.string.product_price, item.getMarketPrice()));
+                ((MyViewHolder) holder).oldPrice.setText(getString(R.string.product_price, item.getMarketPrice()));
             }
             if (TextUtils.isEmpty(item.getUnitPrice())) {
                 ((MyViewHolder) holder).newPrice.setText(null);
             } else {
-                ((MyViewHolder) holder).newPrice.setText(App.context().getString(R.string.product_price,item.getUnitPrice()));
+                ((MyViewHolder) holder).newPrice.setText(getString(R.string.product_price,item.getUnitPrice()));
             }
-            ImageLoader.loadImage(App.context(), ((MyViewHolder) holder).imgDetail, Constant.base_images_product_url + item.getPictureL());
+            ImageLoader.loadImage(getContext(), ((MyViewHolder) holder).imgDetail, Constant.base_images_product_url + item.getPictureL());
             ((MyViewHolder) holder).addShop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

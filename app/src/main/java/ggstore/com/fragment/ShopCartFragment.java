@@ -85,6 +85,6 @@ public class ShopCartFragment extends BaseFragment {
         for (ShopCartBean bean:shopCartBeans){
             priceSum += bean.getPrice()*bean.getBuy_number();
         }
-        ((TextView)findView(R.id.fragment_shopcart_price)).setText(App.context().getString(R.string.total_price,priceSum));
+        ((TextView)findView(R.id.fragment_shopcart_price)).setText(getString(R.string.total_price,priceSum));
     }
 }

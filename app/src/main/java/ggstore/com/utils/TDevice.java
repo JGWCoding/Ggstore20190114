@@ -174,7 +174,7 @@ public class TDevice {
 
     public static void gotoMarket(Context context, String pck) {
         if (!isHaveMarket(context)) {
-            ToastUtil.showToast("你手机中没有安装应用市场！");
+            ToastUtil.showToast(R.string.not_install_application_market);
             return;
         }
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -310,7 +310,7 @@ public class TDevice {
     public static boolean hasWebView(Context context) {
         if (mHasWebView != null) {
             if (!mHasWebView)
-                ToastUtil.showToast("Not WebView for you phone");
+                ToastUtil.showToast(R.string.have_not_webview);
             return mHasWebView;
         }
         try {
@@ -320,7 +320,7 @@ public class TDevice {
         } catch (Exception e) {
             e.printStackTrace();
             mHasWebView = false;
-            ToastUtil.showToast("Not WebView for you phone");
+            ToastUtil.showToast(R.string.have_not_webview);
         }
         return mHasWebView;
     }

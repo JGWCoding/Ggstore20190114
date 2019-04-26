@@ -20,6 +20,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import ggstore.com.App;
+import ggstore.com.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Cookie;
@@ -155,7 +156,7 @@ public class OkHttpManager {
             response = mClient.newCall(request).execute();
         } catch (IOException e) {
             e.printStackTrace();
-            ToastUtil.showToast("网络出问题了");
+            ToastUtil.showToast(R.string.network_error);
         }
         return response;
     }
@@ -183,7 +184,7 @@ public class OkHttpManager {
             result = inner_getSync(url).body().string();
         } catch (IOException e) {
             e.printStackTrace();
-            ToastUtil.showToast("网络出问题了");
+            ToastUtil.showToast(R.string.network_error);
         }
         return result;
     }
@@ -384,7 +385,7 @@ public class OkHttpManager {
                 DialogUtil.dismiss();
                 if (callBack != null) {
                     LogUtil.e("网络请求失败了");
-                    ToastUtil.showToast("网络请求失败了");
+                    ToastUtil.showToast(R.string.network_fail);
                     callBack.requestFailure(request, e);
                 }
 

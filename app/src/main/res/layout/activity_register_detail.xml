@@ -108,6 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/white"
                 android:background="@color/bg"
                 android:gravity="center"
                 android:padding="@dimen/lay_10"
@@ -119,7 +120,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/lay_20"
                 android:layout_weight="1"
-                android:background="@color/white"
+                android:textColor="@color/gray"
+                android:background="@color/gray_tr"
                 android:gravity="center"
                 android:padding="@dimen/lay_10"
                 android:text="@string/lady" />
@@ -141,14 +143,14 @@
                 android:id="@+id/activity_register_detail_year"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@color/tr_gray"
+                android:background="@color/gray_tr"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="@dimen/lay_10"
                 android:text="@string/year" />
 
             <TextView
-                android:background="@color/tr_gray"
+                android:background="@color/gray_tr"
                 android:id="@+id/activity_register_detail_month"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -160,7 +162,7 @@
 
             <TextView
                 android:id="@+id/activity_register_detail_day"
-                android:background="@color/tr_gray"
+                android:background="@color/gray_tr"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/lay_20"
@@ -209,7 +211,7 @@
             android:id="@+id/activity_register_detail_area"
             android:text="@string/area"
             android:gravity="center"
-            android:background="@color/tr_gray"
+            android:background="@color/gray_tr"
             android:layout_width="@dimen/lay_80"
             android:layout_height="@dimen/lay_40"
             android:layout_marginTop="@dimen/lay_5" />
@@ -232,6 +234,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/white"
                 android:background="@color/bg"
                 android:gravity="center"
                 android:padding="@dimen/lay_10"
@@ -243,7 +246,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/lay_20"
                 android:layout_weight="1"
-                android:background="@color/white"
+                android:background="@color/gray_tr"
                 android:gravity="center"
                 android:padding="@dimen/lay_10"
                 android:text="@string/having" />
@@ -254,7 +257,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/lay_20"
                 android:layout_weight="1"
-                android:background="@color/white"
+                android:background="@color/gray_tr"
                 android:gravity="center"
                 android:padding="@dimen/lay_10"
                 android:text="@string/no" />
@@ -262,12 +265,13 @@
 
         <TextView
             android:id="@+id/activity_register_detail_create_account"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/lay_200"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/lay_50"
             android:background="@drawable/gray_bg"
             android:padding="@dimen/lay_5"
+            android:gravity="center"
             android:text="@string/create_my_account"
             android:textSize="@dimen/font_25" />
     </LinearLayout>

@@ -12,7 +12,6 @@ import ggstore.com.R;
 import ggstore.com.utils.KeyboardUtil;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.OkHttpManager;
-import ggstore.com.utils.ToastUtil;
 import ggstore.com.view.RecyclerRefreshLayout;
 import ggstore.com.view.SpacesItemDecoration;
 
@@ -99,7 +98,7 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
     @Override
     public void onRefreshing() {
         isRefreshing = true;
-        mAdapter.setState(BaseRecyclerAdapter.STATE_HIDE, true);    //隐藏正文页面,显示刷新页面, 刷新状态不用更新Recycler条目
+//        mAdapter.setState(BaseRecyclerAdapter.STATE_HIDE, true);    //隐藏footer提示,显示刷新页面, 刷新状态不用更新Recycler条目
         mRefreshLayout.setCanLoadMore(true);
         requestData(true);      //在子类中请求数据 (位于主线程中)---> 在本mHandle处理请求的数据
     }
@@ -140,18 +139,18 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
                     if (mRefreshLayout.getLastVisiblePosition() >= mAdapter.getCount()) {
                         if (BaseRecyclerAdapter.STATE_HIDE == mAdapter.getState()) {
                             mAdapter.setState(BaseRecyclerAdapter.STATE_NO_MORE, true); //设置没有更多数据
-                            mAdapter.notifyDataSetChanged();
+//                            mAdapter.notifyDataSetChanged();
                         }
                     }
                 }
             };
             mRecyclerView.addOnLayoutChangeListener(onLayoutChangeListener);
         }
-        if (mRefreshLayout.getLastVisiblePosition() >= mAdapter.getCount()){
-            LogUtil.e("布局变化了 adapter.state: " + mAdapter.getState() + " lastPosition:" + mRefreshLayout.getLastVisiblePosition() + " count:" + mAdapter.getCount());
-            LogUtil.e("notifyDatasetChanged");
-            mAdapter.notifyItemChanged(mRefreshLayout.getLastVisiblePosition()+1);
-        }
+//        if (mRefreshLayout.getLastVisiblePosition() >= mAdapter.getCount()){
+//            LogUtil.e("布局变化了 adapter.state: " + mAdapter.getState() + " lastPosition:" + mRefreshLayout.getLastVisiblePosition() + " count:" + mAdapter.getCount());
+//            LogUtil.e("notifyDatasetChanged");
+//            mAdapter.notifyItemChanged(mRefreshLayout.getLastVisiblePosition()+1);
+//        }
     }
 
     @Override
@@ -206,11 +205,11 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseFragment implement
         if (mAdapter.getItems().size() == 0) {  //一开始是为0的 --->默认为0,不为0就显示以前的数据
             mAdapter.setState(BaseRecyclerAdapter.STATE_LOAD_ERROR, true);  //
         }
-        ToastUtil.showToast("请求出错");
+//        ToastUtil.showToast("请求出错");
     }
 
     protected RecyclerView.LayoutManager getLayoutManager() {
-        return new LinearLayoutManager(App.context());
+        return new LinearLayoutManager(getContext());
     }
 
     protected abstract BaseRecyclerAdapter<T> getRecyclerAdapter();

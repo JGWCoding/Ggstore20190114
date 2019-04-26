@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,13 +20,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
-import ggstore.com.App;
 import ggstore.com.R;
+import ggstore.com.adapter.ListViewAdapter;
 import ggstore.com.base.BaseTitleActivity;
 import ggstore.com.constant.Constant;
 import ggstore.com.utils.LogUtil;
 import ggstore.com.utils.OkHttpManager;
 import ggstore.com.utils.RegexUtils;
+import ggstore.com.utils.TDevice;
 import ggstore.com.utils.ToastUtil;
 import ggstore.com.view.DemoPopup;
 import okhttp3.Request;
@@ -64,15 +64,19 @@ public class RegisterDetailActivity extends BaseTitleActivity {
             public void onClick(View v) {
                 isSir = true;
                 textSir.setBackgroundColor(getResources().getColor(R.color.bg));
-                textLady.setBackgroundColor(getResources().getColor(R.color.white));
+                textSir.setTextColor(getResources().getColor(R.color.white));
+                textLady.setBackgroundColor(getResources().getColor(R.color.gray_tr));
+                textLady.setTextColor(getResources().getColor(R.color.gray));
             }
         });
         textLady.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isSir = false;
-                textSir.setBackgroundColor(getResources().getColor(R.color.white));
                 textLady.setBackgroundColor(getResources().getColor(R.color.bg));
+                textLady.setTextColor(getResources().getColor(R.color.white));
+                textSir.setBackgroundColor(getResources().getColor(R.color.gray_tr));
+                textSir.setTextColor(getResources().getColor(R.color.gray));
             }
         });
         final TextView badyHaved = findViewById(R.id.activity_register_detail_bady_haved);
@@ -84,8 +88,11 @@ public class RegisterDetailActivity extends BaseTitleActivity {
             public void onClick(View v) {
                 babyState = 0;
                 badyHaved.setBackgroundColor(getResources().getColor(R.color.bg));
-                badyHaving.setBackgroundColor(getResources().getColor(R.color.white));
-                badyNo.setBackgroundColor(getResources().getColor(R.color.white));
+                badyHaving.setBackgroundColor(getResources().getColor(R.color.gray_tr));
+                badyNo.setBackgroundColor(getResources().getColor(R.color.gray_tr));
+                badyHaved.setTextColor(getResources().getColor(R.color.white));
+                badyHaving.setTextColor(getResources().getColor(R.color.gray));
+                badyNo.setTextColor(getResources().getColor(R.color.gray));
             }
         });
         badyHaving.setOnClickListener(new View.OnClickListener() {
@@ -93,8 +100,11 @@ public class RegisterDetailActivity extends BaseTitleActivity {
             public void onClick(View v) {
                 babyState = 1;
                 badyHaving.setBackgroundColor(getResources().getColor(R.color.bg));
-                badyHaved.setBackgroundColor(getResources().getColor(R.color.white));
-                badyNo.setBackgroundColor(getResources().getColor(R.color.white));
+                badyHaved.setBackgroundColor(getResources().getColor(R.color.gray_tr));
+                badyNo.setBackgroundColor(getResources().getColor(R.color.gray_tr));
+                badyHaved.setTextColor(getResources().getColor(R.color.gray));
+                badyHaving.setTextColor(getResources().getColor(R.color.white));
+                badyNo.setTextColor(getResources().getColor(R.color.gray));
             }
         });
         badyNo.setOnClickListener(new View.OnClickListener() {
@@ -102,8 +112,11 @@ public class RegisterDetailActivity extends BaseTitleActivity {
             public void onClick(View v) {
                 babyState = 2;
                 badyNo.setBackgroundColor(getResources().getColor(R.color.bg));
-                badyHaving.setBackgroundColor(getResources().getColor(R.color.white));
-                badyHaved.setBackgroundColor(getResources().getColor(R.color.white));
+                badyHaving.setBackgroundColor(getResources().getColor(R.color.gray_tr));
+                badyHaved.setBackgroundColor(getResources().getColor(R.color.gray_tr));
+                badyHaved.setTextColor(getResources().getColor(R.color.gray));
+                badyHaving.setTextColor(getResources().getColor(R.color.gray));
+                badyNo.setTextColor(getResources().getColor(R.color.white));
             }
         });
 
@@ -129,13 +142,13 @@ public class RegisterDetailActivity extends BaseTitleActivity {
         spYear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popup(spYear, dataYear, App.context().getString(R.string.year));
+                popup(spYear, dataYear, getString(R.string.year));
             }
         });
         spMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popup(spMonth, dataMonth, App.context().getString(R.string.month));
+                popup(spMonth, dataMonth, getString(R.string.month));
             }
         });
         spDay.setOnClickListener(new View.OnClickListener() {
@@ -165,7 +178,11 @@ public class RegisterDetailActivity extends BaseTitleActivity {
         TextView tv = (TextView) popup.findViewById(R.id.popup_list_title);
         tv.setText(title);
         ListView listView = popup.findViewById(R.id.popup_list);
-        listView.setAdapter(new ArrayAdapter<String>(RegisterDetailActivity.this, android.R.layout.simple_list_item_1, array));
+        if (title.equals(getString(R.string.area))) {
+            listView.setDividerHeight((int) TDevice.dp2px(20.f));
+        }
+        ListViewAdapter adapter = new ListViewAdapter(RegisterDetailActivity.this, array, R.layout.list_item_text_view);
+        listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -187,53 +204,53 @@ public class RegisterDetailActivity extends BaseTitleActivity {
     }
 
     private void onCreateAccount() {
-        EditText view_email = (EditText) findViewById(R.id.activity_register_detail_email);
+        final EditText view_email = (EditText) findViewById(R.id.activity_register_detail_email);
         if (TextUtils.isEmpty(view_email.getText().toString())) {
-            ToastUtil.showToast("please input your email");
+            ToastUtil.showToast(R.string.input_email);
             return;
         } else if (!RegexUtils.isEmail(view_email.getText())) {
-            ToastUtil.showToast("your email is error");
+            ToastUtil.showToast(R.string.input_email_error);
         }
         EditText view_loginName = (EditText) findViewById(R.id.activity_register_detail_login_name);
         if (TextUtils.isEmpty(view_loginName.getText().toString())) {
-            ToastUtil.showToast("please input your login name");
+            ToastUtil.showToast(R.string.input_login_name);
             return;
         }
         EditText view_setPassword = findViewById(R.id.activity_register_detail_set_password);
         if (TextUtils.isEmpty(view_setPassword.getText().toString())) {
-            ToastUtil.showToast("password is empty");
+            ToastUtil.showToast(R.string.input_password);
             return;
         } else if (view_setPassword.getText().toString().length() < 8) {
-            ToastUtil.showToast("Please set an 8-digit password");
+            ToastUtil.showToast(R.string.input_password_length_error);
             return;
         }
         EditText view_confirmPassword = findViewById(R.id.activity_register_detail_confirm_password);
         if (TextUtils.isEmpty(view_confirmPassword.getText().toString())) {
-            ToastUtil.showToast("confirm password is error");
+            ToastUtil.showToast(R.string.input_confirm_password);
             return;
         }
         if (!view_setPassword.getText().toString().equals(view_confirmPassword.getText().toString())) {
-            ToastUtil.showToast("confirm password please reset");
+            ToastUtil.showToast(R.string.input_confirm_password_error);
             return;
         }
         EditText view_name = findViewById(R.id.activity_register_detail_name);
         if (TextUtils.isEmpty(view_name.getText().toString())) {
-            ToastUtil.showToast("your name is empty");
+            ToastUtil.showToast(R.string.input_name);
             return;
         }
 
 
         EditText view_tel = findViewById(R.id.activity_register_detail_tel);
         if (TextUtils.isEmpty(view_tel.getText().toString())) {
-            ToastUtil.showToast("your telephone is empty");
+            ToastUtil.showToast(R.string.input_tel);
             return;
         } else if (!RegexUtils.isMobileSimple_8(view_tel.getText().toString())) {
-            ToastUtil.showToast("your telephone is error");
+            ToastUtil.showToast(R.string.input_tel_error);
             return;
         }
         EditText view_address = findViewById(R.id.activity_register_detail_address);
         if (TextUtils.isEmpty(view_address.getText().toString())) {
-            ToastUtil.showToast("your address is empty");
+            ToastUtil.showToast(R.string.input_address);
             return;
         }
         Map<String, String> map = new HashMap<>();
@@ -251,7 +268,7 @@ public class RegisterDetailActivity extends BaseTitleActivity {
         OkHttpManager.postAsync(this, Constant.url_register, map, new OkHttpManager.DataCallBack() {
             @Override
             public void requestFailure(Request request, Exception e) {
-                ToastUtil.showToast("network is error,please check your network");
+                ToastUtil.showToast(R.string.network_error);
             }
 
             @Override
@@ -259,9 +276,11 @@ public class RegisterDetailActivity extends BaseTitleActivity {
                 int code = new JSONObject(result).optInt("code");
                 LogUtil.e(result);
                 if (code == 200) {  //TODO 这里登录跳转主页面需要改变登录者信息
+                    Constant.user_name = view_email.getText().toString();
                     startActivity(new Intent(RegisterDetailActivity.this, MainActivity.class));
+                    finish();
                 } else {
-                    ToastUtil.showToast("register is error");
+                    ToastUtil.showToast(R.string.register_fail);
                 }
             }
         });

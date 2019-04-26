@@ -3,41 +3,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/register_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/lay_20"
-        android:text="@string/register_title"
-        android:textColor="@color/bg"
-        android:textSize="@dimen/font_18" />
 
-    <ScrollView
+    <ggstore.com.view.MyNestedScrollView
+        android:id="@+id/activity_register_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/register_agree_detail"
-        android:layout_below="@id/register_title"
+        android:layout_above="@id/activity_register_agree_detail"
+        android:layout_marginLeft="@dimen/lay_20"
         android:layout_marginRight="@dimen/lay_20"
-        android:layout_marginBottom="@dimen/lay_5"
-        android:layout_marginLeft="@dimen/lay_20">
+        android:layout_marginBottom="@dimen/lay_1"
+        android:fadingEdge="vertical"
+        android:fadingEdgeLength="@dimen/lay_50"
+        android:requiresFadingEdge="vertical">
 
-        <TextView
-            android:id="@+id/register_details"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </ScrollView>
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/register_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/lay_20"
+                android:layout_marginBottom="@dimen/lay_20"
+                android:text="@string/register_title"
+                android:textColor="@color/bg"
+                android:textSize="@dimen/font_18" />
+
+            <TextView
+                android:id="@+id/activity_register_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ggstore.com.view.MyNestedScrollView>
 
     <TextView
-        android:paddingTop="@dimen/lay_5"
-        android:paddingBottom="@dimen/lay_5"
-        android:textColor="@color/bg"
-        android:id="@+id/register_agree_detail"
+        android:id="@+id/activity_register_agree_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/bottom"
         android:paddingLeft="@dimen/lay_20"
         android:paddingRight="@dimen/lay_20"
-        android:text="@string/register_bottom" />
+        android:visibility="gone"
+        android:paddingBottom="@dimen/lay_5"
+        android:text="@string/register_bottom"
+        android:textColor="@color/bg" />
 
     <LinearLayout
         android:id="@+id/bottom"
@@ -48,25 +59,28 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_marginLeft="@dimen/lay_20"
-            android:id="@+id/disagree"
+            android:id="@+id/activity_register_disagree"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/lay_50"
+            android:layout_marginLeft="@dimen/lay_20"
             android:layout_weight="1"
             android:drawableLeft="@drawable/left_nav"
-            android:gravity="center"
+            android:drawablePadding="@dimen/lay_10"
+            android:gravity="center_vertical"
             android:text="@string/disagree"
             android:textColor="@color/white"
             android:textSize="@dimen/font_25" />
 
         <TextView
-            android:layout_marginRight="@dimen/lay_20"
-            android:id="@+id/agree"
+            android:id="@+id/activity_register_agree"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/lay_50"
+            android:layout_marginRight="@dimen/lay_20"
+            android:visibility="gone"
             android:layout_weight="1"
             android:drawableRight="@drawable/right_nav"
-            android:gravity="center"
+            android:drawablePadding="@dimen/lay_10"
+            android:gravity="center_vertical|end"
             android:text="@string/agree"
             android:textColor="@color/white"
             android:textSize="@dimen/font_25" />

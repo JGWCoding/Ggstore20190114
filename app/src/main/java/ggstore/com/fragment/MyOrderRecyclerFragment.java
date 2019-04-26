@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import ggstore.com.App;
 import ggstore.com.R;
 import ggstore.com.activity.OrderDetailsActivity;
 import ggstore.com.base.BaseRecyclerAdapter;
@@ -38,7 +37,7 @@ public class MyOrderRecyclerFragment extends BaseRecyclerViewFragment {
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
-                            ToastUtil.showToast("网络出错");
+                            ToastUtil.showToast(R.string.network_error);
                             onRequestError();
                         }
 
@@ -98,7 +97,7 @@ public class MyOrderRecyclerFragment extends BaseRecyclerViewFragment {
             //TODO 绑定视图--->加上数据
             ((MyViewHolder)holder).orderNumber.setText(item.getOrder_id()+"");
             ((MyViewHolder)holder).productName.setText(item.getPay_day());
-            ((MyViewHolder)holder).date.setText(App.context().getString(R.string.order_state_details,item.getOrder_state(),item.getPay_day()));
+            ((MyViewHolder)holder).date.setText(getString(R.string.order_state_details,item.getOrder_state(),item.getPay_day()));
 
         }
 

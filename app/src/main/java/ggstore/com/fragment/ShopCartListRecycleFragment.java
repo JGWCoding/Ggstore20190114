@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import ggstore.com.App;
 import ggstore.com.R;
 import ggstore.com.base.BaseRecyclerAdapter;
 import ggstore.com.base.BaseRecyclerViewFragment;
@@ -35,11 +34,11 @@ public class ShopCartListRecycleFragment extends BaseRecyclerViewFragment {
                 @Override
                 public void run() {
                     String url = Constant.base_url + "api_get_coursebook.php?recordperpage=4&page=" + page +
-                            "&sortby=&token=" + Constant.token + "&username=&lang=" + App.context().getString(R.string.api_lang);
+                            "&sortby=&token=" + Constant.token + "&username=&lang=" + getString(R.string.api_lang);
                     OkHttpManager.getAsync(url, new OkHttpManager.DataCallBack() {
                         @Override
                         public void requestFailure(Request request, Exception e) {
-                            ToastUtil.showToast("网络出错");
+                            ToastUtil.showToast(R.string.network_error);
                             onRequestError();
                         }
                         @Override
@@ -51,7 +50,7 @@ public class ShopCartListRecycleFragment extends BaseRecyclerViewFragment {
                             mRefreshLayout.setEnabled(false);//设置不可刷新,以为购物车一般只加载一次
                             mRefreshLayout.setCanLoadMore(false);   //设置
 //                            mAdapter.setStateCustom("運費 : HK$50",Gravity.RIGHT);
-                            mAdapter.setStateCustom(App.context().getString(R.string.freight,50),Gravity.RIGHT);
+                            mAdapter.setStateCustom(getString(R.string.freight,50),Gravity.RIGHT);
 
                         }
                     });
@@ -90,12 +89,12 @@ public class ShopCartListRecycleFragment extends BaseRecyclerViewFragment {
         @Override
         protected void onBindDefaultViewHolder(RecyclerView.ViewHolder holder, final ShopCartBean item, int position) {
             //TODO 绑定视图--->加上数据
-            ImageLoader.loadImage(App.context(),((MyViewHolder) holder).img,Constant.base_images_product_url +item.getImage_url());
+            ImageLoader.loadImage(getContext(),((MyViewHolder) holder).img,Constant.base_images_product_url +item.getImage_url());
             ((MyViewHolder) holder).title.setText(item.getName());
-            ((MyViewHolder) holder).productNumber.setText(App.context().getString(R.string.product_number,item.getProductNumber()));
-            ((MyViewHolder) holder).number.setText(App.context().getString(R.string.product_number_sum,item.getBuy_number()));
-            ((MyViewHolder) holder).price.setText(App.context().getString(R.string.product_price_detail,(int)item.getPrice()));
-            ((MyViewHolder) holder).totalPrice.setText(App.context().getString(R.string.product_price_sum,(int)(item.getPrice()*item.getBuy_number())));
+            ((MyViewHolder) holder).productNumber.setText(getString(R.string.product_number,item.getProductNumber()));
+            ((MyViewHolder) holder).number.setText(getString(R.string.product_number_sum,item.getBuy_number()));
+            ((MyViewHolder) holder).price.setText(getString(R.string.product_price_detail,(int)item.getPrice()));
+            ((MyViewHolder) holder).totalPrice.setText(getString(R.string.product_price_sum,(int)(item.getPrice()*item.getBuy_number())));
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {

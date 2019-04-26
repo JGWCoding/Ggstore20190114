@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import ggstore.com.App;
 import ggstore.com.R;
 import ggstore.com.activity.MainActivity;
 import ggstore.com.base.BaseRecyclerAdapter;
@@ -53,14 +52,14 @@ public class ProductAdapter extends BaseRecyclerAdapter<NewProductBean> {
         if (TextUtils.isEmpty(item.getMarketPrice())) {
             ((MyViewHolder) holder).oldPrice.setText(null);
         } else {
-            ((MyViewHolder) holder).oldPrice.setText(App.context().getString(R.string.product_price, item.getMarketPrice()));
+            ((MyViewHolder) holder).oldPrice.setText(context.getString(R.string.product_price, item.getMarketPrice()));
         }
         if (TextUtils.isEmpty(item.getUnitPrice())) {
             ((MyViewHolder) holder).newPrice.setText(null);
         } else {
-            ((MyViewHolder) holder).newPrice.setText(App.context().getString(R.string.product_price,item.getUnitPrice()));
+            ((MyViewHolder) holder).newPrice.setText(context.getString(R.string.product_price,item.getUnitPrice()));
         }
-        ImageLoader.loadImage(App.context(), ((MyViewHolder) holder).imgDetail, Constant.base_images_product_url + item.getPictureL());
+        ImageLoader.loadImage(context, ((MyViewHolder) holder).imgDetail, Constant.base_images_product_url + item.getPictureL());
         ((MyViewHolder) holder).addShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
